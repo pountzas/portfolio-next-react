@@ -6,9 +6,17 @@ import { RiGitRepositoryLine } from 'react-icons/ri';
 function Header() {
   return (
     <div className='flex shadow-sm border-b bg-white sticky top-0 z-50 '>
-      header
-      <div>right</div>
-      <div>left</div>
+      {/* left section */}
+      <div>left section</div>
+
+      {/* right section */}
+      <ul className='flex justify-between'>
+        <li className='px-1'>Home</li>
+        <li className='px-1'>About</li>
+        <li className='px-1'>Projects</li>
+        <li className='px-1'>Skills</li>
+        <li className='px-1'>Contact</li>
+      </ul>
     </div>
   );
 }
