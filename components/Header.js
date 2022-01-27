@@ -15,32 +15,28 @@ function Header() {
 
       {/* right section */}
       <ul className='flex justify-between text-gray-500'>
-        <li
-          onClick={() => router.push('/')}
-          className='hidden md:block px-1 text-lg uppercase font-semibold'
-        >
-          Home
+        <li onClick={() => router.push('/')}>
+          <div className='hidden md:block px-1 text-lg uppercase font-semibold'>
+            Home
+          </div>
           <FaHome className='text-2xl md:hidden' />
         </li>
-        <li
-          onClick={() => router.push('/Projects')}
-          className='hidden md:block px-1 text-lg uppercase font-semibold'
-        >
-          Projects
+        <li onClick={() => router.push('/Projects')}>
+          <div className='hidden md:block px-1 text-lg uppercase font-semibold'>
+            Projects
+          </div>
           <RiGitRepositoryLine className='text-2xl md:hidden' />
         </li>
-        <li
-          onClick={() => router.push('/Skills')}
-          className='hidden md:block px-1 text-lg uppercase font-semibold'
-        >
-          Skills
+        <li onClick={() => router.push('/Skills')}>
+          <div className='hidden md:block px-1 text-lg uppercase font-semibold'>
+            Skills
+          </div>
           <GiSkills className='text-2xl md:hidden' />
         </li>
-        <li
-          onClick={() => router.push('/Contact')}
-          className='hidden md:block px-1 text-lg uppercase font-semibold'
-        >
-          Contact
+        <li onClick={() => router.push('/Contact')}>
+          <div className='hidden md:block px-1 text-lg uppercase font-semibold'>
+            Contact
+          </div>
           <IoIosContact className='text-2xl md:hidden' />
         </li>
       </ul>
