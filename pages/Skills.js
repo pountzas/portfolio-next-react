@@ -1,5 +1,12 @@
+import Header from '../components/Header';
+
 function Skills() {
-  return <div>skill page</div>;
+  return (
+    <div>
+      <Header />
+      skill page
+    </div>
+  );
 }
 
 export default Skills;

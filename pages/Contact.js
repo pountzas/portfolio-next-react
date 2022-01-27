@@ -1,5 +1,12 @@
+import Header from '../components/Header';
+
 function Contact() {
-  return <div>Contact page</div>;
+  return (
+    <div>
+      <Header />
+      Contact page
+    </div>
+  );
 }
 
 export default Contact;
