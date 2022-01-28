@@ -1,7 +1,6 @@
 import { AiFillHtml5 } from 'react-icons/ai';
-import { SiCss3 } from 'react-icons/si';
+import { SiCss3, SiJavascript } from 'react-icons/si';
 import { DiRubyRough } from 'react-icons/di';
-import { SiJavascript } from 'react-icons/si';
 
 const Languages = [
   {
