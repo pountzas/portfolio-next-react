@@ -9,37 +9,39 @@ function Header() {
   const router = useRouter();
 
   return (
-    <div className='flex shadow-sm border-b bg-white sticky top-0 z-50 '>
+    <div className='py-3 shadow-sm border-b bg-gray-800 sticky top-0 z-50 '>
       {/* left section */}
-      <h1>Nikos Pountzas</h1>
+      <div className='flex justify-between md:max-w-3xl xl:max-w-6xl mx-auto '>
+        <h1 className='px-3 text-gray-100'>Nikos Pountzas</h1>
 
-      {/* right section */}
-      <ul className='flex justify-between text-gray-500'>
-        <li onClick={() => router.push('/')}>
-          <div className='hidden md:block px-1 text-lg uppercase font-semibold'>
-            Home
+        {/* right section */}
+        <div className='flex space-x-8 px-3 text-gray-400'>
+          <div onClick={() => router.push('/')}>
+            <div className='hidden md:block px-1 text-lg uppercase font-semibold'>
+              Home
+            </div>
+            <FaHome className='text-2xl md:hidden' />
           </div>
-          <FaHome className='text-2xl md:hidden' />
-        </li>
-        <li onClick={() => router.push('/Projects')}>
-          <div className='hidden md:block px-1 text-lg uppercase font-semibold'>
-            Projects
+          <div onClick={() => router.push('/Projects')}>
+            <div className='hidden md:block px-1 text-lg uppercase font-semibold'>
+              Projects
+            </div>
+            <RiGitRepositoryLine className='text-2xl md:hidden' />
           </div>
-          <RiGitRepositoryLine className='text-2xl md:hidden' />
-        </li>
-        <li onClick={() => router.push('/Skills')}>
-          <div className='hidden md:block px-1 text-lg uppercase font-semibold'>
-            Skills
+          <div onClick={() => router.push('/Skills')}>
+            <div className='hidden md:block px-1 text-lg uppercase font-semibold'>
+              Skills
+            </div>
+            <GiSkills className='text-2xl md:hidden' />
           </div>
-          <GiSkills className='text-2xl md:hidden' />
-        </li>
-        <li onClick={() => router.push('/Contact')}>
-          <div className='hidden md:block px-1 text-lg uppercase font-semibold'>
-            Contact
+          <div onClick={() => router.push('/Contact')}>
+            <div className='hidden md:block px-1 text-lg uppercase font-semibold'>
+              Contact
+            </div>
+            <IoIosContact className='text-2xl md:hidden' />
           </div>
-          <IoIosContact className='text-2xl md:hidden' />
-        </li>
-      </ul>
+        </div>
+      </div>
     </div>
   );
 }
