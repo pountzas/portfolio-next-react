@@ -39,3 +39,5 @@ const Tools = [
     icon: <SiCinema4D />,
   },
 ];
+
+export default Tools;
