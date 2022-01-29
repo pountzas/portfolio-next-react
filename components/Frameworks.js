@@ -1,5 +1,6 @@
-import { SiRubyonrails, SiNextdotjs, SiTailwindcss } from './SiRubyonrails';
-import { DiBootstrap } from './DiBootstrap';
+import { SiRubyonrails, SiNextdotjs, SiTailwindcss } from 'react-icons/si';
+
+import { DiBootstrap } from 'react-icons/di';
 
 const Frameworks = [
   {
