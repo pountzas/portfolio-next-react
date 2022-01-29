@@ -1,9 +1,11 @@
-import { SiVisualstudiocode } from './SiVisualstudiocode';
+import {
+  SiVisualstudiocode,
+  SiAdobephotoshop,
+  SiAdobeillustrator,
+  SiCinema4D,
+} from 'react-icons/si';
 import { FaGit } from 'react-icons/fa';
 import { AiFillGithub } from 'react-icons/ai';
-import { SiAdobephotoshop } from 'SiAdobephotoshop';
-import { SiAdobeillustrator } from './SiAdobeillustrator';
-import { SiCinema4D } from './SiCinema4D';
 
 const Tools = [
   {
