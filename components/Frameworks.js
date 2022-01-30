@@ -5,13 +5,13 @@ import { DiBootstrap } from 'react-icons/di';
 const Frameworks = [
   {
     id: 1,
-    name: 'Ruby on Rails',
-    icon: <SiRubyonrails />,
+    name: 'Next.js',
+    icon: <SiNextdotjs />,
   },
   {
     id: 2,
-    name: 'Next.js',
-    icon: <SiNextdotjs />,
+    name: 'Ruby on Rails',
+    icon: <SiRubyonrails />,
   },
   {
     id: 3,
