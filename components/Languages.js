@@ -1,12 +1,11 @@
-import { AiFillHtml5 } from 'react-icons/ai';
-import { SiCss3, SiJavascript } from 'react-icons/si';
+import { SiHtml5, SiCss3, SiJavascript } from 'react-icons/si';
 import { DiRubyRough } from 'react-icons/di';
 
 const Languages = [
   {
     id: 1,
     name: 'HTML5',
-    icon: <AiFillHtml5 />,
+    icon: <SiHtml5 />,
   },
   {
     id: 2,
