@@ -12,7 +12,7 @@ function Header() {
     <div className='py-3 shadow-sm border-b bg-gray-800 sticky top-0 z-50 '>
       {/* left section */}
       <div className='flex justify-between md:max-w-3xl xl:max-w-6xl mx-auto '>
-        <h1 className='px-3 text-gray-100'>Nikos Pountzas</h1>
+        <h1 className='px-3 text-gray-100 font-semibold'>Nikos Pountzas</h1>
 
         {/* right section */}
         <div className='flex space-x-8 px-3 text-gray-400'>
