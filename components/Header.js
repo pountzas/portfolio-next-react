@@ -18,25 +18,34 @@ function Header() {
 
         {/* right section */}
         <div className='flex space-x-8 px-3 md:px-0 text-gray-400'>
-          <div onClick={() => router.push('/')}>
+          <div className='cursor-pointer' onClick={() => router.push('/')}>
             <div className='hidden md:block px-1 text-lg uppercase font-semibold'>
               Home
             </div>
             <FaHome className='text-2xl md:hidden' />
           </div>
-          <div onClick={() => router.push('/Projects')}>
+          <div
+            className='cursor-pointer'
+            onClick={() => router.push('/Projects')}
+          >
             <div className='hidden md:block px-1 text-lg uppercase font-semibold'>
               Projects
             </div>
             <RiGitRepositoryLine className='text-2xl md:hidden' />
           </div>
-          <div onClick={() => router.push('/Skills')}>
+          <div
+            className='cursor-pointer'
+            onClick={() => router.push('/Skills')}
+          >
             <div className='hidden md:block px-1 text-lg uppercase font-semibold'>
               Skills
             </div>
             <GiSkills className='text-2xl md:hidden' />
           </div>
-          <div onClick={() => router.push('/Contact')}>
+          <div
+            className='cursor-pointer'
+            onClick={() => router.push('/Contact')}
+          >
             <div className='hidden md:block  text-lg uppercase font-semibold'>
               Contact
             </div>
