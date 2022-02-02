@@ -20,9 +20,8 @@ function Header() {
         <div className='flex space-x-8 px-3 md:px-0 text-gray-400'>
           <div className='cursor-pointer' onClick={() => router.push('/')}>
             <div
-              className={`hidden md:block px-1 text-lg uppercase font-semibold ${
-                window.location.pathname === '/' ? 'text-gray-200' : ''
-              }`}
+              className={`hidden md:block px-1 text-lg uppercase font-semibold 
+              ${router.pathname === '/' ? 'text-gray-200' : ''}`}
             >
               Home
             </div>
@@ -33,9 +32,8 @@ function Header() {
             onClick={() => router.push('/Projects')}
           >
             <div
-              className={`hidden md:block px-1 text-lg uppercase font-semibold ${
-                window.location.pathname === '/Projects' ? 'text-gray-200' : ''
-              }`}
+              className={`hidden md:block px-1 text-lg uppercase font-semibold 
+              ${router.pathname === '/Projects' ? 'text-gray-200' : ''}`}
             >
               Projects
             </div>
@@ -46,9 +44,8 @@ function Header() {
             onClick={() => router.push('/Skills')}
           >
             <div
-              className={`hidden md:block px-1 text-lg uppercase font-semibold ${
-                window.location.pathname === '/Skills' ? 'text-gray-200' : ''
-              }`}
+              className={`hidden md:block px-1 text-lg uppercase font-semibold 
+              ${router.pathname === '/Skills' ? 'text-gray-200' : ''}`}
             >
               Skills
             </div>
@@ -59,9 +56,8 @@ function Header() {
             onClick={() => router.push('/Contact')}
           >
             <div
-              className={`hidden md:block text-lg uppercase font-semibold ${
-                window.location.pathname === '/Contact' ? 'text-gray-200' : ''
-              }`}
+              className={`hidden md:block text-lg uppercase font-semibold 
+              ${router.pathname === '/Contact' ? 'text-gray-200' : ''}`}
             >
               Contact
             </div>
