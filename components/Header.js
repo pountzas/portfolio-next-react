@@ -19,7 +19,11 @@ function Header() {
         {/* right section */}
         <div className='flex space-x-8 px-3 md:px-0 text-gray-400'>
           <div className='cursor-pointer' onClick={() => router.push('/')}>
-            <div className='hidden md:block px-1 text-lg uppercase font-semibold'>
+            <div
+              className={`hidden md:block px-1 text-lg uppercase font-semibold ${
+                window.location.pathname === '/' ? 'text-gray-200' : ''
+              }`}
+            >
               Home
             </div>
             <FaHome className='text-2xl md:hidden' />
@@ -28,7 +32,11 @@ function Header() {
             className='cursor-pointer'
             onClick={() => router.push('/Projects')}
           >
-            <div className='hidden md:block px-1 text-lg uppercase font-semibold'>
+            <div
+              className={`hidden md:block px-1 text-lg uppercase font-semibold ${
+                window.location.pathname === '/Projects' ? 'text-gray-200' : ''
+              }`}
+            >
               Projects
             </div>
             <RiGitRepositoryLine className='text-2xl md:hidden' />
@@ -37,7 +45,11 @@ function Header() {
             className='cursor-pointer'
             onClick={() => router.push('/Skills')}
           >
-            <div className='hidden md:block px-1 text-lg uppercase font-semibold'>
+            <div
+              className={`hidden md:block px-1 text-lg uppercase font-semibold ${
+                window.location.pathname === '/Skills' ? 'text-gray-200' : ''
+              }`}
+            >
               Skills
             </div>
             <GiSkills className='text-2xl md:hidden' />
@@ -46,7 +58,11 @@ function Header() {
             className='cursor-pointer'
             onClick={() => router.push('/Contact')}
           >
-            <div className='hidden md:block  text-lg uppercase font-semibold'>
+            <div
+              className={`hidden md:block text-lg uppercase font-semibold ${
+                window.location.pathname === '/Contact' ? 'text-gray-200' : ''
+              }`}
+            >
               Contact
             </div>
             <IoIosContact className='text-2xl md:hidden' />
