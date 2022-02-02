@@ -18,17 +18,17 @@ function Skills() {
           <h2 className='text-gray-200 text-center py-4 sm:py-8'>
             Programing Languages
           </h2>
-          <div className='grid grid-cols-2 gap-4 place-items-center '>
+          <div className='grid grid-cols-2 gap-4'>
             {Languages.map((language) => (
               <div
-                className='flex justify-center border w-16 h-16 md:w-20 md:h-20 items-center m-2 p-2 rounded-md text-gray-500 hover:bg-gray-800 ease-in-out duration-400'
+                className='flex justify-center border w-16 h-16 md:w-20 md:h-20 items-center m-2 p-2 rounded-md text-gray-500 hover:text-gray-400 hover:bg-gray-800 ease-in-out duration-400'
                 key={language.id}
               >
-                <div className='text-3xl md:text-5xl'>
-                  {language.icon}
-                  {/* <span className=' opacity-0 hover:opacity-100 duration-300  inset-0 z-10 flex justify-center items-center text-white font-semibold'>
+                <div className='relative group-hover:opacity-100'>
+                  <div className='text-3xl md:text-5xl'>{language.icon}</div>
+                  <span className='absolute inset-0 z-10 -top-10 opacity-0 hover:opacity-100 flex justify-center text-gray-200 text-sm font-semibold whitespace-nowrap'>
                     {language.name}
-                  </span> */}
+                  </span>
                 </div>
               </div>
             ))}
@@ -39,32 +39,32 @@ function Skills() {
           <h2 className='text-gray-200 text-center py-4 sm:py-8'>
             Libraries & Frameworks
           </h2>
-          <div className='grid grid-cols-2 gap-4 place-items-center'>
+          <div className='grid grid-cols-2 gap-4'>
             {Libraries.map((library) => (
               <div
-                className='flex justify-center border w-16 h-16 md:w-20 md:h-20 items-center m-2 p-2 rounded-md text-gray-500 hover:bg-gray-800 ease-in-out duration-400 shadow-white'
+                className='flex justify-center border w-16 h-16 md:w-20 md:h-20 items-center m-2 p-2 rounded-md text-gray-500 hover:text-gray-400 hover:bg-gray-800 ease-in-out duration-400'
                 key={library.id}
               >
-                <div className='text-3xl md:text-5xl'>
-                  {library.icon}
-                  {/* <span className=' opacity-0 hover:opacity-100 duration-300  inset-0 z-10 flex justify-center items-center text-white font-semibold'>
+                <div className='relative group-hover:opacity-100'>
+                  <div className='text-3xl md:text-5xl'>{library.icon}</div>
+                  <span className='absolute inset-0 z-10 -top-10 opacity-0 hover:opacity-100 flex justify-center text-gray-200 text-sm font-semibold whitespace-nowrap'>
                     {library.name}
-                  </span> */}
+                  </span>
                 </div>
               </div>
             ))}
           </div>
-          <div className='pt-2 grid grid-cols-2 gap-4 place-items-center'>
+          <div className='grid grid-cols-2 gap-4 pt-4'>
             {Frameworks.map((framework) => (
               <div
-                className='flex justify-center border w-16 h-16 md:w-20 md:h-20 items-center m-2 p-2 rounded-md text-gray-500 hover:bg-gray-800 ease-in-out duration-400'
+                className='flex justify-center border w-16 h-16 md:w-20 md:h-20 items-center m-2 p-2 rounded-md text-gray-500 hover:text-gray-400 hover:bg-gray-800 ease-in-out duration-400'
                 key={framework.id}
               >
-                <div className='text-3xl md:text-5xl'>
-                  {framework.icon}
-                  {/* <span className=' opacity-0 hover:opacity-100 duration-300  inset-0 z-10 flex justify-center items-center text-white font-semibold'>
+                <div className='relative group-hover:opacity-100'>
+                  <div className='text-3xl md:text-5xl'>{framework.icon}</div>
+                  <span className='absolute inset-0 z-10 -top-10 opacity-0 hover:opacity-100 flex justify-center text-gray-200 text-sm font-semibold whitespace-nowrap'>
                     {framework.name}
-                  </span> */}
+                  </span>
                 </div>
               </div>
             ))}
@@ -75,17 +75,17 @@ function Skills() {
           <h2 className='text-gray-200 text-center py-4 sm:py-8'>
             Tools and Software
           </h2>
-          <div className='grid grid-cols-2 gap-4 place-items-center'>
+          <div className='grid grid-cols-2 gap-4'>
             {Tools.map((tool) => (
               <div
-                className='flex justify-center border w-16 h-16 md:w-20 md:h-20 items-center m-2 p-2 rounded-md text-gray-500 hover:bg-gray-800 ease-in-out duration-400'
+                className='flex justify-center border w-16 h-16 md:w-20 md:h-20 items-center m-2 p-2 rounded-md text-gray-500 hover:text-gray-400 hover:bg-gray-800 ease-in-out duration-400'
                 key={tool.id}
               >
-                <div className='text-3xl md:text-5xl'>
-                  {tool.icon}
-                  {/* <span className=' opacity-0 hover:opacity-100 duration-300  inset-0 z-10 flex justify-center items-center text-white font-semibold'>
+                <div className='relative group-hover:opacity-100'>
+                  <div className='text-3xl md:text-5xl'>{tool.icon}</div>
+                  <span className='absolute inset-0 z-10 -top-10 opacity-0 hover:opacity-100 flex justify-center text-gray-200 text-sm font-semibold whitespace-nowrap'>
                     {tool.name}
-                  </span> */}
+                  </span>
                 </div>
               </div>
             ))}
