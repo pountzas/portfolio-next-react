@@ -4,6 +4,8 @@ import Libraries from '../components/Libraries';
 import Frameworks from '../components/Frameworks';
 import Tools from '../components/Tools';
 
+import Flip from 'react-reveal/Flip';
+
 function Skills() {
   return (
     <div className='bg-gray-900 min-h-screen'>
@@ -25,7 +27,9 @@ function Skills() {
                 key={language.id}
               >
                 <div className='relative group-hover:opacity-100'>
-                  <div className='text-3xl md:text-5xl'>{language.icon}</div>
+                  <Flip delay={300} duration={2000} left cascade>
+                    <div className='text-3xl md:text-5xl'>{language.icon}</div>
+                  </Flip>
                   <span className='absolute inset-0 z-10 -top-10 opacity-0 hover:opacity-100 flex justify-center text-gray-200 text-sm font-semibold whitespace-nowrap'>
                     {language.name}
                   </span>
@@ -46,7 +50,9 @@ function Skills() {
                 key={library.id}
               >
                 <div className='relative group-hover:opacity-100'>
-                  <div className='text-3xl md:text-5xl'>{library.icon}</div>
+                  <Flip delay={300} duration={2000} left cascade>
+                    <div className='text-3xl md:text-5xl'>{library.icon}</div>
+                  </Flip>
                   <span className='absolute inset-0 z-10 -top-10 opacity-0 hover:opacity-100 flex justify-center text-gray-200 text-sm font-semibold whitespace-nowrap'>
                     {library.name}
                   </span>
@@ -61,7 +67,9 @@ function Skills() {
                 key={framework.id}
               >
                 <div className='relative group-hover:opacity-100'>
-                  <div className='text-3xl md:text-5xl'>{framework.icon}</div>
+                  <Flip delay={300} duration={2000} left cascade>
+                    <div className='text-3xl md:text-5xl'>{framework.icon}</div>
+                  </Flip>
                   <span className='absolute inset-0 z-10 -top-10 opacity-0 hover:opacity-100 flex justify-center text-gray-200 text-sm font-semibold whitespace-nowrap'>
                     {framework.name}
                   </span>
@@ -82,7 +90,9 @@ function Skills() {
                 key={tool.id}
               >
                 <div className='relative group-hover:opacity-100'>
-                  <div className='text-3xl md:text-5xl'>{tool.icon}</div>
+                  <Flip delay={300} duration={2000} left cascade>
+                    <div className='text-3xl md:text-5xl'>{tool.icon}</div>
+                  </Flip>
                   <span className='absolute inset-0 z-10 -top-10 opacity-0 hover:opacity-100 flex justify-center text-gray-200 text-sm font-semibold whitespace-nowrap'>
                     {tool.name}
                   </span>
