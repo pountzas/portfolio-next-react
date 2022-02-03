@@ -9,6 +9,7 @@ import {
 } from 'react-icons/si';
 import { FaGit } from 'react-icons/fa';
 import { AiFillGithub } from 'react-icons/ai';
+import { FcCommandLine } from 'react-icons/fc';
 
 const Tools = [
   {
@@ -55,6 +56,11 @@ const Tools = [
     id: 9,
     name: 'Heroku',
     icon: <SiHeroku />,
+  },
+  {
+    id: 10,
+    name: 'Command Line',
+    icon: <FcCommandLine />,
   },
 ];
 
