@@ -1,4 +1,6 @@
 import Header from '../components/Header';
+import Footer from '../components/Footer';
+
 import Languages from '../components/Languages';
 import Libraries from '../components/Libraries';
 import Frameworks from '../components/Frameworks';
@@ -102,6 +104,7 @@ function Skills() {
           </div>
         </section>
       </div>
+      <Footer />
     </div>
   );
 }
