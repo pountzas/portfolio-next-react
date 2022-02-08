@@ -1,5 +1,7 @@
 import Head from 'next/head';
 import Header from '../components/Header';
+import Socials from '../components/Socials';
+import Link from 'next/link';
 // import Image from 'next/image';
 
 export default function Home() {
@@ -21,6 +23,20 @@ export default function Home() {
             Development.
           </p>
           <p className=''>I specialize in JavaScript, React and NEXT.js</p>
+        </div>
+        <div>
+          <h3 className='text-center text-gray-300'>My Social Network</h3>
+          <div className='flex items-center justify-center space-x-2 py-2'>
+            {Socials.map((social) => (
+              <div className='text-gray-300 text' key={social.id}>
+                <Link href={social.path} passHref>
+                  <a className='text-2xl' target='_blank'>
+                    {social.icon}
+                  </a>
+                </Link>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
