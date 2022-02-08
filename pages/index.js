@@ -12,14 +12,16 @@ export default function Home() {
       </Head>
 
       <Header />
-      <div className='flex flex-col items-center space-y-3 -top-64'>
-        <h1 className='top-64'>Hello I am Nikos.</h1>
-        <h2>I am a full-stack web developer</h2>
-        <p>
-          I am from Greece and i have studied Graphic Design and Web
-          Development.
-        </p>
-        <p>I specialize in JavaScript, React and NEXT.js</p>
+      <div className='pt-8 mt-16 border rounded-lg bg-gray-900 space-y-5 grid-cols-1 max-w-lg md:max-w-4xl xl:max-w-6xl mx-auto'>
+        <div className='text-xl text-gray-300 font-semibold px-5 mb-8 text-center space-y-8'>
+          <h1 className='text-center'>Hello I am Nikos.</h1>
+          <h2>I am a full-stack web developer</h2>
+          <p>
+            I am from Greece and i have studied Graphic Design and Web
+            Development.
+          </p>
+          <p className=''>I specialize in JavaScript, React and NEXT.js</p>
+        </div>
       </div>
     </div>
   );
