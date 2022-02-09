@@ -25,7 +25,11 @@ function Header() {
             >
               Home
             </div>
-            <FaHome className='text-2xl md:hidden' />
+            <FaHome
+              className={`text-2xl md:hidden ${
+                router.pathname === '/' ? 'text-gray-200' : ''
+              }`}
+            />
           </div>
           <div
             className='cursor-pointer'
@@ -37,7 +41,11 @@ function Header() {
             >
               Projects
             </div>
-            <RiGitRepositoryLine className='text-2xl md:hidden' />
+            <RiGitRepositoryLine
+              className={`text-2xl md:hidden ${
+                router.pathname === '/Projects' ? 'text-gray-200' : ''
+              }`}
+            />
           </div>
           <div
             className='cursor-pointer'
@@ -49,7 +57,11 @@ function Header() {
             >
               Skills
             </div>
-            <GiSkills className='text-2xl md:hidden' />
+            <GiSkills
+              className={`text-2xl md:hidden ${
+                router.pathname === '/Skills' ? 'text-gray-200' : ''
+              }`}
+            />
           </div>
           <div
             className='cursor-pointer'
@@ -61,7 +73,11 @@ function Header() {
             >
               Contact
             </div>
-            <IoIosContact className='text-2xl md:hidden' />
+            <IoIosContact
+              className={`text-2xl md:hidden ${
+                router.pathname === '/Contact' ? 'text-gray-200' : ''
+              }`}
+            />
           </div>
         </div>
       </div>
