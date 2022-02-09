@@ -15,7 +15,7 @@ export default function Home() {
 
       <Header />
       <div className='pt-8 mt-16 border rounded-lg bg-gray-900 space-y-5 grid-cols-1 max-w-lg md:max-w-4xl xl:max-w-6xl mx-auto'>
-        <div className='text-xl text-gray-300 font-semibold px-5 mb-8 text-center space-y-8'>
+        <div className='text-xl text-gray-300 font-semibold px-5 mb-8 text-center space-y-10'>
           <h1 className='text-center'>Hello I am Nikos.</h1>
           <h2>I am a full-stack web developer</h2>
           <p>
@@ -26,11 +26,11 @@ export default function Home() {
         </div>
         <div>
           <h3 className='text-center text-gray-300'>My Social Network</h3>
-          <div className='flex items-center justify-center space-x-2 py-2'>
+          <div className='flex items-center justify-center space-x-3 py-2 md:py-5'>
             {Socials.map((social) => (
-              <div className='text-gray-300 text' key={social.id}>
+              <div className='text-gray-300 text pb-8' key={social.id}>
                 <Link href={social.path} passHref>
-                  <a className='text-2xl' target='_blank'>
+                  <a className='text-3xl md:text-6xl' target='_blank'>
                     {social.icon}
                   </a>
                 </Link>
