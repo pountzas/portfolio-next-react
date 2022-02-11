@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import {
@@ -12,7 +13,31 @@ function Projects({ pinnedItems }) {
   return (
     <div className='bg-gray-700 min-h-screen'>
       <Header />
+      <section className='m-4'>
+        {pinnedItems.map((item) => (
+          <div
+            key={item.id}
+            className='border-2 border-blue-200 text-blue-200 bg-gray-800 rounded-lg'
+          >
+            <h1>{item.name}</h1>
+            <Image
+              className=''
+              src={item.openGraphImageUrl}
+              width='640px'
+              height='480px'
+              alt={item.name}
+            />
+            <p>{item.description}</p>
+            <p>
       Projects Page
+              {item.forkCount}
+            </p>
+            <p>
+              {item.stargazerCount}
+            </p>
+          </div>
+        ))}
+      </section>
       <Footer />
     </div>
   );
@@ -85,12 +110,12 @@ export async function getStaticProps() {
   });
 
   const { user } = data;
-  const pinnedItems = user.pinnedItems.edges.map(({ node }) => node);
+  const pinned = user.pinnedItems.edges.map(({ node }) => node);
   // console.log(pinnedItems);
 
   return {
     props: {
-      pinnedItems,
+      pinnedItems: pinned,
     },
   };
 }
