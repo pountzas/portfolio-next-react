@@ -9,7 +9,7 @@ function Header() {
   const router = useRouter();
 
   return (
-    <div className='py-3 shadow-sm border-b bg-gray-800 sticky top-0 z-50 '>
+    <div className='py-3 shadow-sm border-b border-blue-200 bg-gray-900 sticky top-0 z-50 '>
       {/* left section */}
       <div className='flex justify-between md:max-w-4xl xl:max-w-6xl mx-auto '>
         <h1 className='px-3 md:px-0 text-blue-200 font-semibold'>
