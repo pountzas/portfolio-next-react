@@ -37,6 +37,7 @@ function Projects({ pinnedItems, contributors, repoTags }) {
                   {item.forkCount}
                   <AiOutlineStar />
                   {item.stargazerCount}
+                  {item.watchers.totalCount}
                 </div>
               </div>
             </Link>
