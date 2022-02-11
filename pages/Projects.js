@@ -8,7 +8,7 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
-function Projects() {
+function Projects({ pinnedItems }) {
   return (
     <div className='bg-gray-700 min-h-screen'>
       <Header />
@@ -90,6 +90,7 @@ export async function getStaticProps() {
 
   return {
     props: {
+      pinnedItems,
     },
   };
 }
