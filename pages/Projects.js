@@ -9,6 +9,8 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
+import { AiOutlineStar, AiOutlineFork } from 'react-icons/ai';
+
 function Projects({ pinnedItems }) {
   return (
     <div className='bg-gray-700 min-h-screen'>
@@ -29,10 +31,11 @@ function Projects({ pinnedItems }) {
             />
             <p>{item.description}</p>
             <p>
-      Projects Page
+              {AiOutlineFork}
               {item.forkCount}
             </p>
             <p>
+              {AiOutlineStar}
               {item.stargazerCount}
             </p>
           </div>
