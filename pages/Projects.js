@@ -9,7 +9,7 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
-import { AiOutlineStar, AiOutlineFork } from 'react-icons/ai';
+import { AiOutlineStar, AiOutlineFork, AiFillEye } from 'react-icons/ai';
 import Link from 'next/link';
 
 function Projects({ pinnedItems, contributors, repoTags }) {
@@ -37,6 +37,7 @@ function Projects({ pinnedItems, contributors, repoTags }) {
                   {item.forkCount}
                   <AiOutlineStar />
                   {item.stargazerCount}
+                  <AiFillEye />
                   {item.watchers.totalCount}
                 </div>
               </div>
