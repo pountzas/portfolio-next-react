@@ -29,7 +29,7 @@ export default function Home() {
           <div className='flex items-center justify-center space-x-3 py-2 md:py-5'>
             {Socials.map((social) => (
               <div
-                className='text-gray-400 hover:text-blue-200 pb-3'
+                className='text-blue-200 hover:text-blue-50 pb-3'
                 key={social.id}
               >
                 <Link href={social.path} passHref>
@@ -48,7 +48,7 @@ export default function Home() {
             >
               <a
                 target='_blank'
-                className='p-2 rounded-lg cursor-pointer text-center text-blue-200 font-semibold border-2 border-blue-200 bg-gray-800'
+                className='p-2 rounded-lg cursor-pointer text-center text-blue-200 hover:text-blue-50 font-semibold border-2 border-blue-200 bg-gray-800'
               >
                 My CV
               </a>
