@@ -20,19 +20,21 @@ function Projects({ pinnedItems, contributors, repoTags }) {
         <div className='grid md:grid-cols-2 gap-8 m-4 p-3 pb-10'>
           {pinnedItems.map((item) => (
             <Link href={item.url} key={item.id} passHref>
-              <div className='max-w-md border-2 border-blue-200 text-blue-200 bg-gray-900 rounded-lg p-4'>
-                <h1 className='text-center text-xl font-semibold p-2'>
+              <div className='flex flex-col justify-between max-w-md border-2 border-blue-200 text-blue-200 bg-gray-900 rounded-lg'>
+                <h1 className='text-center text-xl font-semibold p-2 mb-3 rounded-t-lg bg-gray-800'>
                   {item.name}
                 </h1>
-                <Image
-                  className='rounded-lg p-4'
-                  src={item.openGraphImageUrl}
-                  width='640px'
-                  height='480px'
-                  alt={item.name}
-                />
-                <p className='py-2'>{item.description}</p>
-                <div className='flex justify-between'>
+                <div className='mx-5'>
+                  <Image
+                    className='rounded-lg'
+                    src={item.openGraphImageUrl}
+                    width='640px'
+                    height='480px'
+                    alt={item.name}
+                  />
+                </div>
+                <p className='py-2 mx-5'>{item.description}</p>
+                <div className='flex justify-between rounded-b-lg bg-gray-800 p-2 px-5'>
                   <div className='flex items-center space-x-4 whitespace-normal'>
                     <AiOutlineFork />
                     {item.forkCount}
