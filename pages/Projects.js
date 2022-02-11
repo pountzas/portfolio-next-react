@@ -15,31 +15,33 @@ function Projects({ pinnedItems }) {
   return (
     <div className='bg-gray-700 min-h-screen'>
       <Header />
-      <section className='m-4'>
-        {pinnedItems.map((item) => (
-          <div
-            key={item.id}
-            className='border-2 border-blue-200 text-blue-200 bg-gray-800 rounded-lg'
-          >
-            <h1>{item.name}</h1>
-            <Image
-              className=''
-              src={item.openGraphImageUrl}
-              width='640px'
-              height='480px'
-              alt={item.name}
-            />
-            <p>{item.description}</p>
-            <p>
-              {AiOutlineFork}
-              {item.forkCount}
-            </p>
-            <p>
-              {AiOutlineStar}
-              {item.stargazerCount}
-            </p>
-          </div>
-        ))}
+      <section className='flex justify-center'>
+        <div className='grid md:grid-cols-2 gap-8 m-4 p-3 pb-10'>
+          {pinnedItems.map((item) => (
+            <div
+              key={item.id}
+              className='max-w-md border-2 border-blue-200 text-blue-200 bg-gray-800 rounded-lg p-4'
+            >
+              <h1 className='text-center text-xl font-semibold p-2'>
+                {item.name}
+              </h1>
+              <Image
+                className='rounded-lg p-4'
+                src={item.openGraphImageUrl}
+                width='640px'
+                height='480px'
+                alt={item.name}
+              />
+              <p className='py-2'>{item.description}</p>
+              <p className='flex justify-center items-center space-x-4 whitespace-normal'>
+                <AiOutlineFork />
+                {item.forkCount}
+                <AiOutlineStar />
+                {item.stargazerCount}
+              </p>
+            </div>
+          ))}
+        </div>
       </section>
       <Footer />
     </div>
