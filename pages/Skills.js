@@ -10,7 +10,7 @@ import Flip from 'react-reveal/Flip';
 
 function Skills() {
   return (
-    <div className='bg-gray-900 min-h-screen'>
+    <div className='bg-gray-700 min-h-screen'>
       <Header />
       <h1 className='text-blue-200 text-center font-semibold text-2xl pt-6 sm:pt-12'>
         My Skillset
@@ -25,7 +25,7 @@ function Skills() {
           <div className='grid grid-cols-2 gap-4'>
             {Languages.map((language) => (
               <div
-                className='flex justify-center border border-blue-300 w-16 h-16 md:w-20 md:h-20 items-center m-2 p-2 rounded-md text-gray-500 hover:text-blue-400 hover:bg-gray-800 ease-in-out duration-400 shadow-lg shadow-blue-500/50'
+                className='flex justify-center bg-gray-900 border border-blue-300 w-16 h-16 md:w-20 md:h-20 items-center m-2 p-2 rounded-md text-gray-500 hover:text-blue-400 hover:bg-gray-800 ease-in-out duration-400 shadow-lg shadow-blue-500/50'
                 key={language.id}
               >
                 <div className='relative group-hover:opacity-100'>
@@ -48,7 +48,7 @@ function Skills() {
           <div className='grid grid-cols-2 gap-4'>
             {Libraries.map((library) => (
               <div
-                className='flex justify-center border border-blue-300 w-16 h-16 md:w-20 md:h-20 items-center m-2 p-2 rounded-md text-gray-500 hover:text-blue-400 hover:bg-gray-800 ease-in-out duration-400 shadow-lg shadow-blue-500/50'
+                className='flex justify-center bg-gray-900 border border-blue-300 w-16 h-16 md:w-20 md:h-20 items-center m-2 p-2 rounded-md text-gray-500 hover:text-blue-400 hover:bg-gray-800 ease-in-out duration-400 shadow-lg shadow-blue-500/50'
                 key={library.id}
               >
                 <div className='relative group-hover:opacity-100'>
@@ -65,7 +65,7 @@ function Skills() {
           <div className='grid grid-cols-2 gap-4 pt-4'>
             {Frameworks.map((framework) => (
               <div
-                className='flex justify-center border border-blue-300 w-16 h-16 md:w-20 md:h-20 items-center m-2 p-2 rounded-md text-gray-500 hover:text-blue-400 hover:bg-gray-800 ease-in-out duration-400 shadow-lg shadow-blue-500/50'
+                className='flex justify-center bg-gray-900 border border-blue-300 w-16 h-16 md:w-20 md:h-20 items-center m-2 p-2 rounded-md text-gray-500 hover:text-blue-400 hover:bg-gray-800 ease-in-out duration-400 shadow-lg shadow-blue-500/50'
                 key={framework.id}
               >
                 <div className='relative group-hover:opacity-100'>
@@ -88,7 +88,7 @@ function Skills() {
           <div className='grid grid-cols-2 gap-4'>
             {Tools.map((tool) => (
               <div
-                className='flex justify-center border border-blue-300 w-16 h-16 md:w-20 md:h-20 items-center m-2 p-2 rounded-md text-gray-500 hover:text-blue-400 hover:bg-gray-800 transition ease-in-out duration-400 shadow-lg shadow-blue-500/50'
+                className='flex justify-center bg-gray-900 border border-blue-300 w-16 h-16 md:w-20 md:h-20 items-center m-2 p-2 rounded-md text-gray-500 hover:text-blue-400 hover:bg-gray-800 transition ease-in-out duration-400 shadow-lg shadow-blue-500/50'
                 key={tool.id}
               >
                 <div className='relative group-hover:opacity-100'>
