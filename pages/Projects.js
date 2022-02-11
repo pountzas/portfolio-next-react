@@ -32,13 +32,29 @@ function Projects({ pinnedItems, contributors, repoTags }) {
                   alt={item.name}
                 />
                 <p className='py-2'>{item.description}</p>
-                <div className='flex justify-center items-center space-x-4 whitespace-normal'>
-                  <AiOutlineFork />
-                  {item.forkCount}
-                  <AiOutlineStar />
-                  {item.stargazerCount}
-                  <AiFillEye />
-                  {item.watchers.totalCount}
+                <div className='flex justify-between'>
+                  <div className='flex items-center space-x-4 whitespace-normal'>
+                    <AiOutlineFork />
+                    {item.forkCount}
+                    <AiOutlineStar />
+                    {item.stargazerCount}
+                    <AiFillEye />
+                    {item.watchers.totalCount}
+                  </div>
+                  <div className='flex space-x-2'>
+                    <p>Contributors: </p>
+                    {item.assignableUsers.edges.map((user) => (
+                      <div className='' key={user.node.id}>
+                        <Image
+                          className='rounded-full'
+                          src={user.node.avatarUrl}
+                          width='25px'
+                          height='25px'
+                          alt={user.node.name}
+                        />
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </Link>
