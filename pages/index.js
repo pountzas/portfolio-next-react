@@ -14,7 +14,7 @@ export default function Home() {
       </Head>
 
       <Header />
-      <div className='pt-8 mt-16 border border-blue-200 rounded-lg bg-gray-900 space-y-5 grid-cols-1 max-w-lg md:max-w-4xl xl:max-w-6xl mx-auto'>
+      <div className='pt-8 mt-24 border border-blue-200 rounded-lg bg-gray-900 space-y-5 grid-cols-1 max-w-lg md:max-w-4xl xl:max-w-6xl mx-auto'>
         <div className='text-xl text-blue-200 font-semibold px-5 mb-8 text-center space-y-10'>
           <h1 className='text-center'>Hello I am Nikos.</h1>
           <h2>I am a full-stack web developer</h2>
