@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import {
@@ -9,8 +10,13 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
-import { AiOutlineStar, AiOutlineFork, AiFillEye } from 'react-icons/ai';
-import Link from 'next/link';
+import {
+  AiOutlineStar,
+  AiOutlineFork,
+  AiFillEye,
+  AiFillGithub,
+} from 'react-icons/ai';
+import { GrDeploy } from 'react-icons/gr';
 
 function Projects({ pinnedItems, contributors, repoTags }) {
   return (
@@ -19,47 +25,79 @@ function Projects({ pinnedItems, contributors, repoTags }) {
       <section className='flex justify-center'>
         <div className='grid md:grid-cols-2 gap-8 m-4 p-3 pb-10'>
           {pinnedItems.map((item) => (
-            <Link href={item.url} key={item.id} passHref>
-              <div className='flex flex-col justify-between max-w-md border-2 border-blue-200 text-blue-200 bg-gray-900 rounded-lg'>
-                <h1 className='text-center text-xl font-semibold p-2 mb-3 rounded-t-lg bg-gray-800'>
-                  {item.name}
-                </h1>
-                <div className='mx-5'>
-                  <Image
-                    className='rounded-lg'
-                    src={item.openGraphImageUrl}
-                    width='640px'
-                    height='480px'
-                    alt={item.name}
-                  />
+            <div
+              key={item.id}
+              className='flex flex-col justify-between max-w-md border-2 border-blue-200 text-blue-200 bg-gray-900 rounded-lg'
+            >
+              <h1 className='text-center text-xl font-semibold p-2 mb-3 rounded-t-lg bg-gray-800'>
+                {item.name}
+              </h1>
+              <div className='mx-5'>
+                <Image
+                  className='rounded-lg'
+                  src={item.openGraphImageUrl}
+                  width='640px'
+                  height='480px'
+                  alt={item.name}
+                />
+              </div>
+              <p className='py-2 mx-5'>{item.description}</p>
+              {/* tags */}
+              <div className='mx-5 pb-2'>
+                {item.repositoryTopics.edges.map((tag) => (
+                  <span
+                    className='cursor-pointer inline-block bg-gray-700 text-blue-100 rounded-full px-3 py-1 text-xs font-semibold m-1'
+                    key={tag.node.id}
+                  >
+                    {tag.node.topic.name}
+                  </span>
+                ))}
+              </div>
+              {/* Links */}
+              <div className='flex justify-center items-center pb-3'>
+                <Link href={item.url} passHref>
+                  <span
+                    className='ursor-pointer inline-block bg-gray-400 text-gray-800 rounded-full px-3 py-1 text-xl font-semibold m-1'
+                    target='/blank'
+                  >
+                    <AiFillGithub />
+                  </span>
+                </Link>
+                <Link href={item.url} passHref>
+                  <span
+                    className='ursor-pointer inline-block bg-gray-400 text-gray-800 rounded-full px-3 py-1 text-xl font-semibold m-1'
+                    target='/blank'
+                  >
+                    <GrDeploy />
+                  </span>
+                </Link>
+              </div>
+              {/* last section */}
+              <div className='flex justify-between rounded-b-lg bg-gray-800 p-2 px-5'>
+                <div className='flex items-center space-x-4 whitespace-normal'>
+                  <AiOutlineFork />
+                  {item.forkCount}
+                  <AiOutlineStar />
+                  {item.stargazerCount}
+                  <AiFillEye />
+                  {item.watchers.totalCount}
                 </div>
-                <p className='py-2 mx-5'>{item.description}</p>
-                <div className='flex justify-between rounded-b-lg bg-gray-800 p-2 px-5'>
-                  <div className='flex items-center space-x-4 whitespace-normal'>
-                    <AiOutlineFork />
-                    {item.forkCount}
-                    <AiOutlineStar />
-                    {item.stargazerCount}
-                    <AiFillEye />
-                    {item.watchers.totalCount}
-                  </div>
-                  <div className='flex space-x-2'>
-                    <p>Contributors: </p>
-                    {item.assignableUsers.edges.map((user) => (
-                      <div className='' key={user.node.id}>
-                        <Image
-                          className='rounded-full'
-                          src={user.node.avatarUrl}
-                          width='25px'
-                          height='25px'
-                          alt={user.node.name}
-                        />
-                      </div>
-                    ))}
-                  </div>
+                <div className='flex space-x-2'>
+                  <p>Contributors: </p>
+                  {item.assignableUsers.edges.map((user) => (
+                    <div className='' key={user.node.id}>
+                      <Image
+                        className='rounded-full'
+                        src={user.node.avatarUrl}
+                        width='25px'
+                        height='25px'
+                        alt={user.node.name}
+                      />
+                    </div>
+                  ))}
                 </div>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       </section>
@@ -125,6 +163,7 @@ export async function getStaticProps() {
                   watchers {
                     totalCount
                   }
+                  homepageUrl
                 }
               }
             }
