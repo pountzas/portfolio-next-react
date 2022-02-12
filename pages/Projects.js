@@ -37,13 +37,13 @@ function Projects({ pinnedItems, contributors, repoTags }) {
                   className='rounded-lg'
                   src={item.openGraphImageUrl}
                   width='640px'
-                  height='480px'
+                  height='400px'
                   alt={item.name}
                 />
               </div>
               <p className='py-2 mx-5'>{item.description}</p>
               {/* tags */}
-              <div className='mx-5 pb-2'>
+              <div className='mx-5 pb-2 flex justify-center'>
                 {item.repositoryTopics.edges.map((tag) => (
                   <span
                     className='cursor-pointer inline-block bg-gray-700 text-blue-100 rounded-full px-3 py-1 text-xs font-semibold m-1'
