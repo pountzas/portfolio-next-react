@@ -1,4 +1,4 @@
-import { SiHtml5, SiCss3, SiJavascript } from 'react-icons/si';
+import { SiHtml5, SiCss3, SiJavascript, SiGraphql } from 'react-icons/si';
 import { DiRubyRough } from 'react-icons/di';
 
 const Languages = [
@@ -21,6 +21,11 @@ const Languages = [
     id: 4,
     name: 'JavaScript',
     icon: <SiJavascript />,
+  },
+  {
+    id: 5,
+    name: 'GraphQL',
+    icon: <SiGraphql />,
   },
 ];
 
