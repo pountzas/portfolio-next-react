@@ -63,7 +63,7 @@ function Header() {
               }`}
             />
           </div>
-          <div
+          {/* <div
             className='cursor-pointer'
             onClick={() => router.push('/Contact')}
           >
@@ -78,7 +78,7 @@ function Header() {
                 router.pathname === '/Contact' ? 'text-blue-200' : ''
               }`}
             />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
