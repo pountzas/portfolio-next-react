@@ -56,21 +56,23 @@ function Projects({ pinnedItems, contributors, repoTags }) {
               {/* Links */}
               <div className='flex justify-center items-center pb-3'>
                 <Link href={item.url} passHref>
-                  <span
+                  <a
                     className='ursor-pointer inline-block bg-gray-400 text-gray-800 rounded-full px-3 py-1 text-xl font-semibold m-1'
-                    target='/blank'
+                    target='_blank'
                   >
                     <AiFillGithub />
-                  </span>
+                  </a>
                 </Link>
-                <Link href={item.url} passHref>
-                  <span
-                    className='ursor-pointer inline-block bg-gray-400 text-gray-800 rounded-full px-3 py-1 text-xl font-semibold m-1'
-                    target='/blank'
-                  >
-                    <GrDeploy />
-                  </span>
-                </Link>
+                {item.homepageUrl && (
+                  <Link href={item.homepageUrl} passHref>
+                    <a
+                      className='ursor-pointer inline-block bg-gray-400 text-gray-800 rounded-full px-3 py-1 text-xl font-semibold m-1'
+                      target='_blank'
+                    >
+                      <GrDeploy />
+                    </a>
+                  </Link>
+                )}
               </div>
               {/* last section */}
               <div className='flex justify-between rounded-b-lg bg-gray-800 p-2 px-5'>
