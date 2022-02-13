@@ -1,9 +1,13 @@
 # This is my Portfolio project build with [Next.js](https://nextjs.org/)
 
 This project uses GraphQL to manipulate gtihub api in order to have the latest 6 pinned projects from my github account.
+<br>
 So when i change a project in Github profile, automaticaly it updates on the Portfolio Site.
+<br>
+⭐️ Star the project and see the changes happen.
 
 ## Build with
+
 - NEXT.js
 - React.js
 - Tailwind-css
@@ -11,7 +15,7 @@ So when i change a project in Github profile, automaticaly it updates on the Por
 
 <!-- ## Getting Started
 
-Clone 
+Clone
 
 First, run the development server:
 
