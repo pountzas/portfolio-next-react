@@ -13,7 +13,8 @@ function Header() {
       {/* left section */}
       <div className='flex justify-between md:max-w-4xl xl:max-w-6xl mx-auto '>
         <h1 className='px-3 md:px-0 text-blue-200 font-semibold'>
-          Nikos Pountzas
+          N<span className='hidden sm:inline-block'>ikos</span> P
+          <span className='hidden sm:inline-block'>ountzas</span>
         </h1>
 
         {/* right section */}
