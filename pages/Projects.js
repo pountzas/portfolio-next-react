@@ -18,7 +18,7 @@ import {
 } from 'react-icons/ai';
 import { GrDeploy } from 'react-icons/gr';
 
-function Projects({ pinnedItems, contributors, repoTags }) {
+function Projects({ pinnedItems }) {
   return (
     <div className='bg-gray-700 min-h-screen'>
       <Header />
@@ -178,12 +178,9 @@ export async function getStaticProps() {
   const { user } = data;
   const pinned = user.pinnedItems.edges.map(({ node }) => node);
 
-  console.log(pinned);
-
   return {
     props: {
       pinnedItems: pinned,
-      // repoTags: tags,
     },
   };
 }
