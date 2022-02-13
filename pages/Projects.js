@@ -17,6 +17,7 @@ import {
   AiFillGithub,
 } from 'react-icons/ai';
 import { GrDeploy } from 'react-icons/gr';
+import { BsPeopleFill } from 'react-icons/bs';
 
 function Projects({ pinnedItems }) {
   return (
@@ -84,8 +85,9 @@ function Projects({ pinnedItems }) {
                   <AiFillEye />
                   {item.watchers.totalCount}
                 </div>
-                <div className='flex space-x-2'>
-                  <p>Contributors: </p>
+                <div className='flex space-x-2 items-center'>
+                  <p className='hidden md:inline-block'>Contributors: </p>
+                  <BsPeopleFill className='md:hidden' />
                   {item.assignableUsers.edges.map((user) => (
                     <div className='' key={user.node.id}>
                       <Image
