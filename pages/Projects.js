@@ -27,7 +27,7 @@ function Projects({ pinnedItems, contributors, repoTags }) {
           {pinnedItems.map((item) => (
             <div
               key={item.id}
-              className='flex flex-col justify-between max-w-md border-2 border-blue-200 text-blue-200 bg-gray-900 rounded-lg'
+              className='flex flex-col justify-between max-w-xs md:max-w-md border-2 border-blue-200 text-blue-200 bg-gray-900 rounded-lg'
             >
               <h1 className='text-center text-xl font-semibold p-2 mb-3 rounded-t-lg bg-gray-800'>
                 {item.name}
@@ -37,13 +37,13 @@ function Projects({ pinnedItems, contributors, repoTags }) {
                   className='rounded-lg'
                   src={item.openGraphImageUrl}
                   width='640px'
-                  height='400px'
+                  height='420px'
                   alt={item.name}
                 />
               </div>
               <p className='py-2 mx-5'>{item.description}</p>
               {/* tags */}
-              <div className='mx-5 pb-2 flex justify-center'>
+              <div className='mx-5 pb-2 flex flex-wrap justify-center'>
                 {item.repositoryTopics.edges.map((tag) => (
                   <span
                     className='cursor-pointer inline-block bg-gray-700 text-blue-100 rounded-full px-3 py-1 text-xs font-semibold m-1'
