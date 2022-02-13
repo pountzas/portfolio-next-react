@@ -15,9 +15,7 @@ function Skills() {
       <h1 className='text-blue-200 text-center font-semibold text-2xl pt-6 sm:pt-12'>
         My Skillset
       </h1>
-      <div className='sm:grid grid-cols-3 gap-4 md:max-w-4xl lg:max-w-7xl px-3 mx-auto'>
-        {/* <div className='sm:flex justify-between md:max-w-4xl mx-auto'> */}
-
+      <div className='sm:grid grid-cols-3 gap-4 md:max-w-4xl lg:max-w-7xl pt-3 pb-12  mx-auto'>
         <section className='container flex flex-col items-center'>
           <h2 className='text-blue-200 text-center py-4 sm:py-8'>
             Programing Languages
