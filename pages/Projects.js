@@ -45,6 +45,11 @@ function Projects({ pinnedItems }) {
                   <p className='inline-block cursor-pointer border border-cyan-600 shadow-lg bg-teal-500 text-gray-800 hover:text-blue-900 rounded-full px-3 py-1 text-xs md:text:md font-bold m-1'>
                     Commits:
                   </p>
+                  <p className='inline-block cursor-pointer border border-cyan-600 shadow-lg bg-teal-500 text-gray-800 hover:text-blue-900 rounded-full px-3 py-1 text-xs md:text:md font-bold m-1'>
+                    Cloned:
+                    {item.cloneCount}
+                  </p>
+                  </p>
                 </div>
               </div>
               <p className='py-2 mx-5'>{item.description}</p>
