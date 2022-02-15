@@ -42,10 +42,13 @@ function Projects({ pinnedItems }) {
                   alt={item.name}
                 />
                 <div className='absolute inset-1 top-auto pb-2 flex justify-center items-center'>
-                  <p className='inline-block cursor-pointer border border-cyan-600 shadow-lg bg-teal-500 text-gray-800 hover:text-blue-900 rounded-full px-3 py-1 text-xs md:text:md font-bold m-1'>
-                    Commits:
-                    {item.commits}
-                  </p>
+                  {item.commits && (
+                    <p className='inline-block cursor-pointer border border-cyan-600 shadow-lg bg-teal-500 text-gray-800 hover:text-blue-900 rounded-full px-3 py-1 text-xs md:text:md font-bold m-1'>
+                      Commits:
+                      {/* {item.object.[...onCommit].history.totalCount} */}
+                    </p>
+                  )}
+
                   <p className='inline-block cursor-pointer border border-cyan-600 shadow-lg bg-teal-500 text-gray-800 hover:text-blue-900 rounded-full px-3 py-1 text-xs md:text:md font-bold m-1'>
                     Cloned:
                     {item.cloneCount}
