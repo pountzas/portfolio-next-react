@@ -33,7 +33,7 @@ function Projects({ pinnedItems }) {
               <h1 className='text-center text-xl font-semibold p-2 mb-3 rounded-t-lg bg-gray-800'>
                 {item.name}
               </h1>
-              <div className='mx-5'>
+              <div className='mx-5 relative'>
                 <Image
                   className='rounded-lg'
                   src={item.openGraphImageUrl}
@@ -41,6 +41,28 @@ function Projects({ pinnedItems }) {
                   height='420px'
                   alt={item.name}
                 />
+                <div className='absolute inset-1 top-auto pb-2 flex justify-center items-center'>
+                  {item.object && (
+                    <p className='flex cursor-pointer border border-cyan-600 shadow-lg bg-teal-500 text-gray-800 hover:text-blue-900 rounded-full px-3 py-1 text-xs md:text:md font-bold m-1'>
+                      <p className='pr-1'>Commits: </p>
+                      {item.object.history.totalCount}
+                    </p>
+                  )}
+
+                  {item.cloneCount && (
+                    <p className='inline-block cursor-pointer border border-cyan-600 shadow-lg bg-teal-500 text-gray-800 hover:text-blue-900 rounded-full px-3 py-1 text-xs md:text:md font-bold m-1'>
+                      <p className='pr-1'>Cloned:</p>
+                      {item.cloneCount}
+                    </p>
+                  )}
+
+                  {item.viewCount && (
+                    <p className='inline-block cursor-pointer border border-cyan-600 shadow-lg bg-teal-500 text-gray-800 hover:text-blue-900 rounded-full px-3 py-1 text-xs md:text:md font-bold m-1'>
+                      <p className='pr-1'>Views:</p>
+                      {item.viewCount}
+                    </p>
+                  )}
+                </div>
               </div>
               <p className='py-2 mx-5'>{item.description}</p>
               {/* tags */}
@@ -58,7 +80,7 @@ function Projects({ pinnedItems }) {
               <div className='flex justify-center items-center pb-3'>
                 <Link href={item.url} passHref>
                   <a
-                    className='ursor-pointer inline-block bg-gray-400 text-gray-800 rounded-full px-3 py-1 text-xl font-semibold m-1'
+                    className='inline-block bg-gray-400 text-gray-800 hover:text-blue-900 rounded-full px-3 py-1 text-xl font-semibold m-1'
                     target='_blank'
                   >
                     <AiFillGithub />
@@ -67,7 +89,7 @@ function Projects({ pinnedItems }) {
                 {item.homepageUrl && (
                   <Link href={item.homepageUrl} passHref>
                     <a
-                      className='ursor-pointer inline-block bg-gray-400 text-gray-800 rounded-full px-3 py-1 text-xl font-semibold m-1'
+                      className='inline-block bg-gray-400 text-gray-800 hover:text-blue-900 rounded-full px-3 py-1 text-xl font-semibold m-1'
                       target='_blank'
                     >
                       <GrDeploy />
@@ -168,6 +190,14 @@ export async function getStaticProps() {
                     totalCount
                   }
                   homepageUrl
+                  object(expression: "main") {
+                    ... on Commit {
+                      id
+                      history {
+                        totalCount
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -179,6 +209,8 @@ export async function getStaticProps() {
 
   const { user } = data;
   const pinned = user.pinnedItems.edges.map(({ node }) => node);
+
+  // console.log(pinned[0].object);
 
   return {
     props: {
