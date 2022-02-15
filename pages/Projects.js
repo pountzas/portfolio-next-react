@@ -190,6 +190,14 @@ export async function getStaticProps() {
                     totalCount
                   }
                   homepageUrl
+                  object(expression: "main") {
+                    ... on Commit {
+                      id
+                      history {
+                        totalCount
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -201,6 +209,8 @@ export async function getStaticProps() {
 
   const { user } = data;
   const pinned = user.pinnedItems.edges.map(({ node }) => node);
+
+  // console.log(pinned[0].object);
 
   return {
     props: {
