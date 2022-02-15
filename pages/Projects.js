@@ -49,10 +49,12 @@ function Projects({ pinnedItems }) {
                     </p>
                   )}
 
-                  <p className='inline-block cursor-pointer border border-cyan-600 shadow-lg bg-teal-500 text-gray-800 hover:text-blue-900 rounded-full px-3 py-1 text-xs md:text:md font-bold m-1'>
-                    Cloned:
-                    {item.cloneCount}
-                  </p>
+                  {item.cloneCount && (
+                    <p className='inline-block cursor-pointer border border-cyan-600 shadow-lg bg-teal-500 text-gray-800 hover:text-blue-900 rounded-full px-3 py-1 text-xs md:text:md font-bold m-1'>
+                      <p className='pr-1'>Cloned:</p>
+                      {item.cloneCount}
+                    </p>
+                  )}
                   <p className='inline-block cursor-pointer border border-cyan-600 shadow-lg bg-teal-500 text-gray-800 hover:text-blue-900 rounded-full px-3 py-1 text-xs md:text:md font-bold m-1'>
                     Views:
                     {item.viewCount}
