@@ -7,6 +7,9 @@ import Frameworks from '../components/Frameworks';
 import Tools from '../components/Tools';
 
 import Flip from 'react-reveal/Flip';
+import config from 'react-reveal/globals';
+
+config({ ssrFadeout: true });
 
 function Skills() {
   return (
@@ -27,7 +30,7 @@ function Skills() {
                 key={language.id}
               >
                 <div className='relative group-hover:opacity-100'>
-                  <Flip delay={300} duration={2000} left cascade>
+                  <Flip duration={2000} left cascade>
                     <div className='text-3xl md:text-5xl'>{language.icon}</div>
                   </Flip>
                   <span className='absolute inset-0 z-10 -top-10 opacity-0 hover:opacity-100 flex justify-center text-blue-300 text-sm font-semibold whitespace-nowrap'>
@@ -50,7 +53,7 @@ function Skills() {
                 key={library.id}
               >
                 <div className='relative group-hover:opacity-100'>
-                  <Flip delay={300} duration={2000} left cascade>
+                  <Flip duration={2000} left cascade>
                     <div className='text-3xl md:text-5xl'>{library.icon}</div>
                   </Flip>
                   <span className='absolute inset-0 z-10 -top-10 opacity-0 hover:opacity-100 flex justify-center text-blue-300 text-sm font-semibold whitespace-nowrap'>
@@ -67,7 +70,7 @@ function Skills() {
                 key={framework.id}
               >
                 <div className='relative group-hover:opacity-100'>
-                  <Flip delay={300} duration={2000} left cascade>
+                  <Flip duration={2000} left cascade>
                     <div className='text-3xl md:text-5xl'>{framework.icon}</div>
                   </Flip>
                   <span className='absolute inset-0 z-10 -top-10 opacity-0 hover:opacity-100 flex justify-center text-blue-300 text-sm font-semibold whitespace-nowrap'>
@@ -90,7 +93,7 @@ function Skills() {
                 key={tool.id}
               >
                 <div className='relative group-hover:opacity-100'>
-                  <Flip delay={300} duration={2000} left cascade>
+                  <Flip duration={2000} left cascade>
                     <div className='text-3xl md:text-5xl'>{tool.icon}</div>
                   </Flip>
                   <span className='absolute inset-0 z-10 -top-10 opacity-0 hover:opacity-100 flex justify-center text-blue-300 text-sm font-semibold whitespace-nowrap'>
