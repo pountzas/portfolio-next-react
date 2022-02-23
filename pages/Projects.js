@@ -207,8 +207,35 @@ export async function getStaticProps() {
     `,
   });
 
+  await client.refetchQueries({
+    include: 'active',
+  });
+
   const { user } = data;
   const pinned = user.pinnedItems.edges.map(({ node }) => node);
+  const userName = user.login;
+
+  const view = await client.query({
+    query: gql`
+      {
+        repository(owner: "${userName}", name: "${pinned[0].name}") {
+          id
+          tree(path: "src") {
+            entries {
+              name
+              type
+              object {
+                ... on Blob {
+                  id
+                  text
+                }
+              }
+            }
+          }
+        }
+      }
+    `,
+  });
 
   // console.log(pinned[0].object);
 
