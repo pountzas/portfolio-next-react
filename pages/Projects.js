@@ -86,7 +86,7 @@ function Projects({ pinnedItems }) {
                     <AiFillGithub />
                   </a>
                 </Link>
-                {item.homepageUrl && (
+                {item.homepageUrl ? (
                   <Link href={item.homepageUrl} passHref>
                     <a
                       className='inline-block bg-gray-400 text-gray-800 hover:text-blue-900 rounded-full px-3 py-1 text-xl font-semibold m-1'
@@ -95,6 +95,10 @@ function Projects({ pinnedItems }) {
                       <GrDeploy />
                     </a>
                   </Link>
+                ) : (
+                  <p className='inline-block bg-gray-400 text-gray-800 hover:text-blue-900 rounded-full px-3 py-1 text-sm font-bold m-1'>
+                    in progress
+                  </p>
                 )}
               </div>
               {/* last section */}
