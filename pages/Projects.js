@@ -115,7 +115,10 @@ function Projects({ pinnedItems }) {
                   <p className='hidden md:inline-block'>Contributors: </p>
                   <BsPeopleFill className='md:hidden' />
                   {item.assignableUsers.edges.map((user) => (
-                    <div className='' key={user.node.id}>
+                    <div
+                      className='relative group-hover:opacity-100'
+                      key={user.node.id}
+                    >
                       <Image
                         className='rounded-full'
                         src={user.node.avatarUrl}
@@ -123,6 +126,9 @@ function Projects({ pinnedItems }) {
                         height='25px'
                         alt={user.node.name}
                       />
+                      <span className='absolute inset-0 z-10 -top-6 opacity-0 hover:opacity-100 flex justify-center text-gray-300 text-sm font-semibold whitespace-nowrap'>
+                        {user.node.name}
+                      </span>
                     </div>
                   ))}
                 </div>
