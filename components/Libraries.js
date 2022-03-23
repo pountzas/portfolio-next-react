@@ -1,5 +1,5 @@
 import { FaReact, FaRecoil } from 'react-icons/fa';
-import { SiRedux } from 'react-icons/si';
+import { SiRedux, SiTypescript } from 'react-icons/si';
 
 const Libraries = [
   {
@@ -12,6 +12,11 @@ const Libraries = [
     name: 'Redux',
     icon: <SiRedux />,
   },
+  // {
+  //   id: 3,
+  //   name: 'Typescript',
+  //   icon: <SiTypescript />,
+  // },
   // {
   //   id: 3,
   //   name: 'Recoil',
