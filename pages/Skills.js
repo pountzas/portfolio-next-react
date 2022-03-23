@@ -47,8 +47,6 @@ function Skills() {
                 skillName={library.name}
               />
             ))}
-          </div>
-          <div className='grid grid-cols-2 gap-4 pt-4'>
             {Frameworks.map((framework) => (
               <SkillTemplate
                 key={framework.id}
