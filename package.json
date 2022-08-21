@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@apollo/client": "3.6.9",
-    "graphql": "16.5.0",
+    "graphql": "16.6.0",
     "next": "12.2.3",
     "next-router": "1.3.6",
     "react": "17.0.2",
