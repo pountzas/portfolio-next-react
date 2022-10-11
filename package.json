@@ -20,7 +20,7 @@
     "autoprefixer": "10.4.11",
     "eslint": "8.23.1",
     "eslint-config-next": "12.3.1",
-    "postcss": "8.4.16",
+    "postcss": "8.4.17",
     "react-reveal": "1.2.2",
     "tailwindcss": "3.1.8"
   }
