@@ -1,22 +1,23 @@
-import { SiRubyonrails, SiNextdotjs, SiTailwindcss } from 'react-icons/si';
-
 import { DiBootstrap } from 'react-icons/di';
+import NextJs from './icons/nextJs';
+import Rails from './icons/rails';
+import Tailwind from './icons/tailwind';
 
 const Frameworks = [
   {
     id: 1,
     name: 'Next.js',
-    icon: <SiNextdotjs />,
+    icon: <NextJs size={34} />,
   },
   {
     id: 2,
     name: 'Ruby on Rails',
-    icon: <SiRubyonrails />,
+    icon: <Rails size={44} />,
   },
   {
     id: 3,
     name: 'Tailwind CSS',
-    icon: <SiTailwindcss />,
+    icon: <Tailwind />,
   },
   {
     id: 4,
