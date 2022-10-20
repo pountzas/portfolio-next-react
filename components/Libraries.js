@@ -1,16 +1,16 @@
-import { FaReact, FaRecoil } from 'react-icons/fa';
-import { SiRedux } from 'react-icons/si';
+import ReactIcon from './icons/ReactIcon';
+import Redux from './icons/redux';
 
 const Libraries = [
   {
     id: 1,
     name: 'React',
-    icon: <FaReact />,
+    icon: <ReactIcon />,
   },
   {
     id: 2,
     name: 'Redux',
-    icon: <SiRedux />,
+    icon: <Redux />,
   },
   // {
   //   id: 3,
