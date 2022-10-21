@@ -9,27 +9,26 @@ function Header() {
   const router = useRouter();
 
   return (
-    <div className='py-3 shadow-sm border-b border-blue-200 bg-gray-900 sticky top-0 z-50 '>
+    <div className='sticky top-0 z-50 py-3 border-b shadow-sm border-borderSecondary bg-primary '>
       {/* left section */}
-      <div className='flex justify-between md:max-w-4xl xl:max-w-6xl mx-auto '>
-        <h1 className='px-3 md:px-0 text-blue-200 font-semibold'>
+      <div className='flex justify-between mx-auto md:max-w-4xl xl:max-w-6xl '>
+        <h1 className='px-3 font-semibold text-textPrimary md:px-0'>
           N<span className='hidden sm:inline-block'>ikos</span> P
           <span className='hidden sm:inline-block'>ountzas</span>
         </h1>
 
         {/* right section */}
-        <div className='flex space-x-8 px-3 md:px-0 text-gray-400'>
+        <div className='flex px-3 space-x-8 text-textTertiary md:px-0'>
           <div className='cursor-pointer' onClick={() => router.push('/')}>
             <div
               className={`hidden md:block px-1 text-lg uppercase font-semibold 
-              ${router.pathname === '/' ? 'text-blue-200' : ''}`}
+              ${router.pathname === '/' ? 'text-textPrimary' : ''}`}
             >
               Home
             </div>
             <FaHome
-              className={`text-2xl md:hidden ${
-                router.pathname === '/' ? 'text-blue-200' : ''
-              }`}
+              className={`text-2xl md:hidden ${router.pathname === '/' ? 'text-textPrimary' : ''
+                }`}
             />
           </div>
           <div
@@ -38,14 +37,13 @@ function Header() {
           >
             <div
               className={`hidden md:block px-1 text-lg uppercase font-semibold 
-              ${router.pathname === '/Projects' ? 'text-blue-200' : ''}`}
+              ${router.pathname === '/Projects' ? 'text-textPrimary' : ''}`}
             >
               Projects
             </div>
             <RiGitRepositoryLine
-              className={`text-2xl md:hidden ${
-                router.pathname === '/Projects' ? 'text-blue-200' : ''
-              }`}
+              className={`text-2xl md:hidden ${router.pathname === '/Projects' ? 'text-textPrimary' : ''
+                }`}
             />
           </div>
           <div
@@ -54,14 +52,13 @@ function Header() {
           >
             <div
               className={`hidden md:block px-1 text-lg uppercase font-semibold 
-              ${router.pathname === '/Skills' ? 'text-blue-200' : ''}`}
+              ${router.pathname === '/Skills' ? 'text-textPrimary' : ''}`}
             >
               Skills
             </div>
             <GiSkills
-              className={`text-2xl md:hidden ${
-                router.pathname === '/Skills' ? 'text-blue-200' : ''
-              }`}
+              className={`text-2xl md:hidden ${router.pathname === '/Skills' ? 'text-textPrimary' : ''
+                }`}
             />
           </div>
           {/* <div
@@ -70,13 +67,13 @@ function Header() {
           >
             <div
               className={`hidden md:block text-lg uppercase font-semibold 
-              ${router.pathname === '/Contact' ? 'text-blue-200' : ''}`}
+              ${router.pathname === '/Contact' ? 'text-textPrimary' : ''}`}
             >
               Contact
             </div>
             <IoIosContact
               className={`text-2xl md:hidden ${
-                router.pathname === '/Contact' ? 'text-blue-200' : ''
+                router.pathname === '/Contact' ? 'text-textPrimary' : ''
               }`}
             />
           </div> */}
