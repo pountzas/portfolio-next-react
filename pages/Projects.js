@@ -25,16 +25,16 @@ import { BsPeopleFill } from 'react-icons/bs';
 function Projects({ pinnedItems }) {
   const [projects, setProjects] = useState(pinnedItems);
   return (
-    <div className='min-h-screen bg-gray-700'>
+    <div className='min-h-screen bg-tertiary'>
       <Header />
       <section className='flex justify-center'>
         <div className='grid gap-8 p-3 pb-10 m-4 md:grid-cols-2'>
           {projects.map((item) => (
             <div
               key={item.id}
-              className='flex flex-col justify-between max-w-xs text-blue-200 bg-gray-900 border-2 border-blue-200 rounded-lg md:max-w-md'
+              className='flex flex-col justify-between max-w-xs border-2 text-textPrimary border-borderSecondary rounded-xl bg-quaternary md:max-w-md'
             >
-              <h1 className='p-2 mb-3 text-xl font-semibold text-center bg-gray-800 rounded-t-lg'>
+              <h1 className='p-2 mb-3 text-xl font-semibold text-center rounded-t-lg bg-secondary'>
                 {item.name}
               </h1>
               <div className='relative mx-5'>
@@ -73,7 +73,7 @@ function Projects({ pinnedItems }) {
               <div className='flex flex-wrap justify-center pb-2 mx-5'>
                 {item.repositoryTopics.edges.map((tag) => (
                   <span
-                    className='inline-block px-3 py-1 m-1 text-xs font-semibold text-blue-100 bg-gray-700 rounded-full cursor-pointer'
+                    className='inline-block px-3 py-1 m-1 text-xs font-semibold text-blue-100 rounded-full cursor-pointer bg-tertiary'
                     key={tag.node.id}
                   >
                     {tag.node.topic.name}
@@ -84,7 +84,7 @@ function Projects({ pinnedItems }) {
               <div className='flex items-center justify-center pb-3'>
                 <Link href={item.url} passHref>
                   <a
-                    className='inline-block px-3 py-1 m-1 text-xl font-semibold text-gray-800 bg-gray-400 rounded-full hover:text-blue-900'
+                    className='inline-block px-3 py-1 m-1 text-xl font-semibold rounded-full text-textSecondary bg-textTertiary hover:bg-tertiary'
                     target='_blank'
                   >
                     <AiFillGithub />
@@ -93,20 +93,20 @@ function Projects({ pinnedItems }) {
                 {item.homepageUrl ? (
                   <Link href={item.homepageUrl} passHref>
                     <a
-                      className='inline-block px-3 py-1 m-1 text-xl font-semibold text-gray-800 bg-gray-400 rounded-full hover:text-blue-900'
+                      className='inline-block px-3 py-1 m-1 text-xl font-semibold rounded-full text-textSecondary bg-textTertiary hover:bg-tertiary'
                       target='_blank'
                     >
                       <GrDeploy />
                     </a>
                   </Link>
                 ) : (
-                  <p className='inline-block px-3 py-1 m-1 text-sm font-bold text-gray-800 bg-gray-400 rounded-full hover:text-blue-900'>
+                  <p className='inline-block px-3 py-1 m-1 text-sm font-bold rounded-full text-textSecondary bg-textTertiary hover:bg-tertiary'>
                     in progress
                   </p>
                 )}
               </div>
               {/* last section */}
-              <div className='flex justify-between p-2 px-5 bg-gray-800 rounded-b-lg'>
+              <div className='flex justify-between p-2 px-5 rounded-b-lg bg-secondary'>
                 <div className='flex items-center space-x-4 whitespace-normal'>
                   <AiOutlineFork />
                   {item.forkCount}
