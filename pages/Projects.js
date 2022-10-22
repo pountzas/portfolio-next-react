@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import { useState } from 'react';
+
 import {
   ApolloClient,
   InMemoryCache,
@@ -10,30 +10,34 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+
 import {
   AiOutlineStar,
   AiOutlineFork,
   AiFillEye,
-  AiFillGithub,
+  AiFillGithub
 } from 'react-icons/ai';
 import { GrDeploy } from 'react-icons/gr';
 import { BsPeopleFill } from 'react-icons/bs';
 
 function Projects({ pinnedItems }) {
+  const [projects, setProjects] = useState(pinnedItems);
   return (
-    <div className='bg-gray-700 min-h-screen'>
+    <div className='min-h-screen bg-tertiary'>
       <Header />
       <section className='flex justify-center'>
-        <div className='grid md:grid-cols-2 gap-8 m-4 p-3 pb-10'>
-          {pinnedItems.map((item) => (
+        <div className='grid gap-8 p-3 pb-10 m-4 md:grid-cols-2'>
+          {projects.map((item) => (
             <div
               key={item.id}
-              className='flex flex-col justify-between max-w-xs md:max-w-md border-2 border-blue-200 text-blue-200 bg-gray-900 rounded-lg'
+              className='flex flex-col justify-between max-w-xs border-2 text-textPrimary border-borderSecondary rounded-xl bg-quaternary md:max-w-md'
             >
-              <h1 className='text-center text-xl font-semibold p-2 mb-3 rounded-t-lg bg-gray-800'>
+              <h1 className='p-2 mb-3 text-xl font-semibold text-center rounded-t-lg bg-secondary'>
                 {item.name}
               </h1>
-              <div className='mx-5 relative'>
+              <div className='relative mx-5'>
                 <Image
                   className='rounded-lg'
                   src={item.openGraphImageUrl}
@@ -41,23 +45,23 @@ function Projects({ pinnedItems }) {
                   height='420px'
                   alt={item.name}
                 />
-                <div className='absolute inset-1 top-auto pb-2 flex justify-center items-center'>
+                <div className='absolute top-auto flex items-center justify-center pb-2 inset-1'>
                   {item.object && (
-                    <p className='flex cursor-pointer border border-cyan-600 shadow-lg bg-teal-500 text-gray-800 hover:text-blue-900 rounded-full px-3 py-1 text-xs md:text:md font-bold m-1'>
-                      <p className='pr-1'>Commits: </p>
+                    <p className='flex px-3 py-1 m-1 text-xs font-bold text-gray-800 bg-teal-500 border rounded-full shadow-lg cursor-pointer border-cyan-600 hover:text-blue-900 md:text:md'>
+                      <span className='pr-1'>Commits: </span>
                       {item.object.history.totalCount}
                     </p>
                   )}
 
                   {item.cloneCount && (
-                    <p className='inline-block cursor-pointer border border-cyan-600 shadow-lg bg-teal-500 text-gray-800 hover:text-blue-900 rounded-full px-3 py-1 text-xs md:text:md font-bold m-1'>
+                    <p className='inline-block px-3 py-1 m-1 text-xs font-bold text-gray-800 bg-teal-500 border rounded-full shadow-lg cursor-pointer border-cyan-600 hover:text-blue-900 md:text:md'>
                       <p className='pr-1'>Cloned:</p>
                       {item.cloneCount}
                     </p>
                   )}
 
                   {item.viewCount && (
-                    <p className='inline-block cursor-pointer border border-cyan-600 shadow-lg bg-teal-500 text-gray-800 hover:text-blue-900 rounded-full px-3 py-1 text-xs md:text:md font-bold m-1'>
+                    <p className='inline-block px-3 py-1 m-1 text-xs font-bold text-gray-800 bg-teal-500 border rounded-full shadow-lg cursor-pointer border-cyan-600 hover:text-blue-900 md:text:md'>
                       <p className='pr-1'>Views:</p>
                       {item.viewCount}
                     </p>
@@ -66,10 +70,10 @@ function Projects({ pinnedItems }) {
               </div>
               <p className='py-2 mx-5'>{item.description}</p>
               {/* tags */}
-              <div className='mx-5 pb-2 flex flex-wrap justify-center'>
+              <div className='flex flex-wrap justify-center pb-2 mx-5'>
                 {item.repositoryTopics.edges.map((tag) => (
                   <span
-                    className='cursor-pointer inline-block bg-gray-700 text-blue-100 rounded-full px-3 py-1 text-xs font-semibold m-1'
+                    className='inline-block px-3 py-1 m-1 text-xs font-semibold text-blue-100 rounded-full cursor-pointer bg-tertiary'
                     key={tag.node.id}
                   >
                     {tag.node.topic.name}
@@ -77,10 +81,10 @@ function Projects({ pinnedItems }) {
                 ))}
               </div>
               {/* Links */}
-              <div className='flex justify-center items-center pb-3'>
+              <div className='flex items-center justify-center pb-3'>
                 <Link href={item.url} passHref>
                   <a
-                    className='inline-block bg-gray-400 text-gray-800 hover:text-blue-900 rounded-full px-3 py-1 text-xl font-semibold m-1'
+                    className='inline-block px-3 py-1 m-1 text-xl font-semibold rounded-full text-textSecondary bg-textTertiary hover:bg-tertiary'
                     target='_blank'
                   >
                     <AiFillGithub />
@@ -89,20 +93,20 @@ function Projects({ pinnedItems }) {
                 {item.homepageUrl ? (
                   <Link href={item.homepageUrl} passHref>
                     <a
-                      className='inline-block bg-gray-400 text-gray-800 hover:text-blue-900 rounded-full px-3 py-1 text-xl font-semibold m-1'
+                      className='inline-block px-3 py-1 m-1 text-xl font-semibold rounded-full text-textSecondary bg-textTertiary hover:bg-tertiary'
                       target='_blank'
                     >
                       <GrDeploy />
                     </a>
                   </Link>
                 ) : (
-                  <p className='inline-block bg-gray-400 text-gray-800 hover:text-blue-900 rounded-full px-3 py-1 text-sm font-bold m-1'>
+                  <p className='inline-block px-3 py-1 m-1 text-sm font-bold rounded-full text-textSecondary bg-textTertiary hover:bg-tertiary'>
                     in progress
                   </p>
                 )}
               </div>
               {/* last section */}
-              <div className='flex justify-between rounded-b-lg bg-gray-800 p-2 px-5'>
+              <div className='flex justify-between p-2 px-5 rounded-b-lg bg-secondary'>
                 <div className='flex items-center space-x-4 whitespace-normal'>
                   <AiOutlineFork />
                   {item.forkCount}
@@ -111,7 +115,7 @@ function Projects({ pinnedItems }) {
                   <AiFillEye />
                   {item.watchers.totalCount}
                 </div>
-                <div className='flex space-x-2 items-center'>
+                <div className='flex items-center space-x-2'>
                   <p className='hidden md:inline-block'>Contributors: </p>
                   <BsPeopleFill className='md:hidden' />
                   {item.assignableUsers.edges.map((user) => (
@@ -126,7 +130,7 @@ function Projects({ pinnedItems }) {
                         height='25px'
                         alt={user.node.name}
                       />
-                      <span className='absolute inset-0 z-10 -top-6 opacity-0 hover:opacity-100 flex justify-center text-gray-300 text-sm font-semibold whitespace-nowrap'>
+                      <span className='absolute inset-0 z-10 flex justify-center text-sm font-semibold text-gray-300 opacity-0 -top-6 hover:opacity-100 whitespace-nowrap'>
                         {user.node.name}
                       </span>
                     </div>

@@ -1,32 +1,34 @@
-import { SiHtml5, SiCss3, SiJavascript, SiGraphql } from 'react-icons/si';
-import { DiRubyRough } from 'react-icons/di';
+import Html5 from './icons/html5';
+import Css3 from './icons/css3';
+import Ruby from './icons/ruby';
+import Javascript from './icons/javascript';
 
 const Languages = [
   {
     id: 1,
     name: 'HTML5',
-    icon: <SiHtml5 />,
+    icon: <Html5 fill='#9C98B0' />,
   },
   {
     id: 2,
     name: 'CSS3',
-    icon: <SiCss3 />,
+    icon: <Css3 fill='#9C98B0' />,
   },
   {
     id: 3,
     name: 'Ruby',
-    icon: <DiRubyRough />,
+    icon: <Ruby fill='#9C98B0' />,
   },
   {
     id: 4,
     name: 'JavaScript',
-    icon: <SiJavascript />,
+    icon: <Javascript fill='#373D42' fill2='#9C98B0' />,
   },
-  {
-    id: 5,
-    name: 'GraphQL',
-    icon: <SiGraphql />,
-  },
+  // {
+  //   id: 5,
+  //   name: 'GraphQL',
+  //   icon: <SiGraphql />,
+  // },
 ];
 
 export default Languages;
