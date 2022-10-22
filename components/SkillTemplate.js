@@ -1,8 +1,4 @@
 import React, { useState } from 'react';
-import Flip from 'react-reveal/Flip';
-import config from 'react-reveal/globals';
-
-// config({ ssrFadeout: true });
 
 function SkillTemplate({ id, icon, skillName }) {
 

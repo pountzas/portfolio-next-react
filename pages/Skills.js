@@ -6,11 +6,8 @@ import Libraries from '../components/Libraries';
 import Frameworks from '../components/Frameworks';
 import Tools from '../components/Tools';
 
-// import config from 'react-reveal/globals';
 import SkillTemplate from '../components/SkillTemplate';
 import Services from '../components/Services';
-
-// config({ ssrFadeout: true });
 
 function Skills() {
 
