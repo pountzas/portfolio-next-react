@@ -1,20 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Flip from 'react-reveal/Flip';
 import config from 'react-reveal/globals';
 
-config({ ssrFadeout: true });
+// config({ ssrFadeout: true });
 
 function SkillTemplate({ id, icon, skillName }) {
+
   return (
-    <div
-      className='flex justify-center bg-gray-900 border border-blue-300 hover:border-blue-900 w-16 h-16 md:w-20 md:h-20 items-center m-2 p-2 rounded-md text-gray-500 hover:text-blue-400 hover:bg-gray-800 ease-in-out duration-400 shadow-lg shadow-blue-500/50 hover:shadow-blue-900/50'
+    <div className='relative flex items-center justify-center w-16 h-16 p-2 m-2 text-gray-500 ease-in-out border shadow-xl rounded-xl border-borderSecondary bg-quaternary hover:border-borderTertiary md:w-20 md:h-20 hover:bg-tertiary duration-400 shadow-primary hover:shadow-quaternary/50'
       key={id}
     >
-      <div className='relative group-hover:opacity-100'>
-        <Flip duration={2000} left cascade>
-          <div className='text-3xl md:text-5xl'>{icon}</div>
-        </Flip>
-        <span className='absolute inset-0 z-10 -top-10 opacity-0 hover:opacity-100 flex justify-center text-blue-300 text-sm font-semibold whitespace-nowrap'>
+      <div className='hover:animate-pulse'>
+        <div className='flex items-center justify-center '>
+
+          {/* <Flip duration={4000} left cascade> */}
+          <div className='text-3xl md:text-5xl'>{icon && icon}</div>
+          {/* </Flip> */}
+
+        </div>
+        <span className='absolute inset-0 z-10 flex justify-center text-sm font-semibold opacity-0 text-textTertiary -top-6 hover:opacity-100 whitespace-nowrap'>
           {skillName}
         </span>
       </div>
