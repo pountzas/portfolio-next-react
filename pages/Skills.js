@@ -6,13 +6,14 @@ import Libraries from '../components/Libraries';
 import Frameworks from '../components/Frameworks';
 import Tools from '../components/Tools';
 
-import Flip from 'react-reveal/Flip';
-import config from 'react-reveal/globals';
+// import config from 'react-reveal/globals';
 import SkillTemplate from '../components/SkillTemplate';
+import Services from '../components/Services';
 
-config({ ssrFadeout: true });
+// config({ ssrFadeout: true });
 
 function Skills() {
+
   return (
     <div className='min-h-screen bg-tertiary'>
       <Header />
@@ -28,6 +29,7 @@ function Skills() {
             {Languages.map((language) => (
               <SkillTemplate
                 key={language.id}
+                id={language.id}
                 icon={language.icon}
                 skillName={language.name}
               />
@@ -37,19 +39,29 @@ function Skills() {
 
         <section className='container flex flex-col items-center'>
           <h2 className='py-4 text-center text-textPrimary sm:py-8'>
-            Libraries & Frameworks
+            Libraries
           </h2>
           <div className='grid grid-cols-2 gap-4'>
             {Libraries.map((library) => (
               <SkillTemplate
                 key={library.id}
+                id={library.id}
                 icon={library.icon}
                 skillName={library.name}
               />
             ))}
+          </div>
+        </section>
+
+        <section className='container flex flex-col items-center'>
+          <h2 className='py-4 text-center text-textPrimary sm:py-8'>
+            Frameworks
+          </h2>
+          <div className='grid grid-cols-2 gap-4'>
             {Frameworks.map((framework) => (
               <SkillTemplate
                 key={framework.id}
+                id={framework.id}
                 icon={framework.icon}
                 skillName={framework.name}
               />
@@ -59,18 +71,36 @@ function Skills() {
 
         <section className='container flex flex-col items-center'>
           <h2 className='py-4 text-center text-textPrimary sm:py-8'>
-            Tools and Services
+            Tools
           </h2>
-          <div className='grid grid-cols-2 gap-4'>
+          <div className='grid grid-cols-2 gap-4 md:grid-cols-3'>
             {Tools.map((tool) => (
               <SkillTemplate
                 key={tool.id}
+                id={tool.id}
                 icon={tool.icon}
                 skillName={tool.name}
               />
             ))}
           </div>
         </section>
+
+        <section className='container flex flex-col items-center col-start-3'>
+          <h2 className='py-4 text-center text-textPrimary sm:py-8'>
+            Services
+          </h2>
+          <div className='grid grid-cols-2 gap-4 md:grid-cols-3'>
+            {Services.map((service) => (
+              <SkillTemplate
+                key={service.id}
+                id={service.id}
+                icon={service.icon}
+                skillName={service.name}
+              />
+            ))}
+          </div>
+        </section>
+
       </div>
       <Footer />
     </div>
