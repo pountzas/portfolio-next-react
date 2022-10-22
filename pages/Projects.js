@@ -48,7 +48,7 @@ function Projects({ pinnedItems }) {
                 <div className='absolute top-auto flex items-center justify-center pb-2 inset-1'>
                   {item.object && (
                     <p className='flex px-3 py-1 m-1 text-xs font-bold text-gray-800 bg-teal-500 border rounded-full shadow-lg cursor-pointer border-cyan-600 hover:text-blue-900 md:text:md'>
-                      <p className='pr-1'>Commits: </p>
+                      <span className='pr-1'>Commits: </span>
                       {item.object.history.totalCount}
                     </p>
                   )}
