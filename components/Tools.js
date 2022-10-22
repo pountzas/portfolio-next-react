@@ -3,64 +3,58 @@ import {
   SiAdobephotoshop,
   SiAdobeillustrator,
   SiCinema4D,
-  SiFirebase,
-  SiNetlify,
-  SiHeroku,
+  SiFigma,
+  SiGraphql,
 } from 'react-icons/si';
 import { FaGit } from 'react-icons/fa';
-import { AiFillGithub } from 'react-icons/ai';
 import { FcCommandLine } from 'react-icons/fc';
+import Eslint from "./icons/eslint";
 
 const Tools = [
   {
     id: 1,
     name: 'Visual Studio Code',
-    icon: <SiVisualstudiocode />,
+    icon: <SiVisualstudiocode size={36} fill='#9C98B0' />,
   },
   {
     id: 2,
     name: 'Git',
-    icon: <FaGit />,
-  },
-  {
-    id: 3,
-    name: 'Github',
-    icon: <AiFillGithub />,
+    icon: <FaGit size={36} fill='#9C98B0' />,
   },
   {
     id: 4,
     name: 'Photoshop',
-    icon: <SiAdobephotoshop />,
+    icon: <SiAdobephotoshop size={32} fill='#9C98B0' />,
   },
   {
     id: 5,
     name: 'Illustrator',
-    icon: <SiAdobeillustrator />,
+    icon: <SiAdobeillustrator size={32} fill='#9C98B0' />,
   },
   {
     id: 6,
     name: 'Cinema 4D',
-    icon: <SiCinema4D />,
-  },
-  {
-    id: 7,
-    name: 'Firebase',
-    icon: <SiFirebase />,
-  },
-  {
-    id: 8,
-    name: 'Netlify',
-    icon: <SiNetlify />,
-  },
-  {
-    id: 9,
-    name: 'Heroku',
-    icon: <SiHeroku />,
+    icon: <SiCinema4D size={36} fill='#9C98B0' />,
   },
   {
     id: 10,
     name: 'Command Line',
-    icon: <FcCommandLine />,
+    icon: <FcCommandLine size={36} fill='#9C98B0' />,
+  },
+  {
+    id: 11,
+    name: 'Figma',
+    icon: <SiFigma size={32} fill='#9C98B0' />,
+  },
+  {
+    id: 14,
+    name: 'EsLint',
+    icon: <Eslint size={36} fill='#373D42' fill2='#9C98B0' />,
+  },
+  {
+    id: 15,
+    name: 'GraphQL',
+    icon: <SiGraphql size={36} />,
   },
 ];
 
