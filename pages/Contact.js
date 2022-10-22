@@ -3,7 +3,7 @@ import Footer from '../components/Footer';
 
 function Contact() {
   return (
-    <div className='bg-gray-700 min-h-screen'>
+    <div className='min-h-screen bg-tertiary'>
       <Header />
       Contact page
       <Footer />
