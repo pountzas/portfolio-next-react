@@ -9,10 +9,7 @@ import Services from '../components/Services';
 import Learn from '../components/Learn';
 
 
-// import config from 'react-reveal/globals';
 import SkillTemplate from '../components/SkillTemplate';
-
-// config({ ssrFadeout: true });
 
 function Skills() {
 
