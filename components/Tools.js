@@ -14,12 +14,12 @@ const Tools = [
   {
     id: 1,
     name: 'Visual Studio Code',
-    icon: <SiVisualstudiocode size={36} fill='#9C98B0' />,
+    icon: <SiVisualstudiocode size={32} fill='#9C98B0' />,
   },
   {
     id: 2,
     name: 'Git',
-    icon: <FaGit size={36} fill='#9C98B0' />,
+    icon: <FaGit size={34} fill='#9C98B0' />,
   },
   {
     id: 4,
@@ -34,13 +34,13 @@ const Tools = [
   {
     id: 6,
     name: 'Cinema 4D',
-    icon: <SiCinema4D size={36} fill='#9C98B0' />,
+    icon: <SiCinema4D size={32} fill='#9C98B0' />,
   },
-  {
-    id: 10,
-    name: 'Command Line',
-    icon: <FcCommandLine size={36} fill='#9C98B0' />,
-  },
+  // {
+  //   id: 10,
+  //   name: 'Command Line',
+  //   icon: <FcCommandLine size={36} fill='#9C98B0' />,
+  // },
   {
     id: 11,
     name: 'Figma',
