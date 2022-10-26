@@ -5,9 +5,11 @@ import Languages from '../components/Languages';
 import Libraries from '../components/Libraries';
 import Frameworks from '../components/Frameworks';
 import Tools from '../components/Tools';
+import Services from '../components/Services';
+import Learn from '../components/Learn';
+
 
 import SkillTemplate from '../components/SkillTemplate';
-import Services from '../components/Services';
 
 function Skills() {
 
@@ -82,7 +84,23 @@ function Skills() {
           </div>
         </section>
 
-        <section className='container flex flex-col items-center col-start-3'>
+        <section className='container flex flex-col items-center'>
+          <h2 className='py-4 text-center text-textPrimary sm:py-8'>
+            To Learn
+          </h2>
+          <div className='grid grid-cols-2 gap-4 md:grid-cols-2'>
+            {Learn.map((lesson) => (
+              <SkillTemplate
+                key={lesson.id}
+                id={lesson.id}
+                icon={lesson.icon}
+                skillName={lesson.name}
+              />
+            ))}
+          </div>
+        </section>
+
+        <section className='container flex flex-col items-center col-sstart-3'>
           <h2 className='py-4 text-center text-textPrimary sm:py-8'>
             Services
           </h2>

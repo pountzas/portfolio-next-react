@@ -16,7 +16,7 @@ const Services = [
   {
     id: 3,
     name: 'Bitbucket',
-    icon: <FaBitbucket size={30} fill='#9C98B0' />,
+    icon: <FaBitbucket size={28} fill='#9C98B0' />,
   },
   {
     id: 7,
@@ -31,18 +31,18 @@ const Services = [
   {
     id: 9,
     name: 'Heroku',
-    icon: <SiHeroku size={36} fill='#9C98B0' />,
+    icon: <SiHeroku size={32} fill='#9C98B0' />,
   },
 
   {
     id: 12,
     name: 'Jira',
-    icon: <SiJira size={32} fill='#9C98B0' />,
+    icon: <SiJira size={28} fill='#9C98B0' />,
   },
   {
     id: 13,
     name: 'Confluence',
-    icon: <SiConfluence size={32} fill='#9C98B0' />,
+    icon: <SiConfluence size={28} fill='#9C98B0' />,
   },
 
 ];
