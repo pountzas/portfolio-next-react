@@ -9,6 +9,8 @@ import {
 import { FaGit } from 'react-icons/fa';
 import { FcCommandLine } from 'react-icons/fc';
 import Eslint from "./icons/eslint";
+import Corel from './icons/corel';
+import Turbopack from './icons/turbopack';
 
 const Tools = [
   {
@@ -36,6 +38,11 @@ const Tools = [
     name: 'Cinema 4D',
     icon: <SiCinema4D size={32} fill='#9C98B0' />,
   },
+  {
+    id: 7,
+    name: 'Corel Draw',
+    icon: <Corel size={80} fill='#373D42' fill2='#9C98B0' />,
+  },
   // {
   //   id: 10,
   //   name: 'Command Line',
@@ -56,6 +63,11 @@ const Tools = [
     name: 'GraphQL',
     icon: <SiGraphql size={36} />,
   },
+  {
+    id: 16,
+    name: 'TurboPack',
+    icon: <Turbopack size={36} fill='#373D42' fill2='' fill3='#9C98B0' />,
+  }
 ];
 
 export default Tools;
