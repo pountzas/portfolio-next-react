@@ -1,6 +1,7 @@
 import { AiFillGithub } from "react-icons/ai";
 import { FaBitbucket, FaGitlab } from "react-icons/fa";
 import { SiConfluence, SiFirebase, SiHeroku, SiJira, SiNetlify } from "react-icons/si";
+import { TbBrandVercel } from "react-icons/tb";
 
 const Services = [
   {
@@ -19,14 +20,19 @@ const Services = [
     icon: <FaBitbucket size={28} fill='#9C98B0' />,
   },
   {
-    id: 7,
+    id: 4,
     name: 'Firebase',
     icon: <SiFirebase size={36} fill='#9C98B0' />,
   },
   {
+    id: 7,
+    name: 'Vercel',
+    icon: <TbBrandVercel size={36} color='#9C98B0' />,
+  },
+  {
     id: 8,
     name: 'Netlify',
-    icon: <SiNetlify size={36} fill='#9C98B0' />,
+    icon: <SiNetlify size={32} fill='#9C98B0' />,
   },
   {
     id: 9,
