@@ -16,7 +16,7 @@ function Skills() {
   return (
     <div className='min-h-screen bg-tertiary'>
       <Header />
-      <h1 className='pt-6 text-2xl font-semibold text-center text-textPrimary sm:pt-12'>
+      <h1 className='pt-6 text-2xl font-semibold text-center text-textPrimary'>
         My Skillset
       </h1>
       <div className='grid-cols-3 gap-4 pt-3 pb-12 mx-auto md:grid md:max-w-4xl lg:max-w-7xl'>
