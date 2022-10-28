@@ -146,7 +146,7 @@ function Projects({ pinnedItems }) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const httpLink = createHttpLink({
     uri: 'https://api.github.com/graphql',
   });
@@ -230,6 +230,7 @@ export async function getServerSideProps() {
     props: {
       pinnedItems: pinned,
     },
+    revalidate: 60,
   };
 }
 
