@@ -12,6 +12,7 @@ import { GrDocker } from 'react-icons/gr'
 import Eslint from "./icons/eslint";
 import Corel from './icons/corel';
 import Turbopack from './icons/turbopack';
+import { DiPostgresql } from 'react-icons/di';
 
 const Tools = [
   {
@@ -44,36 +45,41 @@ const Tools = [
     name: 'Corel Draw',
     icon: <Corel size={80} fill='#373D42' fill2='#9C98B0' />,
   },
-  // {
-  //   id: 10,
-  //   name: 'Command Line',
-  //   icon: <FcCommandLine size={36} fill='#9C98B0' />,
-  // },
   {
-    id: 11,
+    id: 8,
+    name: 'Command Line',
+    icon: <FcCommandLine size={36} fill='#9C98B0' />,
+  },
+  {
+    id: 9,
     name: 'Figma',
     icon: <SiFigma size={32} fill='#9C98B0' />,
   },
   {
-    id: 14,
+    id: 10,
     name: 'EsLint',
     icon: <Eslint size={36} fill='#373D42' fill2='#9C98B0' />,
   },
   {
-    id: 15,
+    id: 11,
     name: 'GraphQL',
     icon: <SiGraphql size={36} />,
   },
+  {
+    id: 12,
+    name: 'PostgreSQL',
+    icon: <DiPostgresql size={36} fill='#9C98B0' />,
+  },
   // {
-  //   id: 16,
+  //   id: 13,
   //   name: 'TurboPack',
   //   icon: <Turbopack size={36} fill='#373D42' fill2='' fill3='#9C98B0' />,
   // },
-  // {
-  //   id: 17,
-  //   name: 'Docker',
-  //   icon: <GrDocker size={40} />,
-  // }
+  {
+    id: 14,
+    name: 'Docker',
+    icon: <GrDocker size={40} />,
+  }
 ];
 
 export default Tools;

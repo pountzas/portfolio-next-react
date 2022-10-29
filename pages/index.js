@@ -33,7 +33,7 @@ export default function Home() {
                 key={social.id}
               >
                 <Link href={social.path} passHref>
-                  <a className='text-3xl md:text-6xl' target='_blank'>
+                  <a className='text-3xl md:text-4xl' target='_blank'>
                     {social.icon}
                   </a>
                 </Link>
