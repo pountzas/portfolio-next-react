@@ -25,7 +25,7 @@ import { BsPeopleFill } from 'react-icons/bs';
 function Projects({ pinnedItems }) {
   const [projects, setProjects] = useState(pinnedItems);
   return (
-    <div className='min-h-screen bg-tertiary'>
+    <div className='max-h-screen overflow-y-scroll cursor-pointer bg-tertiary scrollbar-hide'>
       <Header />
       <section className='flex justify-center'>
         <div className='grid gap-8 p-3 pb-10 m-4 md:grid-cols-2'>
