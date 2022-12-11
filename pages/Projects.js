@@ -126,8 +126,8 @@ function Projects({ pinnedItems }) {
                       <Image
                         className='rounded-full'
                         src={user.node.avatarUrl}
-                        width='25px'
-                        height='25px'
+                        width={25}
+                        height={25}
                         alt={user.node.name}
                       />
                       <span className='absolute inset-0 z-10 flex justify-center text-sm font-semibold text-gray-300 opacity-0 -top-6 hover:opacity-100 whitespace-nowrap'>
