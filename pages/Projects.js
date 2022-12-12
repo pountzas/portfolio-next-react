@@ -41,9 +41,10 @@ function Projects({ pinnedItems }) {
                 <Image
                   className='rounded-lg'
                   src={item.openGraphImageUrl}
-                  width='640px'
-                  height='420px'
+                  width={640}
+                  height={420}
                   alt={item.name}
+                  priority
                 />
                 <div className='absolute top-auto flex items-center justify-center pb-2 inset-1'>
                   {item.object && (
