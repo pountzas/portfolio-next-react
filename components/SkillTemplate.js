@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 function SkillTemplate({ id, icon, skillName }) {
 
   return (
-    <div className='relative flex items-center justify-center w-16 h-16 p-2 m-2 text-gray-500 ease-in-out border shadow-xl rounded-xl border-borderSecondary bg-quaternary hover:border-borderTertiary md:w-20 md:h-20 hover:bg-tertiary duration-400 shadow-primary hover:shadow-quaternary/50'
+    <div className='relative flex items-center justify-center w-16 h-16 p-2 m-2 text-gray-500 transition duration-150 ease-in-out border shadow-xl rounded-xl border-borderSecondary grayscale hover:grayscale-0 bg-quaternary hover:border-borderTertiary md:w-20 md:h-20 hover:bg-tertiary duration-400 shadow-primary hover:shadow-quaternary/50'
       key={id}
     >
       <div className='hover:animate-pulse'>
