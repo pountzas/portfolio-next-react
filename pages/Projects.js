@@ -83,22 +83,20 @@ function Projects({ pinnedItems }) {
               </div>
               {/* Links */}
               <div className='flex items-center justify-center pb-3'>
-                <Link href={item.url} passHref>
-                  <a
+                <Link target={'_blank'} href={item.url} passHref>
+                  <div
                     className='inline-block px-3 py-1 m-1 text-xl font-semibold rounded-full text-textSecondary bg-textTertiary hover:bg-tertiary'
-                    target='_blank'
                   >
                     <AiFillGithub />
-                  </a>
+                  </div>
                 </Link>
                 {item.homepageUrl ? (
-                  <Link href={item.homepageUrl} passHref>
-                    <a
+                  <Link target={'_blank'} href={item.homepageUrl} passHref>
+                    <div
                       className='inline-block px-3 py-1 m-1 text-xl font-semibold rounded-full text-textSecondary bg-textTertiary hover:bg-tertiary'
-                      target='_blank'
                     >
                       <GrDeploy />
-                    </a>
+                    </div>
                   </Link>
                 ) : (
                   <p className='inline-block px-3 py-1 m-1 text-sm font-bold rounded-full text-textSecondary bg-textTertiary hover:bg-tertiary'>
