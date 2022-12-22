@@ -12,10 +12,10 @@ function Footer() {
         <div className='flex items-center justify-center py-2 space-x-2'>
           {Socials.map((social) => (
             <div key={social.id}>
-              <Link href={social.path} passHref>
-                <a className='text-2xl' target='_blank'>
+              <Link target={'_blank'} href={social.path} passHref>
+                <div className='text-2xl'>
                   {social.icon}
-                </a>
+                </div>
               </Link>
             </div>
           ))}

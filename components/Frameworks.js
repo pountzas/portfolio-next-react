@@ -1,5 +1,5 @@
 import { DiBootstrap } from 'react-icons/di';
-import { TbBrandAngular } from 'react-icons/tb';
+
 import NextJs from './icons/nextJs';
 import Rails from './icons/rails';
 import Tailwind from './icons/tailwind';
@@ -13,7 +13,7 @@ const Frameworks = [
   {
     id: 2,
     name: 'Ruby on Rails',
-    icon: <Rails size={44} fill='#9C98B0' />,
+    icon: <Rails size={44} fill='#CC0000' />,
   },
   {
     id: 3,
@@ -23,14 +23,8 @@ const Frameworks = [
   {
     id: 4,
     name: 'Bootstrap',
-    icon: <DiBootstrap size={36} fill='#9C98B0' />,
-  },
-  // {
-  //   id: 5,
-  //   name: 'Angular',
-  //   icon: <TbBrandAngular size={36} fill='#9C98B0' />,
-  // },
-
+    icon: <DiBootstrap size={36} fill='#7710F1' />,
+  }
 ];
 
 export default Frameworks;

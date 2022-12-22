@@ -1,7 +1,12 @@
 import { AiFillGithub } from "react-icons/ai";
-import { FaBitbucket, FaGitlab } from "react-icons/fa";
-import { SiConfluence, SiFirebase, SiHeroku, SiJira, SiNetlify } from "react-icons/si";
+import { SiHeroku, SiNetlify } from "react-icons/si";
 import { TbBrandVercel } from "react-icons/tb";
+
+import Bitbucket from "./icons/Bitbucket";
+import Confluence from "./icons/Confluence";
+import Firebase from "./icons/Firebase";
+import Gitlab from "./icons/Gitlab";
+import Jira from "./icons/Jira";
 
 const Services = [
   {
@@ -12,17 +17,17 @@ const Services = [
   {
     id: 2,
     name: 'Gitlab',
-    icon: <FaGitlab size={32} fill='#9C98B0' />,
+    icon: <Gitlab size={54} />,
   },
   {
     id: 3,
     name: 'Bitbucket',
-    icon: <FaBitbucket size={28} fill='#9C98B0' />,
+    icon: <Bitbucket size={36} />,
   },
   {
     id: 4,
     name: 'Firebase',
-    icon: <SiFirebase size={36} fill='#9C98B0' />,
+    icon: <Firebase size={36} />,
   },
   {
     id: 7,
@@ -32,23 +37,23 @@ const Services = [
   {
     id: 8,
     name: 'Netlify',
-    icon: <SiNetlify size={32} fill='#9C98B0' />,
+    icon: <SiNetlify size={32} stroke='#25C7B7' />,
   },
   {
     id: 9,
     name: 'Heroku',
-    icon: <SiHeroku size={32} fill='#9C98B0' />,
+    icon: <SiHeroku size={32} fill='#6762A6' />,
   },
 
   {
     id: 12,
     name: 'Jira',
-    icon: <SiJira size={28} fill='#9C98B0' />,
+    icon: <Jira size={36} />,
   },
   {
     id: 13,
     name: 'Confluence',
-    icon: <SiConfluence size={28} fill='#9C98B0' />,
+    icon: <Confluence size={32} />,
   },
 
 ];

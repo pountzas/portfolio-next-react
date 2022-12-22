@@ -32,26 +32,24 @@ export default function Home() {
                 className='pb-3 text-textTertiary hover:text-blue-50'
                 key={social.id}
               >
-                <Link href={social.path} passHref>
-                  <a className='text-3xl md:text-4xl' target='_blank'>
+                <Link target={'_blank'} href={social.path} passHref>
+                  <div className='text-3xl md:text-4xl'>
                     {social.icon}
-                  </a>
+                  </div>
                 </Link>
               </div>
             ))}
           </div>
           <div className='flex items-center justify-center pb-8'>
             <Link
+              target={'_blank'}
               className=''
               href='https://drive.google.com/file/d/10t7ZsxaEFjPltG3Fi9fRVgIfT2jbygci/view?usp=sharing'
-              passHref
-            >
-              <a
-                target='_blank'
-                className='p-2 font-semibold text-center border-2 rounded-lg cursor-pointer text-textTertiary border-borderSecondary bg-secondary hover:text-blue-50'
-              >
+              passHref >
+
+              <div className='p-2 font-semibold text-center border-2 rounded-lg cursor-pointer text-textTertiary border-borderSecondary bg-secondary hover:text-blue-50' >
                 My CV
-              </a>
+              </div>
             </Link>
           </div>
         </div>
