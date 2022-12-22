@@ -8,17 +8,17 @@ const Libraries = [
   {
     id: 1,
     name: 'React',
-    icon: <ReactIcon fill='#61DAFB' size={36} />,
+    icon: <ReactIcon fill='#61DAFB' size={32} />,
   },
   {
     id: 2,
     name: 'React Native',
-    icon: <TbBrandReactNative color='#61DAFB' size={36} />,
+    icon: <TbBrandReactNative color='#61DAFB' size={32} />,
   },
   {
     id: 3,
     name: 'Redux',
-    icon: <Redux fill='#764ABC' size={36} />,
+    icon: <Redux fill='#764ABC' size={32} />,
   },
   {
     id: 4,
@@ -28,7 +28,7 @@ const Libraries = [
   {
     id: 5,
     name: 'Motion Framer',
-    icon: <MotionFramer size={36} />,
+    icon: <MotionFramer size={32} />,
   },
 ];
 
