@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@apollo/client": "3.7.2",
-    "framer-motion": "^7.10.0",
+    "framer-motion": "^8.0.0",
     "graphql": "16.6.0",
     "next": "13.0.6",
     "prettier": "2.8.0",
