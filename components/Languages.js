@@ -2,6 +2,7 @@ import Css3 from './icons/css3';
 import Ruby from './icons/ruby';
 import Javascript from './icons/javascript';
 import Html from './icons/Html';
+import TypeScript from './icons/TypeScript';
 
 const Languages = [
   {
@@ -24,6 +25,11 @@ const Languages = [
     name: 'JavaScript',
     icon: <Javascript size={36} fill='#F0DB4F' fill2='#323330' />,
   },
+  {
+    id: 5,
+    name: 'TypeScript',
+    icon: <TypeScript size={36} fill='#007ACC' fill2='#FFFFFF' />,
+  }
 ];
 
 export default Languages;
