@@ -3,6 +3,7 @@ import ReactIcon from './icons/ReactIcon';
 import Redux from './icons/redux';
 import Recoil from './icons/recoil';
 import MotionFramer from './icons/MotionFramer';
+import NodeJs from './icons/NodeJs';
 
 const Libraries = [
   {
@@ -14,6 +15,11 @@ const Libraries = [
     id: 2,
     name: 'React Native',
     icon: <TbBrandReactNative color='#61DAFB' size={32} />,
+  },
+  {
+    id: 3,
+    name: 'Node.js',
+    icon: <NodeJs fill='#83CD29' size={36} />,
   },
   {
     id: 3,
