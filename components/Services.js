@@ -7,6 +7,7 @@ import Confluence from "./icons/Confluence";
 import Firebase from "./icons/Firebase";
 import Gitlab from "./icons/Gitlab";
 import Jira from "./icons/Jira";
+import MongoDB from "./icons/MongoDB";
 
 const Services = [
   {
@@ -30,28 +31,33 @@ const Services = [
     icon: <Firebase size={36} />,
   },
   {
-    id: 7,
+    id: 5,
+    name: 'MongoDB',
+    icon: <MongoDB size={42} color='#9C98B0' />,
+  },
+  {
+    id: 6,
     name: 'Vercel',
     icon: <TbBrandVercel size={36} color='#9C98B0' />,
   },
   {
-    id: 8,
+    id: 7,
     name: 'Netlify',
     icon: <SiNetlify size={32} stroke='#25C7B7' />,
   },
   {
-    id: 9,
+    id: 8,
     name: 'Heroku',
     icon: <SiHeroku size={32} fill='#6762A6' />,
   },
 
   {
-    id: 12,
+    id: 9,
     name: 'Jira',
     icon: <Jira size={36} />,
   },
   {
-    id: 13,
+    id: 10,
     name: 'Confluence',
     icon: <Confluence size={32} />,
   },

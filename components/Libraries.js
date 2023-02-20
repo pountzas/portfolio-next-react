@@ -3,6 +3,7 @@ import ReactIcon from './icons/ReactIcon';
 import Redux from './icons/redux';
 import Recoil from './icons/recoil';
 import MotionFramer from './icons/MotionFramer';
+import NodeJs from './icons/NodeJs';
 
 const Libraries = [
   {
@@ -17,16 +18,21 @@ const Libraries = [
   },
   {
     id: 3,
+    name: 'Node.js',
+    icon: <NodeJs fill='#83CD29' size={36} />,
+  },
+  {
+    id: 4,
     name: 'Redux',
     icon: <Redux fill='#764ABC' size={32} />,
   },
   {
-    id: 4,
+    id: 5,
     name: 'Recoil',
     icon: <Recoil fill='#286BD8' size={36} />,
   },
   {
-    id: 5,
+    id: 6,
     name: 'Motion Framer',
     icon: <MotionFramer size={32} />,
   },

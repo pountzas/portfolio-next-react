@@ -10,8 +10,8 @@ function Turbopack(props) {
       <title>Turbopack</title>
       <defs>
         <linearGradient x1="50.000184%" y1="7.89569995%" x2="49.8553456%" y2="93.3433732%" id="turbopackLinearGradient-1">
-          <stop stop-color={fill2} offset="0%"></stop>
-          <stop stop-color={fill3} offset="100%"></stop>
+          <stop stopColor={fill2} offset="0%"></stop>
+          <stop stopColor={fill3} offset="100%"></stop>
         </linearGradient>
       </defs>
       <g>
