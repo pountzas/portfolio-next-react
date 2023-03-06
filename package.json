@@ -8,7 +8,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@apollo/client": "3.7.6",
+    "@apollo/client": "3.7.10",
     "framer-motion": "^8.0.0",
     "graphql": "16.6.0",
     "next": "13.1.1",
