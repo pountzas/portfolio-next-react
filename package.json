@@ -17,7 +17,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "4.10.1",
-    "tailwind-scrollbar": "^2.0.1",
+    "tailwind-scrollbar": "^3.0.0",
     "tailwind-scrollbar-hide": "^1.1.7"
   },
   "devDependencies": {
