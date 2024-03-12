@@ -1,8 +1,9 @@
 {
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-   "editor.formatOnSave": true,
-   "editor.formatOnPaste": false,  
-   "prettier.useEditorConfig": false,
-   "prettier.useTabs": false,
-   "prettier.configPath": ".prettierrc.json",
- }
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": false,
+  "prettier.useEditorConfig": false,
+  "prettier.useTabs": false,
+  "prettier.configPath": ".prettierrc.json",
+  "peacock.remoteColor": "#42b883"
+}
