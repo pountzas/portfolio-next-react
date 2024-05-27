@@ -44,7 +44,7 @@ export default function Home() {
             <Link
               target={'_blank'}
               className=''
-              href='https://drive.google.com/file/d/1RhSNu-D1vkCqK3fZExuepOKPePuCjuU0/view?usp=drive_link'
+              href='https://drive.google.com/file/d/1BkD9QpKlDSUBwDrMy62XGy0xiwbbrQlg/view?usp=sharing'
               passHref >
 
               <div className='p-2 font-semibold text-center border-2 rounded-lg cursor-pointer text-textTertiary border-borderSecondary bg-secondary hover:text-blue-50' >
