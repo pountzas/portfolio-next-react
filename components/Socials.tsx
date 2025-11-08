@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   AiFillGithub,
   AiFillLinkedin,
@@ -5,7 +6,14 @@ import {
   AiFillFacebook,
 } from 'react-icons/ai';
 
-const Socials = [
+export interface SocialItem {
+  id: number;
+  name: string;
+  path: string;
+  icon: React.JSX.Element;
+}
+
+const Socials: SocialItem[] = [
   {
     id: 1,
     name: 'Github',

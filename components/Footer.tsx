@@ -1,7 +1,8 @@
-import Socials from './Socials';
+import React from 'react';
+import Socials, { SocialItem } from './Socials';
 import Link from 'next/link';
 
-function Footer() {
+const Footer: React.FC = () => {
   return (
     <div className='fixed bottom-0 min-w-full border-t border-borderSecondary bg-primary'>
       <div className='flex items-center justify-between mx-auto text-textTertiary md:max-w-4xl xl:max-w-6xl'>
@@ -10,7 +11,7 @@ function Footer() {
         </div>
         <div>Copyright © 2022 NP</div>
         <div className='flex items-center justify-center py-2 space-x-2'>
-          {Socials.map((social) => (
+          {Socials.map((social: SocialItem) => (
             <div key={social.id}>
               <Link target={'_blank'} href={social.path} passHref>
                 <div className='text-2xl'>

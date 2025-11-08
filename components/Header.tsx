@@ -1,3 +1,4 @@
+import React from 'react';
 import { IoIosContact } from 'react-icons/io';
 import { GiSkills } from 'react-icons/gi';
 import { RiGitRepositoryLine } from 'react-icons/ri';
@@ -5,7 +6,7 @@ import { FaHome } from 'react-icons/fa';
 
 import { useRouter } from 'next/router';
 
-function Header() {
+const Header: React.FC = () => {
   const router = useRouter();
 
   return (
@@ -21,7 +22,7 @@ function Header() {
         <div className='flex px-3 space-x-8 text-textTertiary md:px-0'>
           <div className='cursor-pointer' onClick={() => router.push('/')}>
             <div
-              className={`hidden md:block px-1 text-lg uppercase font-semibold 
+              className={`hidden md:block px-1 text-lg uppercase font-semibold
               ${router.pathname === '/' ? 'text-textPrimary' : ''}`}
             >
               Home
@@ -36,7 +37,7 @@ function Header() {
             onClick={() => router.push('/Projects')}
           >
             <div
-              className={`hidden md:block px-1 text-lg uppercase font-semibold 
+              className={`hidden md:block px-1 text-lg uppercase font-semibold
               ${router.pathname === '/Projects' ? 'text-textPrimary' : ''}`}
             >
               Projects
@@ -51,7 +52,7 @@ function Header() {
             onClick={() => router.push('/Skills')}
           >
             <div
-              className={`hidden md:block px-1 text-lg uppercase font-semibold 
+              className={`hidden md:block px-1 text-lg uppercase font-semibold
               ${router.pathname === '/Skills' ? 'text-textPrimary' : ''}`}
             >
               Skills
@@ -66,7 +67,7 @@ function Header() {
             onClick={() => router.push('/Contact')}
           >
             <div
-              className={`hidden md:block text-lg uppercase font-semibold 
+              className={`hidden md:block text-lg uppercase font-semibold
               ${router.pathname === '/Contact' ? 'text-textPrimary' : ''}`}
             >
               Contact

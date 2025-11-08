@@ -1,6 +1,6 @@
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
 
 import {
   ApolloClient,
@@ -12,6 +12,7 @@ import { setContext } from '@apollo/client/link/context';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import type { PinnedRepository } from '../types/github';
 
 import {
   AiOutlineStar,
@@ -22,8 +23,13 @@ import {
 import { GrDeploy } from 'react-icons/gr';
 import { BsPeopleFill } from 'react-icons/bs';
 
-function Projects({ pinnedItems }) {
-  const [projects, setProjects] = useState(pinnedItems);
+interface ProjectsProps {
+  pinnedItems: PinnedRepository[];
+}
+
+const Projects: React.FC<ProjectsProps> = ({ pinnedItems }) => {
+  const [projects, setProjects] = useState<PinnedRepository[]>(pinnedItems);
+
   return (
     <div className='max-h-screen overflow-y-scroll cursor-pointer bg-tertiary scrollbar-hide'>
       <Header />
@@ -127,7 +133,7 @@ function Projects({ pinnedItems }) {
                         src={user.node.avatarUrl}
                         width={25}
                         height={25}
-                        alt={user.node.name}
+                        alt={user.node.name || 'Contributor'}
                       />
                       <span className='absolute inset-0 z-10 flex justify-center text-sm font-semibold text-gray-300 opacity-0 -top-6 hover:opacity-100 whitespace-nowrap'>
                         {user.node.name}
@@ -221,9 +227,7 @@ export async function getStaticProps() {
   });
 
   const { user } = data;
-  const pinned = user.pinnedItems.edges.map(({ node }) => node);
-
-  // console.log(pinned[0].object);
+  const pinned = user.pinnedItems.edges.map(({ node }: { node: PinnedRepository }) => node);
 
   return {
     props: {
