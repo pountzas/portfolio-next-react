@@ -12,6 +12,7 @@ So when i change a project in Github profile, automaticaly it updates on the Por
 - React.js
 - Tailwind-css
 - GraphQL
+- Framer Motion
 
 <!-- ## Getting Started
 
