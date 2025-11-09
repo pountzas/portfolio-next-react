@@ -1,12 +1,12 @@
 ﻿import React from 'react'
 
 
-interface corelProps {
+interface CorelProps {
   fill?: string;
   fill2?: string;
   size?: string | number;
 }
-function corel(props: corelProps) {
+function Corel(props: CorelProps) {
   const fill = props.fill || 'white'
   const fill2 = props.fill2 || 'white'
   const size = props.size || '30px'
@@ -36,5 +36,5 @@ function corel(props: corelProps) {
   )
 }
 
-export default corel
+export default Corel
 

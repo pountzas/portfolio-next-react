@@ -1,12 +1,12 @@
 ﻿import React from 'react'
 
 
-interface eslintProps {
+interface EslintProps {
   fill?: string;
   fill2?: string;
   size?: string | number;
 }
-function eslint(props: eslintProps) {
+function Eslint(props: EslintProps) {
   const fill = props.fill || 'white'
   const fill2 = props.fill2 || 'white'
 
@@ -21,5 +21,5 @@ function eslint(props: eslintProps) {
   )
 }
 
-export default eslint
+export default Eslint
 
