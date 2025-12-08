@@ -5,14 +5,14 @@ import Link from 'next/link';
 import {
   ApolloClient,
   InMemoryCache,
-  createHttpLink,
+  HttpLink,
   gql,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import type { PinnedRepository } from '../types/github';
+import type { PinnedRepository, GitHubApiResponse } from '../types/github';
 
 import {
   AiOutlineStar,
@@ -152,7 +152,7 @@ const Projects: React.FC<ProjectsProps> = ({ pinnedItems }) => {
 }
 
 export async function getStaticProps() {
-  const httpLink = createHttpLink({
+  const httpLink = new HttpLink({
     uri: 'https://api.github.com/graphql',
   });
 
@@ -170,7 +170,7 @@ export async function getStaticProps() {
     cache: new InMemoryCache(),
   });
 
-  const { data } = await client.query({
+  const { data } = await client.query<GitHubApiResponse>({
     query: gql`
       {
         user(login: "pountzas") {
@@ -225,6 +225,10 @@ export async function getStaticProps() {
       }
     `,
   });
+
+  if (!data) {
+    throw new Error('Failed to fetch GitHub data');
+  }
 
   const { user } = data;
   const pinned = user.pinnedItems.edges.map(({ node }: { node: PinnedRepository }) => node);
