@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 const Footer: React.FC = () => {
   return (
-    <div className='fixed bottom-0 min-w-full border-t border-borderSecondary bg-primary'>
+    <div className='fixed z-[100] bottom-0 min-w-full border-t border-borderSecondary bg-primary'>
       <div className='flex items-center justify-between mx-auto text-textTertiary md:max-w-4xl xl:max-w-6xl'>
         <div className='hidden md:block'>
           Designed and Developed by Pountzas Nikos
