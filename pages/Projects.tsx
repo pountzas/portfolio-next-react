@@ -5,7 +5,7 @@ import Link from 'next/link';
 import {
   ApolloClient,
   InMemoryCache,
-  createHttpLink,
+  HttpLink,
   gql,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
@@ -152,7 +152,7 @@ const Projects: React.FC<ProjectsProps> = ({ pinnedItems }) => {
 }
 
 export async function getStaticProps() {
-  const httpLink = createHttpLink({
+  const httpLink = new HttpLink({
     uri: 'https://api.github.com/graphql',
   });
 

@@ -9,7 +9,7 @@ const Footer: React.FC = () => {
         <div className='hidden md:block'>
           Designed and Developed by Pountzas Nikos
         </div>
-        <div>Copyright © 2022 NP</div>
+        <div>Copyright © 2022 - {new Date().getFullYear()} NP</div>
         <div className='flex items-center justify-center py-2 space-x-2'>
           {Socials.map((social: SocialItem) => (
             <div key={social.id}>
