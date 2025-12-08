@@ -32,7 +32,7 @@ function Skills() {
         My Skillset
       </h1>
 
-      <div className="grid-cols-3 gap-4 pt-3 pb-32 mx-auto md:grid md:max-w-4xl lg:max-w-7xl">
+      <div className="grid-cols-3 gap-4 pt-3 pb-12 mx-auto md:grid md:max-w-4xl lg:max-w-7xl">
         <section className="container flex flex-col items-center">
           <h2 className="py-4 text-center text-textPrimary sm:py-8">
             Programing Languages
