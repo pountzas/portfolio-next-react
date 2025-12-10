@@ -8,7 +8,7 @@ import {
   HttpLink,
   gql,
 } from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
+import { SetContextLink } from '@apollo/client/link/context';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -29,6 +29,8 @@ interface ProjectsProps {
 
 const Projects: React.FC<ProjectsProps> = ({ pinnedItems }) => {
   const [projects, setProjects] = useState<PinnedRepository[]>(pinnedItems);
+
+  // console.log(projects);
 
   return (
     <div className='max-h-screen overflow-y-scroll cursor-pointer bg-tertiary scrollbar-hide'>
@@ -53,12 +55,12 @@ const Projects: React.FC<ProjectsProps> = ({ pinnedItems }) => {
                   priority
                 />
                 <div className='absolute top-auto flex items-center justify-center pb-2 inset-1'>
-                  {item.object && (
+                  {/* {item.object && ( */}
                     <p className='flex px-3 py-1 m-1 text-xs font-bold text-gray-800 bg-teal-500 border rounded-full shadow-lg cursor-pointer border-cyan-600 hover:text-blue-900 md:text:md'>
                       <span className='pr-1'>Commits: </span>
-                      {item.object.history.totalCount}
+                      {item.object?.history?.totalCount}
                     </p>
-                  )}
+                  {/* )} */}
 
                   {item.cloneCount && (
                     <p className='inline-block px-3 py-1 m-1 text-xs font-bold text-gray-800 bg-teal-500 border rounded-full shadow-lg cursor-pointer border-cyan-600 hover:text-blue-900 md:text:md'>
@@ -156,14 +158,14 @@ export async function getStaticProps() {
     uri: 'https://api.github.com/graphql',
   });
 
-  const authLink = setContext((_, { headers }) => {
-    return {
-      headers: {
-        ...headers,
-        authorization: `Bearer ${process.env.GITHUB_ACCESS_TOKEN}`,
-      },
-    };
-  });
+  const token = process.env.GITHUB_ACCESS_TOKEN;
+
+  const authLink = new SetContextLink((prevContext, operation) => ({
+    headers: {
+      ...prevContext.headers,
+      authorization: token ? `Bearer ${token}` : "",
+    },
+  }));
 
   const client = new ApolloClient({
     link: authLink.concat(httpLink),
