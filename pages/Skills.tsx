@@ -78,15 +78,15 @@ function Skills() {
                       animate: { opacity: 1, translateX: 0, rotateY: 0 },
                       transition: { duration: 0.6, delay: i * 0.2, ease: [0.25, 0.46, 0.45, 0.94] }
                     } as MotionPropsType & Record<string, unknown>,
-                    <SkillTemplate
-                      id={String(language.id)}
-                      icon={language.icon}
-                      skillName={language.name}
-                    />
+                    React.createElement(SkillTemplate, {
+                      id: String(language.id),
+                      icon: language.icon,
+                      skillName: language.name
+                    })
                   )}
                 </motion.div>
               ))}
-          </div>
+            </motion.div>
         </section>
 
           <motion.section
@@ -122,11 +122,11 @@ function Skills() {
                       animate: { opacity: 1, translateY: 0, rotateX: 0 },
                       transition: { duration: 0.6, delay: i * 0.2, ease: [0.25, 0.46, 0.45, 0.94] }
                     },
-                    <SkillTemplate
-                      id={String(library.id)}
-                      icon={library.icon}
-                      skillName={library.name}
-                    />
+                    React.createElement(SkillTemplate, {
+                      id: String(library.id),
+                      icon: library.icon,
+                      skillName: library.name
+                    })
                   )}
                 </motion.div>
               ))}
@@ -166,11 +166,11 @@ function Skills() {
                       animate: { opacity: 1, translateX: 0, rotateY: 0 },
                       transition: { duration: 0.6, delay: i * 0.2, ease: [0.25, 0.46, 0.45, 0.94] }
                     },
-                    <SkillTemplate
-                      id={String(framework.id)}
-                      icon={framework.icon}
-                      skillName={framework.name}
-                    />
+                    React.createElement(SkillTemplate, {
+                      id: String(framework.id),
+                      icon: framework.icon,
+                      skillName: framework.name
+                    })
                   )}
                 </motion.div>
               ))}
@@ -210,11 +210,11 @@ function Skills() {
                       animate: { opacity: 1, translateX: 0, rotateY: 0 },
                       transition: { duration: 0.6, delay: i * 0.15, ease: [0.25, 0.46, 0.45, 0.94] }
                     } as MotionPropsType & Record<string, unknown>,
-                    <SkillTemplate
-                      id={String(tool.id)}
-                      icon={tool.icon}
-                      skillName={tool.name}
-                    />
+                    React.createElement(SkillTemplate, {
+                      id: String(tool.id),
+                      icon: tool.icon,
+                      skillName: tool.name
+                    })
                   )}
                 </motion.div>
               ))}
@@ -254,11 +254,11 @@ function Skills() {
                       animate: { opacity: 1, translateY: 0, rotateX: 0 },
                       transition: { duration: 0.6, delay: i * 0.2, ease: [0.25, 0.46, 0.45, 0.94] }
                     },
-                    <SkillTemplate
-                      id={String(lesson.id)}
-                      icon={lesson.icon}
-                      skillName={lesson.name}
-                    />
+                    React.createElement(SkillTemplate, {
+                      id: String(lesson.id),
+                      icon: lesson.icon,
+                      skillName: lesson.name
+                    })
                   )}
                 </motion.div>
               ))}
@@ -297,11 +297,11 @@ function Skills() {
                       animate: { opacity: 1, translateX: 0, rotateY: 0 },
                       transition: { duration: 0.6, delay: i * 0.15, ease: [0.25, 0.46, 0.45, 0.94] }
                     },
-                    <SkillTemplate
-                      id={String(service.id)}
-                      icon={service.icon}
-                      skillName={service.name}
-                    />
+                    React.createElement(SkillTemplate, {
+                      id: String(service.id),
+                      icon: service.icon,
+                      skillName: service.name
+                    })
                   )}
                 </motion.div>
               ))}
