@@ -26,9 +26,7 @@ interface MotionPropsType {
 
 function Skills() {
   return (
-    <div className="max-h-screen overflow-y-scroll cursor-pointer bg-tertiary scrollbar-hide">
-      <Header />
-      <motion.div
+    <motion.div
         variants={staggerContainer}
         initial="initial"
         animate="animate"
@@ -87,7 +85,7 @@ function Skills() {
                 </motion.div>
               ))}
             </motion.div>
-        </section>
+          </motion.section>
 
           <motion.section
             className="container flex flex-col items-center"
@@ -130,8 +128,8 @@ function Skills() {
                   )}
                 </motion.div>
               ))}
-          </div>
-        </section>
+          </motion.div>
+        </motion.section>
 
           <motion.section
             className="container flex flex-col items-center"
@@ -174,8 +172,8 @@ function Skills() {
                   )}
                 </motion.div>
               ))}
-          </div>
-        </section>
+          </motion.div>
+        </motion.section>
 
           <motion.section
             className="container flex flex-col items-center"
@@ -218,8 +216,8 @@ function Skills() {
                   )}
                 </motion.div>
               ))}
-          </div>
-        </section>
+            </motion.div>
+         </motion.section>
 
           <motion.section
             className="container flex flex-col items-center"
@@ -262,8 +260,8 @@ function Skills() {
                   )}
                 </motion.div>
               ))}
-          </div>
-        </section>
+            </motion.div>
+          </motion.section>
 
           <motion.section
             className="container flex flex-col items-center col-sstart-3"
@@ -309,7 +307,6 @@ function Skills() {
           </motion.section>
         </motion.div>
       </motion.div>
-    </div>
   );
 }
 

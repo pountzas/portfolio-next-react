@@ -25,9 +25,7 @@ function Contact() {
   };
 
   return (
-    <div className='min-h-screen bg-tertiary'>
-      <Header />
-      <motion.div
+    <motion.div
         className='max-w-4xl mx-auto px-4 py-8'
         variants={staggerContainer}
         initial="initial"
@@ -218,7 +216,6 @@ function Contact() {
           </motion.div>
         </div>
       </motion.div>
-    </div>
   );
 }
 

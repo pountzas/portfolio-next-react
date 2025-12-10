@@ -34,9 +34,7 @@ const Projects: React.FC<ProjectsProps> = ({ pinnedItems }) => {
   // console.log(projects);
 
   return (
-    <div className='max-h-screen overflow-y-scroll cursor-pointer bg-tertiary scrollbar-hide'>
-      <Header />
-      <motion.section
+    <motion.section
         className='flex justify-center'
         variants={staggerContainer}
         initial="initial"
@@ -165,7 +163,6 @@ const Projects: React.FC<ProjectsProps> = ({ pinnedItems }) => {
           ))}
         </motion.div>
       </motion.section>
-    </div>
   );
 }
 
