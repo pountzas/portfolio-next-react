@@ -4,6 +4,7 @@ import { GiSkills } from 'react-icons/gi';
 import { RiGitRepositoryLine } from 'react-icons/ri';
 import { FaHome } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import { flipOut } from './animations/pageAnimations';
 
 import { useRouter } from 'next/router';
 
@@ -11,7 +12,13 @@ const Header: React.FC = () => {
   const router = useRouter();
 
   return (
-    <div className='sticky top-0 z-50 py-3 border-b shadow-sm border-borderSecondary bg-primary '>
+    <motion.div
+      className='sticky top-0 z-50 py-3 border-b shadow-sm border-borderSecondary bg-primary'
+      variants={flipOut}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+    >
       {/* left section */}
       <div className='flex justify-between mx-auto md:max-w-4xl xl:max-w-6xl '>
         <h1 className='px-3 font-semibold text-textPrimary md:px-0'>
@@ -231,7 +238,7 @@ const Header: React.FC = () => {
           </div> */}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

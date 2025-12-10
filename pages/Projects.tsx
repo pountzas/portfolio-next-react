@@ -1,6 +1,8 @@
 import React, { useState, Activity } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { staggerContainer, createStaggeredFlip, hoverFlip, flipOut } from '../components/animations/pageAnimations';
 
 import {
   ApolloClient,
@@ -34,12 +36,28 @@ const Projects: React.FC<ProjectsProps> = ({ pinnedItems }) => {
   return (
     <div className='max-h-screen overflow-y-scroll cursor-pointer bg-tertiary scrollbar-hide'>
       <Header />
-      <section className='flex justify-center'>
-        <div className='grid gap-8 p-3 pb-10 m-4 md:grid-cols-2'>
-          {projects.map((item) => (
-            <div
+      <motion.section
+        className='flex justify-center'
+        variants={staggerContainer}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+      >
+        <motion.div
+          className='grid gap-8 p-3 pb-10 m-4 md:grid-cols-2'
+          variants={staggerContainer}
+        >
+          {projects.map((item, index) => (
+            <motion.div
               key={item.id}
               className='flex flex-col justify-between max-w-xs border-2 text-textPrimary border-borderSecondary rounded-xl bg-quaternary md:max-w-md'
+              variants={createStaggeredFlip(0.2, 0.15)(index)}
+              whileHover={{
+                scale: 1.02,
+                rotateY: 5,
+                boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
+                transition: { duration: 0.3 }
+              }}
             >
               <h1 className='p-2 mb-3 text-xl font-semibold text-center rounded-t-lg bg-secondary'>
                 {item.name}
@@ -143,10 +161,10 @@ const Projects: React.FC<ProjectsProps> = ({ pinnedItems }) => {
                   ))}
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
-      </section>
+        </motion.div>
+      </motion.section>
     </div>
   );
 }
