@@ -13,17 +13,6 @@ import { motion } from "framer-motion";
 import React from "react";
 import { staggerContainer, createStaggeredFlip, flipFromTop, flipFromBottom, flipFromLeft, flipFromRight, flipOut } from "../components/animations/pageAnimations";
 
-// Using React.createElement to bypass JSX type checking issues with Framer Motion v8
-const MotionDiv = motion("div");
-
-// Define proper motion props interface
-interface MotionPropsType {
-  initial?: { opacity: number; translateX?: number; translateY?: number };
-  animate?: { opacity: number; translateX?: number; translateY?: number };
-  transition?: { duration: number; delay: number };
-  className?: string;
-}
-
 function Skills() {
   return (
     <motion.div
@@ -67,21 +56,18 @@ function Skills() {
                     transition: { duration: 0.2 }
                   }}
                 >
-                  {React.createElement(
-                    MotionDiv,
-                    {
-                      // @ts-ignore Framer Motion v8 has restrictive types
-                      className: "relative",
-                      initial: { opacity: 0, translateX: -200, rotateY: -45 },
-                      animate: { opacity: 1, translateX: 0, rotateY: 0 },
-                      transition: { duration: 0.6, delay: i * 0.2, ease: [0.25, 0.46, 0.45, 0.94] }
-                    } as MotionPropsType & Record<string, unknown>,
-                    React.createElement(SkillTemplate, {
-                      id: String(language.id),
-                      icon: language.icon,
-                      skillName: language.name
-                    })
-                  )}
+                  <motion.div
+                    className="relative"
+                    initial={{ opacity: 0, x: -200, rotateY: -45 }}
+                    animate={{ opacity: 1, x: 0, rotateY: 0 }}
+                    transition={{ duration: 0.6, delay: i * 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  >
+                    <SkillTemplate
+                      id={String(language.id)}
+                      icon={language.icon}
+                      skillName={language.name}
+                    />
+                  </motion.div>
                 </motion.div>
               ))}
             </motion.div>
@@ -111,21 +97,18 @@ function Skills() {
                     transition: { duration: 0.2 }
                   }}
                 >
-                  {React.createElement(
-                    MotionDiv,
-                    {
-                      // @ts-ignore Framer Motion v8 has restrictive types
-                      className: "relative",
-                      initial: { opacity: 0, translateY: -200, rotateX: -45 },
-                      animate: { opacity: 1, translateY: 0, rotateX: 0 },
-                      transition: { duration: 0.6, delay: i * 0.2, ease: [0.25, 0.46, 0.45, 0.94] }
-                    },
-                    React.createElement(SkillTemplate, {
-                      id: String(library.id),
-                      icon: library.icon,
-                      skillName: library.name
-                    })
-                  )}
+                  <motion.div
+                    className="relative"
+                    initial={{ opacity: 0, y: -200, rotateX: -45 }}
+                    animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                    transition={{ duration: 0.6, delay: i * 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  >
+                    <SkillTemplate
+                      id={String(library.id)}
+                      icon={library.icon}
+                      skillName={library.name}
+                    />
+                  </motion.div>
                 </motion.div>
               ))}
           </motion.div>
@@ -155,21 +138,18 @@ function Skills() {
                     transition: { duration: 0.2 }
                   }}
                 >
-                  {React.createElement(
-                    MotionDiv,
-                    {
-                      // @ts-ignore Framer Motion v8 has restrictive types
-                      className: "relative",
-                      initial: { opacity: 0, translateX: 200, rotateY: 45 },
-                      animate: { opacity: 1, translateX: 0, rotateY: 0 },
-                      transition: { duration: 0.6, delay: i * 0.2, ease: [0.25, 0.46, 0.45, 0.94] }
-                    },
-                    React.createElement(SkillTemplate, {
-                      id: String(framework.id),
-                      icon: framework.icon,
-                      skillName: framework.name
-                    })
-                  )}
+                  <motion.div
+                    className="relative"
+                    initial={{ opacity: 0, x: 200, rotateY: 45 }}
+                    animate={{ opacity: 1, x: 0, rotateY: 0 }}
+                    transition={{ duration: 0.6, delay: i * 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  >
+                    <SkillTemplate
+                      id={String(framework.id)}
+                      icon={framework.icon}
+                      skillName={framework.name}
+                    />
+                  </motion.div>
                 </motion.div>
               ))}
           </motion.div>
@@ -199,21 +179,18 @@ function Skills() {
                     transition: { duration: 0.2 }
                   }}
                 >
-                  {React.createElement(
-                    MotionDiv,
-                    {
-                      // @ts-ignore Framer Motion v8 has restrictive types
-                      className: "relative",
-                      initial: { opacity: 0, translateX: -200, rotateY: -45 },
-                      animate: { opacity: 1, translateX: 0, rotateY: 0 },
-                      transition: { duration: 0.6, delay: i * 0.15, ease: [0.25, 0.46, 0.45, 0.94] }
-                    } as MotionPropsType & Record<string, unknown>,
-                    React.createElement(SkillTemplate, {
-                      id: String(tool.id),
-                      icon: tool.icon,
-                      skillName: tool.name
-                    })
-                  )}
+                  <motion.div
+                    className="relative"
+                    initial={{ opacity: 0, x: -200, rotateY: -45 }}
+                    animate={{ opacity: 1, x: 0, rotateY: 0 }}
+                    transition={{ duration: 0.6, delay: i * 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  >
+                    <SkillTemplate
+                      id={String(tool.id)}
+                      icon={tool.icon}
+                      skillName={tool.name}
+                    />
+                  </motion.div>
                 </motion.div>
               ))}
             </motion.div>
@@ -243,21 +220,18 @@ function Skills() {
                     transition: { duration: 0.2 }
                   }}
                 >
-                  {React.createElement(
-                    MotionDiv,
-                    {
-                      // @ts-ignore Framer Motion v8 has restrictive types
-                      className: "relative",
-                      initial: { opacity: 0, translateY: 200, rotateX: 45 },
-                      animate: { opacity: 1, translateY: 0, rotateX: 0 },
-                      transition: { duration: 0.6, delay: i * 0.2, ease: [0.25, 0.46, 0.45, 0.94] }
-                    },
-                    React.createElement(SkillTemplate, {
-                      id: String(lesson.id),
-                      icon: lesson.icon,
-                      skillName: lesson.name
-                    })
-                  )}
+                  <motion.div
+                    className="relative"
+                    initial={{ opacity: 0, y: 200, rotateX: 45 }}
+                    animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                    transition={{ duration: 0.6, delay: i * 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  >
+                    <SkillTemplate
+                      id={String(lesson.id)}
+                      icon={lesson.icon}
+                      skillName={lesson.name}
+                    />
+                  </motion.div>
                 </motion.div>
               ))}
             </motion.div>
@@ -287,20 +261,18 @@ function Skills() {
                     transition: { duration: 0.2 }
                   }}
                 >
-                  {/* @ts-ignore Framer Motion v8 has restrictive types */}
-                  {React.createElement(
-                    MotionDiv,
-                    {
-                      initial: { opacity: 0, translateX: 200, rotateY: 45 },
-                      animate: { opacity: 1, translateX: 0, rotateY: 0 },
-                      transition: { duration: 0.6, delay: i * 0.15, ease: [0.25, 0.46, 0.45, 0.94] }
-                    },
-                    React.createElement(SkillTemplate, {
-                      id: String(service.id),
-                      icon: service.icon,
-                      skillName: service.name
-                    })
-                  )}
+                  <motion.div
+                    className="relative"
+                    initial={{ opacity: 0, x: 200, rotateY: 45 }}
+                    animate={{ opacity: 1, x: 0, rotateY: 0 }}
+                    transition={{ duration: 0.6, delay: i * 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  >
+                    <SkillTemplate
+                      id={String(service.id)}
+                      icon={service.icon}
+                      skillName={service.name}
+                    />
+                  </motion.div>
                 </motion.div>
               ))}
             </motion.div>

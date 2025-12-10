@@ -2,7 +2,7 @@ import React, { useState, Activity } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { staggerContainer, createStaggeredFlip, hoverFlip, flipOut } from '../components/animations/pageAnimations';
+import { staggerContainer, createStaggeredFlip } from '../components/animations/pageAnimations';
 
 import {
   ApolloClient,
@@ -12,7 +12,6 @@ import {
 } from '@apollo/client';
 import { SetContextLink } from '@apollo/client/link/context';
 
-import Header from '../components/Header';
 import type { PinnedRepository, GitHubApiResponse } from '../types/github';
 
 import {
@@ -51,8 +50,8 @@ const Projects: React.FC<ProjectsProps> = ({ pinnedItems }) => {
               className='flex flex-col justify-between max-w-xs border-2 text-textPrimary border-borderSecondary rounded-xl bg-quaternary md:max-w-md'
               variants={createStaggeredFlip(0.2, 0.15)(index)}
               whileHover={{
-                scale: 1.02,
-                rotateY: 5,
+                // scale: 1.02,
+                // rotateY: 5,
                 boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
                 transition: { duration: 0.3 }
               }}
@@ -79,14 +78,14 @@ const Projects: React.FC<ProjectsProps> = ({ pinnedItems }) => {
 
                   <Activity mode={item.cloneCount ? 'visible' : 'hidden'}>
                     <p className='inline-block px-3 py-1 m-1 text-xs font-bold text-gray-800 bg-teal-500 border rounded-full shadow-lg cursor-pointer border-cyan-600 hover:text-blue-900 md:text:md'>
-                      <p className='pr-1'>Cloned:</p>
+                      <span className='pr-1'>Cloned:</span>
                       {item.cloneCount}
                     </p>
                   </Activity>
 
                   <Activity mode={item.viewCount ? 'visible' : 'hidden'}>
                     <p className='inline-block px-3 py-1 m-1 text-xs font-bold text-gray-800 bg-teal-500 border rounded-full shadow-lg cursor-pointer border-cyan-600 hover:text-blue-900 md:text:md'>
-                      <p className='pr-1'>Views:</p>
+                      <span className='pr-1'>Views:</span>
                       {item.viewCount}
                     </p>
                   </Activity>
