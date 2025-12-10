@@ -8,6 +8,7 @@ import {
   HttpLink,
   gql,
 } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -29,7 +30,7 @@ interface ProjectsProps {
 const Projects: React.FC<ProjectsProps> = ({ pinnedItems }) => {
   const [projects, setProjects] = useState<PinnedRepository[]>(pinnedItems);
 
-  console.log(projects);
+  // console.log(projects);
 
   return (
     <div className='max-h-screen overflow-y-scroll cursor-pointer bg-tertiary scrollbar-hide'>
@@ -153,13 +154,19 @@ const Projects: React.FC<ProjectsProps> = ({ pinnedItems }) => {
 }
 
 export async function getStaticProps() {
+  const httpLink = new HttpLink({
+    uri: 'https://api.github.com/graphql',
+  });
+
+  const authLink = setContext((operation, prevContext) => ({
+    headers: {
+      ...prevContext.headers,
+      authorization: `Bearer ${process.env.GITHUB_ACCESS_TOKEN}`,
+    },
+  }));
+
   const client = new ApolloClient({
-    link: new HttpLink({
-      uri: 'https://api.github.com/graphql',
-      headers: {
-        authorization: `Bearer ${process.env.GITHUB_ACCESS_TOKEN}`,
-      },
-    }),
+    link: authLink.concat(httpLink),
     cache: new InMemoryCache(),
   });
 
