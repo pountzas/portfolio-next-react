@@ -8,7 +8,7 @@ import {
   HttpLink,
   gql,
 } from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
+import { SetContextLink } from '@apollo/client/link/context';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -158,10 +158,12 @@ export async function getStaticProps() {
     uri: 'https://api.github.com/graphql',
   });
 
-  const authLink = setContext((operation, prevContext) => ({
+  const token = process.env.GITHUB_ACCESS_TOKEN;
+
+  const authLink = new SetContextLink((prevContext, operation) => ({
     headers: {
       ...prevContext.headers,
-      authorization: `Bearer ${process.env.GITHUB_ACCESS_TOKEN}`,
+      authorization: token ? `Bearer ${token}` : "",
     },
   }));
 
