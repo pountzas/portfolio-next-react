@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Activity } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -11,7 +11,6 @@ import {
 import { SetContextLink } from '@apollo/client/link/context';
 
 import Header from '../components/Header';
-import Footer from '../components/Footer';
 import type { PinnedRepository, GitHubApiResponse } from '../types/github';
 
 import {
@@ -55,26 +54,26 @@ const Projects: React.FC<ProjectsProps> = ({ pinnedItems }) => {
                   priority
                 />
                 <div className='absolute top-auto flex items-center justify-center pb-2 inset-1'>
-                  {/* {item.object && ( */}
+                  <Activity mode={item.object ? 'visible' : 'hidden'}> 
                     <p className='flex px-3 py-1 m-1 text-xs font-bold text-gray-800 bg-teal-500 border rounded-full shadow-lg cursor-pointer border-cyan-600 hover:text-blue-900 md:text:md'>
                       <span className='pr-1'>Commits: </span>
                       {item.object?.history?.totalCount}
                     </p>
-                  {/* )} */}
+                  </Activity>
 
-                  {item.cloneCount && (
+                  <Activity mode={item.cloneCount ? 'visible' : 'hidden'}>
                     <p className='inline-block px-3 py-1 m-1 text-xs font-bold text-gray-800 bg-teal-500 border rounded-full shadow-lg cursor-pointer border-cyan-600 hover:text-blue-900 md:text:md'>
                       <p className='pr-1'>Cloned:</p>
                       {item.cloneCount}
                     </p>
-                  )}
+                  </Activity>
 
-                  {item.viewCount && (
+                  <Activity mode={item.viewCount ? 'visible' : 'hidden'}>
                     <p className='inline-block px-3 py-1 m-1 text-xs font-bold text-gray-800 bg-teal-500 border rounded-full shadow-lg cursor-pointer border-cyan-600 hover:text-blue-900 md:text:md'>
                       <p className='pr-1'>Views:</p>
                       {item.viewCount}
                     </p>
-                  )}
+                  </Activity>
                 </div>
               </div>
               <p className='py-2 mx-5'>{item.description}</p>
@@ -148,7 +147,6 @@ const Projects: React.FC<ProjectsProps> = ({ pinnedItems }) => {
           ))}
         </div>
       </section>
-      <Footer />
     </div>
   );
 }
