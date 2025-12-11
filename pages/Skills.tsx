@@ -38,7 +38,7 @@ function Skills() {
               className="py-4 text-center text-textPrimary sm:py-8"
               variants={createStaggeredFlip(0.3, 0.1)(0)}
             >
-              Programing Languages
+              Programming Languages
             </motion.h2>
             <motion.div
               className="grid grid-cols-2 gap-4"
@@ -226,7 +226,7 @@ function Skills() {
           </motion.section>
 
           <motion.section
-            className="container flex flex-col items-center col-sstart-3"
+            className="container flex flex-col items-center col-start-3"
             variants={flipFromRight}
           >
             <motion.h2
