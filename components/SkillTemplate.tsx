@@ -56,7 +56,7 @@ function SkillTemplate({ id, icon, skillName, description, proficiency, official
     setTimeout(() => {
       setFireCompleted(false);
       setIsHovered(false);
-    }, 500); // Match animation duration
+    }, 700); // Match animation duration
   };
 
   // Handle hover start
@@ -100,7 +100,7 @@ function SkillTemplate({ id, icon, skillName, description, proficiency, official
       {/* Skill Card/Modal */}
       <motion.div
         ref={containerRef}
-        className="relative flex items-center justify-center p-2 m-2 text-gray-500 transition duration-150 ease-in-out border shadow-xl rounded-xl border-borderSecondary hover:bg-tertiary grayscale hover:grayscale-0 bg-quaternary md:w-20 md:h-20 duration-400 shadow-quaternary"
+        className={`relative flex items-center justify-center p-2 m-2 text-gray-500 transition duration-150 ease-in-out border shadow-xl rounded-xl border-borderSecondary bg-quaternary md:w-20 md:h-20 duration-400 shadow-quaternary ${!showModal && 'grayscale hover:grayscale-0' }`}
         onHoverStart={handleHoverStart}
         onHoverEnd={handleHoverEnd}
         animate={showModal ? "modal" : "card"}
@@ -233,10 +233,10 @@ function SkillTemplate({ id, icon, skillName, description, proficiency, official
                 animate={showModal ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ delay: showModal ? 0.5 : 0, duration: 0.3 }}
               >
-                <div className="flex justify-between items-center mb-2">
+                {/* <div className="flex justify-between items-center mb-2">
                   <span className="text-textPrimary font-medium">Proficiency</span>
                   <span className="text-textTertiary">{proficiency || 80}%</span>
-                </div>
+                </div> */}
                 <div className="w-full bg-tertiary rounded-full h-3">
                   <motion.div
                     className="bg-gradient-to-r from-orange-500 to-red-500 h-3 rounded-full"
@@ -274,7 +274,7 @@ function SkillTemplate({ id, icon, skillName, description, proficiency, official
               )}
 
               {/* Action Button */}
-              <motion.div
+              {/* <motion.div
                 className="flex justify-center"
                 initial={{ opacity: 0, y: 20 }}
                 animate={showModal ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
@@ -288,7 +288,7 @@ function SkillTemplate({ id, icon, skillName, description, proficiency, official
                 >
                   Close
                 </motion.button>
-              </motion.div>
+              </motion.div> */}
             </div>
           </>
         ) : (
