@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, Activity } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { fuseBurnVariants, borderGlowVariants, createBorderFusePath, createFireParticles } from './animations/fireAnimations';
+import { SkillTemplateProps } from '../types';
 
 // Animation variants for skill card transformation
 const skillCardVariants = {
@@ -29,15 +30,6 @@ const skillCardVariants = {
     y: "-50%",
   },
 };
-
-interface SkillTemplateProps {
-  id: string;
-  icon: React.ReactNode;
-  skillName: string;
-  description?: string;
-  proficiency?: number;
-}
-
 
 function SkillTemplate({ id, icon, skillName, description, proficiency }: SkillTemplateProps) {
   const [isHovered, setIsHovered] = useState(false);

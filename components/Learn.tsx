@@ -2,14 +2,7 @@
 import Ether from './icons/ether';
 import Solidity from './icons/Solidity';
 import Web3 from './icons/Web3';
-
-interface LearningItem {
-  id: string | number;
-  name: string;
-  icon: React.ReactElement;
-  description: string;
-  proficiency: number;
-}
+import { LearningItem } from '../types';
 
 const Learn: LearningItem[] = [
   {

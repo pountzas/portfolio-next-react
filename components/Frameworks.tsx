@@ -3,14 +3,7 @@
 import NextJs from './icons/nextJs';
 import Rails from './icons/rails';
 import Tailwind from './icons/tailwind';
-
-interface Framework {
-  id: string | number;
-  name: string;
-  icon: React.ReactElement;
-  description: string;
-  proficiency: number;
-}
+import { Framework } from '../types';
 
 const Frameworks: Framework[] = [
   {

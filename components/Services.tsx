@@ -8,14 +8,7 @@ import Firebase from "./icons/Firebase";
 import Gitlab from "./icons/Gitlab";
 import Jira from "./icons/Jira";
 import MongoDB from "./icons/MongoDB";
-
-interface Service {
-  id: string | number;
-  name: string;
-  icon: React.ReactElement;
-  description: string;
-  proficiency: number;
-}
+import { Service } from '../types';
 
 const Services: Service[] = [
   {

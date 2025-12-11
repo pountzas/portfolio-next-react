@@ -19,14 +19,7 @@ import Git from './icons/Git';
 import Photoshop from './icons/Photoshop';
 import Illustrator from './icons/Illustrator';
 import Figma from './icons/Figma';
-
-interface Tool {
-  id: string | number;
-  name: string;
-  icon: React.ReactElement;
-  description: string;
-  proficiency: number;
-}
+import { Tool } from '../types';
 
 const Tools: Tool[] = [
   {

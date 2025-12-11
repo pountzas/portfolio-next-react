@@ -97,6 +97,8 @@ function Skills() {
                       id={String(library.id)}
                       icon={library.icon}
                       skillName={library.name}
+                      description={library.description}
+                      proficiency={library.proficiency}
                     />
                   </motion.div>
                 </motion.div>
@@ -133,6 +135,8 @@ function Skills() {
                       id={String(framework.id)}
                       icon={framework.icon}
                       skillName={framework.name}
+                      description={framework.description}
+                      proficiency={framework.proficiency}
                     />
                   </motion.div>
                 </motion.div>
@@ -169,6 +173,8 @@ function Skills() {
                       id={String(tool.id)}
                       icon={tool.icon}
                       skillName={tool.name}
+                      description={tool.description}
+                      proficiency={tool.proficiency}
                     />
                   </motion.div>
                 </motion.div>
@@ -243,6 +249,8 @@ function Skills() {
                       id={String(service.id)}
                       icon={service.icon}
                       skillName={service.name}
+                      description={service.description}
+                      proficiency={service.proficiency}
                     />
                   </motion.div>
                 </motion.div>

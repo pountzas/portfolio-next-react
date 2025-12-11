@@ -4,14 +4,7 @@ import Redux from './icons/redux';
 import Recoil from './icons/recoil';
 import MotionFramer from './icons/MotionFramer';
 import NodeJs from './icons/NodeJs';
-
-interface Library {
-  id: string | number;
-  name: string;
-  icon: React.ReactElement;
-  description: string;
-  proficiency: number;
-}
+import { Library } from '../types';
 
 const Libraries: Library[] = [
   {

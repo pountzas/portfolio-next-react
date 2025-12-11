@@ -3,14 +3,7 @@ import Ruby from './icons/ruby';
 import Javascript from './icons/javascript';
 import Html from './icons/Html';
 import TypeScript from './icons/TypeScript';
-
-interface Language {
-  id: string | number;
-  name: string;
-  icon: React.ReactElement;
-  description: string;
-  proficiency: number;
-}
+import { Language } from '../types';
 
 const Languages: Language[] = [
   {

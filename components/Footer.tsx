@@ -1,5 +1,6 @@
 import React from 'react';
-import Socials, { SocialItem } from './Socials';
+import Socials from './Socials';
+import { SocialItem } from '../types';
 import Link from 'next/link';
 
 const Footer: React.FC = () => {
