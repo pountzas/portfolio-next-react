@@ -16,6 +16,7 @@ export interface BaseSkillItem {
   icon: React.ReactElement;
   description: string;
   proficiency: number;
+  officialSite: string;
 }
 
 /**
@@ -61,6 +62,7 @@ export interface SkillTemplateProps {
   skillName: string;
   description?: string;
   proficiency?: number;
+  officialSite?: string;
 }
 
 // =============================================================================

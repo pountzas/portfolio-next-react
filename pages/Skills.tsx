@@ -61,6 +61,7 @@ function Skills() {
                       skillName={language.name}
                       description={language.description}
                       proficiency={language.proficiency}
+                      officialSite={language.officialSite}
                     />
                   </motion.div>
                 </motion.div>
@@ -99,6 +100,7 @@ function Skills() {
                       skillName={library.name}
                       description={library.description}
                       proficiency={library.proficiency}
+                      officialSite={library.officialSite}
                     />
                   </motion.div>
                 </motion.div>
@@ -137,6 +139,7 @@ function Skills() {
                       skillName={framework.name}
                       description={framework.description}
                       proficiency={framework.proficiency}
+                      officialSite={framework.officialSite}
                     />
                   </motion.div>
                 </motion.div>
@@ -175,6 +178,7 @@ function Skills() {
                       skillName={tool.name}
                       description={tool.description}
                       proficiency={tool.proficiency}
+                      officialSite={tool.officialSite}
                     />
                   </motion.div>
                 </motion.div>
@@ -213,6 +217,7 @@ function Skills() {
                       skillName={lesson.name}
                       description={lesson.description}
                       proficiency={lesson.proficiency}
+                      officialSite={lesson.officialSite}
                     />
                   </motion.div>
                 </motion.div>
@@ -251,6 +256,7 @@ function Skills() {
                       skillName={service.name}
                       description={service.description}
                       proficiency={service.proficiency}
+                      officialSite={service.officialSite}
                     />
                   </motion.div>
                 </motion.div>

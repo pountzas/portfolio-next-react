@@ -31,7 +31,7 @@ const skillCardVariants = {
   },
 };
 
-function SkillTemplate({ id, icon, skillName, description, proficiency }: SkillTemplateProps) {
+function SkillTemplate({ id, icon, skillName, description, proficiency, officialSite }: SkillTemplateProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [fireCompleted, setFireCompleted] = useState(false);
@@ -251,12 +251,34 @@ function SkillTemplate({ id, icon, skillName, description, proficiency }: SkillT
                 </div>
               </motion.div>
 
+              {/* Official Site Link */}
+              {officialSite && (
+                <motion.div
+                  className="flex justify-center mb-4"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={showModal ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                  transition={{ delay: showModal ? 0.8 : 0, duration: 0.3 }}
+                >
+                  <a
+                    href={officialSite}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors flex items-center gap-2"
+                  >
+                    <span>Official Site</span>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                </motion.div>
+              )}
+
               {/* Action Button */}
               <motion.div
                 className="flex justify-center"
                 initial={{ opacity: 0, y: 20 }}
                 animate={showModal ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ delay: showModal ? 0.8 : 0, duration: 0.3 }}
+                transition={{ delay: showModal ? (officialSite ? 0.9 : 0.8) : 0, duration: 0.3 }}
               >
                 <motion.button
                   className="px-6 py-3 bg-textPrimary text-primary rounded-lg font-semibold hover:bg-opacity-90 transition-colors"
