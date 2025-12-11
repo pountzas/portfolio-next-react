@@ -2,8 +2,7 @@
   SiCinema4D,
   SiGraphql,
 } from 'react-icons/si';
-// import { FaGit } from 'react-icons/fa';
-// import { FcCommandLine } from 'react-icons/fc';
+
 import { GrDocker } from 'react-icons/gr'
 import { DiPostgresql } from 'react-icons/di';
 

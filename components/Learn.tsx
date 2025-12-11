@@ -1,4 +1,4 @@
-﻿import { SiWeb3Dotjs, SiSolidity, SiThreedotjs } from 'react-icons/si';
+﻿import { SiThreedotjs } from 'react-icons/si';
 import Ether from './icons/ether';
 import Solidity from './icons/Solidity';
 import Web3 from './icons/Web3';
