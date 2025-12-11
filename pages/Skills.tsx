@@ -1,6 +1,4 @@
-﻿import Header from "../components/Header";
-
-import Languages from "../components/Languages";
+﻿import Languages from "../components/Languages";
 import Libraries from "../components/Libraries";
 import Frameworks from "../components/Frameworks";
 import Tools from "../components/Tools";
@@ -10,23 +8,23 @@ import Learn from "../components/Learn";
 import SkillTemplate from "../components/SkillTemplate";
 
 import { motion } from "framer-motion";
-import React from "react";
 import { staggerContainer, createStaggeredFlip, flipFromTop, flipFromBottom, flipFromLeft, flipFromRight, flipOut } from "../components/animations/pageAnimations";
 
 function Skills() {
   return (
     <motion.div
+        className='flex justify-center bg-gradient-to-b from-primary to-secondary overflow-y-auto h-screen scrollbar-hide'
         variants={staggerContainer}
         initial="initial"
         animate="animate"
         exit="exit"
       >
-        <motion.h1
+        {/* <motion.h1
           className="pt-6 text-2xl font-semibold text-center cursor-pointer text-textPrimary"
           variants={flipFromTop}
         >
           My Skillset
-        </motion.h1>
+        </motion.h1> */}
 
         <motion.div
           className="grid-cols-3 gap-4 pt-3 pb-12 mx-auto md:grid md:max-w-4xl lg:max-w-7xl"

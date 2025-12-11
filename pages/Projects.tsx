@@ -34,14 +34,14 @@ const Projects: React.FC<ProjectsProps> = ({ pinnedItems }) => {
 
   return (
     <motion.section
-        className='flex justify-center'
+        className='flex justify-center bg-gradient-to-b from-primary to-secondary overflow-y-auto h-screen scrollbar-hide'
         variants={staggerContainer}
         initial="initial"
         animate="animate"
         exit="exit"
       >
         <motion.div
-          className='grid gap-8 p-3 pb-10 m-4 md:grid-cols-2'
+          className='grid gap-8 pt-6 md:grid-cols-2'
           variants={staggerContainer}
         >
           {projects.map((item, index) => (
@@ -160,6 +160,7 @@ const Projects: React.FC<ProjectsProps> = ({ pinnedItems }) => {
               </div>
             </motion.div>
           ))}
+          <div className='h-20'></div>
         </motion.div>
       </motion.section>
   );
