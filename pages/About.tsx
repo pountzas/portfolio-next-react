@@ -1,6 +1,7 @@
 import Header from '../components/Header';
 import { motion } from 'framer-motion';
 import { staggerContainer, flipFromTop, flipFromBottom, flipFromLeft, flipFromRight, createStaggeredFlip, flipOut } from '../components/animations/pageAnimations';
+import Link from 'next/link';
 
 function About() {
   return (
@@ -44,7 +45,7 @@ function About() {
               className='text-textTertiary mb-3'
               variants={createStaggeredFlip(0.5, 0.1)(1)}
             >
-              I'm Nikos Pountzas, a full-stack web developer from Greece with a unique blend of technical expertise and creative design skills.
+              I{"'"}m Nikos Pountzas, a full-stack web developer from Greece with a unique blend of technical expertise and creative design skills.
             </motion.p>
             <motion.p
               className='text-textTertiary mb-3'
@@ -114,27 +115,27 @@ function About() {
             className='text-2xl font-semibold text-textPrimary mb-4'
             variants={createStaggeredFlip(1.0, 0.1)(0)}
           >
-            Let's Work Together
+            Let{"'"}s Work Together
           </motion.h2>
           <motion.p
             className='text-textTertiary mb-6 max-w-2xl mx-auto'
             variants={createStaggeredFlip(1.1, 0.1)(1)}
           >
-            I'm always excited to take on new challenges and collaborate on innovative projects.
+            I{"'"}m always excited to take on new challenges and collaborate on innovative projects.
             Whether you need a modern web application, a responsive website, or technical consultation,
-            I'd love to hear about your ideas.
+            I{"'"}d love to hear about your ideas.
           </motion.p>
           <motion.div
             variants={createStaggeredFlip(1.2, 0.1)(2)}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <a
+            <Link
               href='/Contact'
               className='inline-block bg-textPrimary text-primary px-8 py-3 rounded-lg font-semibold hover:bg-opacity-90 transition-colors'
             >
               Get In Touch
-            </a>
+            </Link>
           </motion.div>
         </motion.div>
       </motion.div>

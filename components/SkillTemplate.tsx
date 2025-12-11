@@ -215,7 +215,7 @@ function SkillTemplate({ id, icon, skillName, description, proficiency }: SkillT
             </motion.div>
 
             {/* Modal Content */}
-            <div className="mt-8 w-full">
+            <div className="mt-8 w-full px-2">
               <motion.h2
                 className="text-3xl font-bold text-textPrimary mb-4 text-center"
                 initial={{ opacity: 0, y: 20 }}

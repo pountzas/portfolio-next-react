@@ -46,8 +46,8 @@ function Contact() {
             className='text-lg text-textTertiary max-w-2xl mx-auto'
             variants={createStaggeredFlip(0.3, 0.1)(1)}
           >
-            Have a project in mind or want to collaborate? I'd love to hear from you.
-            Let's create something amazing together.
+            Have a project in mind or want to collaborate? I{"'"}d love to hear from you.
+            Let{"'"}s create something amazing together.
           </motion.p>
         </motion.div>
 
@@ -59,7 +59,7 @@ function Contact() {
             <motion.div
               variants={createStaggeredFlip(0.4, 0.1)(0)}
             >
-              <h2 className='text-2xl font-semibold text-textPrimary mb-6'>Let's Connect</h2>
+              <h2 className='text-2xl font-semibold text-textPrimary mb-6'>Let{"'"}s Connect</h2>
               <div className='space-y-4'>
                 <motion.div
                   className='flex items-center space-x-3'
