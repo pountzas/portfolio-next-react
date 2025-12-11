@@ -8,12 +8,12 @@ import Learn from "../components/Learn";
 import SkillTemplate from "../components/SkillTemplate";
 
 import { motion } from "framer-motion";
-import { staggerContainer, createStaggeredFlip, flipFromTop, flipFromBottom, flipFromLeft, flipFromRight, flipOut } from "../components/animations/pageAnimations";
+import { staggerContainer, createStaggeredFlip, flipFromTop, flipFromBottom, flipFromLeft, flipFromRight } from "../components/animations/pageAnimations";
 
 function Skills() {
   return (
     <motion.div
-        className='flex justify-center bg-gradient-to-b from-primary to-secondary overflow-y-auto h-screen scrollbar-hide'
+        className='flex justify-center bg-gradient-to-b from-primary to-secondary scr h-[calc(100vh-3px)] overflow-y-auto scrollbar-hide'
         variants={staggerContainer}
         initial="initial"
         animate="animate"
@@ -48,11 +48,6 @@ function Skills() {
                 <motion.div
                   key={String(language.id)}
                   variants={createStaggeredFlip(0.4, 0.2)(i)}
-                  whileHover={{
-                    scale: 1.05,
-                    rotateY: 10,
-                    transition: { duration: 0.2 }
-                  }}
                 >
                   <motion.div
                     className="relative"
@@ -64,6 +59,8 @@ function Skills() {
                       id={String(language.id)}
                       icon={language.icon}
                       skillName={language.name}
+                      description={language.description}
+                      proficiency={language.proficiency}
                     />
                   </motion.div>
                 </motion.div>
@@ -89,11 +86,6 @@ function Skills() {
                 <motion.div
                   key={String(library.id)}
                   variants={createStaggeredFlip(0.6, 0.2)(i)}
-                  whileHover={{
-                    scale: 1.05,
-                    rotateY: 10,
-                    transition: { duration: 0.2 }
-                  }}
                 >
                   <motion.div
                     className="relative"
@@ -130,11 +122,6 @@ function Skills() {
                 <motion.div
                   key={String(framework.id)}
                   variants={createStaggeredFlip(0.8, 0.2)(i)}
-                  whileHover={{
-                    scale: 1.05,
-                    rotateY: -10,
-                    transition: { duration: 0.2 }
-                  }}
                 >
                   <motion.div
                     className="relative"
@@ -171,11 +158,6 @@ function Skills() {
                 <motion.div
                   key={String(tool.id)}
                   variants={createStaggeredFlip(1.0, 0.15)(i)}
-                  whileHover={{
-                    scale: 1.05,
-                    rotateY: 10,
-                    transition: { duration: 0.2 }
-                  }}
                 >
                   <motion.div
                     className="relative"
@@ -212,11 +194,6 @@ function Skills() {
                 <motion.div
                   key={String(lesson.id)}
                   variants={createStaggeredFlip(1.2, 0.2)(i)}
-                  whileHover={{
-                    scale: 1.05,
-                    rotateX: -10,
-                    transition: { duration: 0.2 }
-                  }}
                 >
                   <motion.div
                     className="relative"
@@ -228,6 +205,8 @@ function Skills() {
                       id={String(lesson.id)}
                       icon={lesson.icon}
                       skillName={lesson.name}
+                      description={lesson.description}
+                      proficiency={lesson.proficiency}
                     />
                   </motion.div>
                 </motion.div>
@@ -253,11 +232,6 @@ function Skills() {
                 <motion.div
                   key={String(service.id)}
                   variants={createStaggeredFlip(1.4, 0.15)(i)}
-                  whileHover={{
-                    scale: 1.05,
-                    rotateY: -10,
-                    transition: { duration: 0.2 }
-                  }}
                 >
                   <motion.div
                     className="relative"
