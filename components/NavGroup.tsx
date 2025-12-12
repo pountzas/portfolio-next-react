@@ -3,40 +3,45 @@ import { GiSkills } from 'react-icons/gi'
 import { RiGitRepositoryLine } from 'react-icons/ri'
 import { useRouter } from 'next/router'
 
-const router = useRouter();
+export interface NavItem {
+  label: string
+  path: string
+  icon: React.ReactNode
+  isActive: boolean
+  onClick: () => void
+}
 
-
-const NavGroup = [
+const navItems = [
   {
     label: 'Home',
     path: '/',
     icon: <FaHome />,
-    isActive: router.pathname === '/',
-    onClick: () => router.push('/'),
   },
   {
     label: 'Projects',
     path: '/Projects',
     icon: <RiGitRepositoryLine />,
-    isActive: router.pathname === '/Projects',
-    onClick: () => router.push('/Projects'),
   },
-  
   {
     label: 'Skills',
     path: '/Skills',
     icon: <GiSkills />,
-    isActive: router.pathname === '/Skills',
-    onClick: () => router.push('/Skills'),
   },
   {
     label: 'Contact',
     path: '/Contact',
     icon: <FaEnvelope />,
-    isActive: router.pathname === '/Contact',
-    onClick: () => router.push('/Contact'),
   },
 ]
 
+export const useNavGroup = (): NavItem[] => {
+  const router = useRouter()
 
-export default NavGroup
+  return navItems.map(item => ({
+    ...item,
+    isActive: router.pathname === item.path,
+    onClick: () => router.push(item.path),
+  }))
+}
+
+export default navItems

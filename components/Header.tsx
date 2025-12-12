@@ -1,14 +1,12 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import { flipOut } from './animations/pageAnimations';
-import NavItem from './NavItem';
 
-import { useRouter } from 'next/router';
-import NavGroup from './NavGroup';
+import NavItem from './NavItem';
+import { useNavGroup } from './NavGroup';
 
 const Header: React.FC = () => {
-  const router = useRouter();
- 
+  const navItems = useNavGroup();
+
   return (
     <motion.div
       className='sticky top-0 z-50 py-3 border-b shadow-sm border-borderSecondary bg-primary'
@@ -26,7 +24,7 @@ const Header: React.FC = () => {
 
         {/* right section */}
         <div className='flex px-3 space-x-8 text-textTertiary md:px-0'>
-          {NavGroup.map((item) => (
+          {navItems.map((item) => (
             <NavItem
               key={item.label}
               label={item.label}

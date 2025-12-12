@@ -70,7 +70,7 @@ function Contact() {
                   </div>
                   <div>
                     <p className='text-textPrimary font-medium'>Email</p>
-                    <p className='text-textTertiary'>nikos@pountzas.dev</p>
+                    <p className='text-textTertiary'>nikos@pountzas.gr</p>
                   </div>
                 </motion.div>
 
