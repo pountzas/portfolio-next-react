@@ -1,16 +1,14 @@
 import React from 'react';
-import { GiSkills } from 'react-icons/gi';
-import { RiGitRepositoryLine } from 'react-icons/ri';
-import { FaHome } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { flipOut } from './animations/pageAnimations';
 import NavItem from './NavItem';
 
 import { useRouter } from 'next/router';
+import NavGroup from './NavGroup';
 
 const Header: React.FC = () => {
   const router = useRouter();
-
+ 
   return (
     <motion.div
       className='sticky top-0 z-50 py-3 border-b shadow-sm border-borderSecondary bg-primary'
@@ -28,43 +26,17 @@ const Header: React.FC = () => {
 
         {/* right section */}
         <div className='flex px-3 space-x-8 text-textTertiary md:px-0'>
-          <NavItem
-            label="Home"
-            path="/"
-            mobileIcon={<FaHome />}
-            isActive={router.pathname === '/'}
-            onClick={() => router.push('/')}
-          />
-          <NavItem
-            label="Projects"
-            path="/Projects"
-            mobileIcon={<RiGitRepositoryLine />}
-            isActive={router.pathname === '/Projects'}
-            onClick={() => router.push('/Projects')}
-          />
-          <NavItem
-            label="Skills"
-            path="/Skills"
-            mobileIcon={<GiSkills />}
-            isActive={router.pathname === '/Skills'}
-            onClick={() => router.push('/Skills')}
-          />
-          {/* <div
-            className='cursor-pointer'
-            onClick={() => router.push('/Contact')}
-          >
-            <div
-              className={`hidden md:block text-lg uppercase font-semibold
-              ${router.pathname === '/Contact' ? 'text-textPrimary' : ''}`}
-            >
-              Contact
-            </div>
-            <IoIosContact
-              className={`text-2xl md:hidden ${
-                router.pathname === '/Contact' ? 'text-textPrimary' : ''
-              }`}
+          {NavGroup.map((item) => (
+            <NavItem
+              key={item.label}
+              label={item.label}
+              path={item.path}
+              mobileIcon={item.icon}
+              isActive={item.isActive}
+              onClick={item.onClick}
             />
-          </div> */}
+          ))}
+         
         </div>
       </div>
     </motion.div>
