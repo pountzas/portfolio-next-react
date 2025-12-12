@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { flipOut } from './animations/pageAnimations';
+import { flipOut, flipFromTop } from './animations/pageAnimations';
 
 import NavItem from './NavItem';
 import { useNavGroup } from './NavGroup';
@@ -11,7 +11,7 @@ const Header: React.FC = () => {
     <motion.div
       className='sticky top-0 z-50 py-3 border-b shadow-sm border-borderSecondary bg-primary'
       style={{ perspective: '1000px', transformStyle: 'preserve-3d' }}
-      variants={flipOut}
+      variants={flipFromTop}
       initial="initial"
       animate="animate"
       exit="exit"
