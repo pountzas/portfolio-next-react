@@ -1,32 +1,146 @@
-import Header from '../components/Header';
 import { motion } from 'framer-motion';
-import { staggerContainer, flipFromTop, flipFromBottom, flipFromLeft, flipFromRight, createStaggeredFlip, flipOut } from '../components/animations/pageAnimations';
+import { staggerContainer, flipFromTop, flipFromLeft, flipFromRight, createStaggeredFlip } from '../components/animations/pageAnimations';
 import { useState } from 'react';
 
+interface FormData {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}
+
+interface FormErrors {
+  name?: string;
+  email?: string;
+  subject?: string;
+  message?: string;
+}
+
 function Contact() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
     subject: '',
     message: ''
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{
+    type: 'success' | 'error' | null;
+    message: string;
+  }>({ type: null, message: '' });
+
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {};
+
+    // Name validation
+    if (!formData.name.trim()) {
+      newErrors.name = 'Name is required';
+    } else if (formData.name.trim().length < 2) {
+      newErrors.name = 'Name must be at least 2 characters';
+    }
+
+    // Email validation
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+
+    // Subject validation
+    if (!formData.subject.trim()) {
+      newErrors.subject = 'Subject is required';
+    } else if (formData.subject.trim().length < 5) {
+      newErrors.subject = 'Subject must be at least 5 characters';
+    }
+
+    // Message validation
+    if (!formData.message.trim()) {
+      newErrors.message = 'Message is required';
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = 'Message must be at least 10 characters';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+
+    // Clear error for this field when user starts typing
+    if (errors[name as keyof FormErrors]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: undefined
+      }));
+    }
+
+    // Clear submit status when user makes changes
+    if (submitStatus.type) {
+      setSubmitStatus({ type: null, message: '' });
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
+
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus({ type: null, message: '' });
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitStatus({
+          type: 'success',
+          message: data.message || 'Message sent successfully! I\'ll get back to you soon.'
+        });
+
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: ''
+        });
+      } else {
+        setSubmitStatus({
+          type: 'error',
+          message: data.message || 'Failed to send message. Please try again.'
+        });
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setSubmitStatus({
+        type: 'error',
+        message: 'Network error. Please check your connection and try again.'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <motion.div
-        className='max-w-4xl mx-auto px-4 py-8'
+        className='max-w-4xl mx-auto px-4 py-8 h-[calc(100vh-111px)] overflow-y-auto scrollbar-hide'
         style={{ perspective: '1000px', transformStyle: 'preserve-3d' }}
         variants={staggerContainer}
         initial="initial"
@@ -124,6 +238,21 @@ function Contact() {
               className='space-y-6'
               variants={staggerContainer}
             >
+              {/* Status Message */}
+              {submitStatus.type && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`p-4 rounded-lg border ${
+                    submitStatus.type === 'success'
+                      ? 'bg-green-900/20 border-green-500/30 text-green-400'
+                      : 'bg-red-900/20 border-red-500/30 text-red-400'
+                  }`}
+                >
+                  {submitStatus.message}
+                </motion.div>
+              )}
+
               <motion.div
                 variants={createStaggeredFlip(0.5, 0.1)(0)}
               >
@@ -136,12 +265,23 @@ function Contact() {
                   name='name'
                   value={formData.name}
                   onChange={handleChange}
-                  className='w-full px-4 py-3 bg-tertiary border border-borderSecondary rounded-lg text-textPrimary placeholder-textTertiary focus:outline-none focus:border-textPrimary transition-colors'
+                  className={`w-full px-4 py-3 bg-tertiary border rounded-lg text-textPrimary placeholder-textTertiary focus:outline-none transition-colors ${
+                    errors.name ? 'border-red-500' : 'border-borderSecondary focus:border-textPrimary'
+                  }`}
                   placeholder='Your name'
-                  required
+                  disabled={isSubmitting}
                   variants={createStaggeredFlip(0.6, 0.1)(1)}
                   whileFocus={{ scale: 1.02 }}
                 />
+                {errors.name && (
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className='text-red-400 text-sm mt-1'
+                  >
+                    {errors.name}
+                  </motion.p>
+                )}
               </motion.div>
 
               <motion.div
@@ -156,12 +296,23 @@ function Contact() {
                   name='email'
                   value={formData.email}
                   onChange={handleChange}
-                  className='w-full px-4 py-3 bg-tertiary border border-borderSecondary rounded-lg text-textPrimary placeholder-textTertiary focus:outline-none focus:border-textPrimary transition-colors'
+                  className={`w-full px-4 py-3 bg-tertiary border rounded-lg text-textPrimary placeholder-textTertiary focus:outline-none transition-colors ${
+                    errors.email ? 'border-red-500' : 'border-borderSecondary focus:border-textPrimary'
+                  }`}
                   placeholder='your.email@example.com'
-                  required
+                  disabled={isSubmitting}
                   variants={createStaggeredFlip(0.7, 0.1)(3)}
                   whileFocus={{ scale: 1.02 }}
                 />
+                {errors.email && (
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className='text-red-400 text-sm mt-1'
+                  >
+                    {errors.email}
+                  </motion.p>
+                )}
               </motion.div>
 
               <motion.div
@@ -176,12 +327,23 @@ function Contact() {
                   name='subject'
                   value={formData.subject}
                   onChange={handleChange}
-                  className='w-full px-4 py-3 bg-tertiary border border-borderSecondary rounded-lg text-textPrimary placeholder-textTertiary focus:outline-none focus:border-textPrimary transition-colors'
+                  className={`w-full px-4 py-3 bg-tertiary border rounded-lg text-textPrimary placeholder-textTertiary focus:outline-none transition-colors ${
+                    errors.subject ? 'border-red-500' : 'border-borderSecondary focus:border-textPrimary'
+                  }`}
                   placeholder='Project inquiry'
-                  required
+                  disabled={isSubmitting}
                   variants={createStaggeredFlip(0.8, 0.1)(5)}
                   whileFocus={{ scale: 1.02 }}
                 />
+                {errors.subject && (
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className='text-red-400 text-sm mt-1'
+                  >
+                    {errors.subject}
+                  </motion.p>
+                )}
               </motion.div>
 
               <motion.div
@@ -196,22 +358,49 @@ function Contact() {
                   value={formData.message}
                   onChange={handleChange}
                   rows={5}
-                  className='w-full px-4 py-3 bg-tertiary border border-borderSecondary rounded-lg text-textPrimary placeholder-textTertiary focus:outline-none focus:border-textPrimary transition-colors resize-none'
+                  className={`w-full px-4 py-3 bg-tertiary border rounded-lg text-textPrimary placeholder-textTertiary focus:outline-none transition-colors resize-none ${
+                    errors.message ? 'border-red-500' : 'border-borderSecondary focus:border-textPrimary'
+                  }`}
                   placeholder='Tell me about your project...'
-                  required
+                  disabled={isSubmitting}
                   variants={createStaggeredFlip(0.9, 0.1)(7)}
                   whileFocus={{ scale: 1.02 }}
                 />
+                {errors.message && (
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className='text-red-400 text-sm mt-1'
+                  >
+                    {errors.message}
+                  </motion.p>
+                )}
               </motion.div>
 
               <motion.button
                 type='submit'
-                className='w-full bg-textPrimary text-primary py-3 px-6 rounded-lg font-semibold hover:bg-opacity-90 transition-colors'
+                disabled={isSubmitting}
+                className={`w-full py-3 px-6 rounded-lg font-semibold transition-colors ${
+                  isSubmitting
+                    ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                    : 'bg-textPrimary text-primary hover:bg-opacity-90'
+                }`}
                 variants={createStaggeredFlip(1.0, 0.1)(8)}
-                whileHover={{ scale: 1.02, rotateY: 2 }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={!isSubmitting ? { scale: 1.02, rotateY: 2 } : {}}
+                whileTap={!isSubmitting ? { scale: 0.98 } : {}}
               >
-                Send Message
+                {isSubmitting ? (
+                  <div className='flex items-center justify-center space-x-2'>
+                    <motion.div
+                      className='w-4 h-4 border-2 border-primary border-t-transparent rounded-full'
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                    />
+                    <span>Sending...</span>
+                  </div>
+                ) : (
+                  'Send Message'
+                )}
               </motion.button>
             </motion.form>
           </motion.div>
