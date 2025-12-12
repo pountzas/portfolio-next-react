@@ -15,7 +15,7 @@
     "@apollo/client": "^4.0.9",
     "framer-motion": "^12.23.25",
     "graphql": "16.9.0",
-    "next": "^16.0.7",
+    "next": "^16.0.9",
     "prettier": "3.0.1",
     "prettier-plugin-tailwindcss": "0.3.0",
     "react": "^19.2.1",
