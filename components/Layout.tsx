@@ -19,7 +19,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   }, [router.pathname]);
 
   return (
-    <div className="min-h-screen bg-tertiary h-screen overflow-y-auto scrollbar-hide">
+    <div className="min-h-screen bg-tertiary h-screen overflow-y-clip scrollbar-hide" style={{ perspective: '1000px', transformStyle: 'preserve-3d' }}>
       <Header />
       <AnimatePresence mode="wait" initial={false}>
         <motion.main

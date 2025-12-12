@@ -10,6 +10,7 @@ const Header: React.FC = () => {
   return (
     <motion.div
       className='sticky top-0 z-50 py-3 border-b shadow-sm border-borderSecondary bg-primary'
+      style={{ perspective: '1000px', transformStyle: 'preserve-3d' }}
       variants={flipOut}
       initial="initial"
       animate="animate"

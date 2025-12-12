@@ -7,6 +7,7 @@ function About() {
   return (
     <motion.div
         className='max-w-4xl mx-auto px-4 py-8'
+        style={{ perspective: '1000px', transformStyle: 'preserve-3d' }}
         variants={staggerContainer}
         initial="initial"
         animate="animate"

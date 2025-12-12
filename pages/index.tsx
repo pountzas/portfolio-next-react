@@ -17,6 +17,7 @@ export default function Home() {
 
       <motion.div
         className='max-w-xs grid-cols-1 py-4 mx-auto mt-24 space-y-5 border rounded-lg border-borderSecondary md:pt-8 bg-quaternary sm:max-w-md md:max-w-2xl xl:max-w-6xl'
+        style={{ perspective: '1000px', transformStyle: 'preserve-3d' }}
         variants={staggerContainer}
         initial="initial"
         animate="animate"
