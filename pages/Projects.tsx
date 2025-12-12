@@ -98,7 +98,7 @@ const ProjectCard = memo<ProjectCardProps>(({ item, index }) => {
               </div>
               {/* Links */}
               <div className='flex items-center justify-center pb-3'>
-                <Link target={'_blank'} href={item.url} passHref>
+                <Link target={'_blank'} rel="noopener noreferrer" href={item.url} passHref>
                   <div
                     className='inline-block px-3 py-1 m-1 text-xl font-semibold rounded-full text-textSecondary bg-textTertiary hover:bg-tertiary'
                   >
@@ -106,7 +106,7 @@ const ProjectCard = memo<ProjectCardProps>(({ item, index }) => {
                   </div>
                 </Link>
                 {item.homepageUrl ? (
-                  <Link target={'_blank'} href={item.homepageUrl} passHref>
+                  <Link target={'_blank'} rel="noopener noreferrer" href={item.homepageUrl} passHref>
                     <div
                       className='inline-block px-3 py-1 m-1 text-xl font-semibold rounded-full text-textSecondary bg-textTertiary hover:bg-tertiary'
                     >
