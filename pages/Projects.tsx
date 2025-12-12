@@ -1,4 +1,4 @@
-import React, { useState, Activity } from 'react';
+import React, { useState, Activity, useMemo, memo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
@@ -27,31 +27,22 @@ interface ProjectsProps {
   pinnedItems: PinnedRepository[];
 }
 
-const Projects: React.FC<ProjectsProps> = ({ pinnedItems }) => {
-  const [projects, setProjects] = useState<PinnedRepository[]>(pinnedItems);
+interface ProjectCardProps {
+  item: PinnedRepository;
+  index: number;
+}
 
-  // console.log(projects);
+// Memoized Project Card Component for better performance
+const ProjectCard = memo<ProjectCardProps>(({ item, index }) => {
+  // Memoize expensive computations
+  const contributors = useMemo(() => item.assignableUsers?.edges || [], [item.assignableUsers]);
+  const topics = useMemo(() => item.repositoryTopics?.edges || [], [item.repositoryTopics]);
 
   return (
-    <motion.section
-        className='flex justify-center bg-gradient-to-b from-primary to-secondary overflow-y-auto h-screen scrollbar-hide'
-        variants={staggerContainer}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-      >
-        <motion.div
-          className='grid gap-8 pt-6 md:grid-cols-2'
-          variants={staggerContainer}
-        >
-          {projects.map((item, index) => (
             <motion.div
-              key={item.id}
               className='flex flex-col justify-between max-w-xs border-2 text-textPrimary border-borderSecondary rounded-xl bg-quaternary md:max-w-md'
               variants={createStaggeredFlip(0.2, 0.15)(index)}
               whileHover={{
-                // scale: 1.02,
-                // rotateY: 5,
                 boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
                 transition: { duration: 0.3 }
               }}
@@ -66,7 +57,9 @@ const Projects: React.FC<ProjectsProps> = ({ pinnedItems }) => {
                   width={640}
                   height={420}
                   alt={item.name}
-                  priority
+          priority={index < 2}
+          placeholder='blur'
+          blurDataURL='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+IRjWjBqO6O2mhP//Z'
                 />
                 <div className='absolute top-auto flex items-center justify-center pb-2 inset-1'>
                   <Activity mode={item.object ? 'visible' : 'hidden'}> 
@@ -77,14 +70,14 @@ const Projects: React.FC<ProjectsProps> = ({ pinnedItems }) => {
                   </Activity>
 
                   <Activity mode={item.cloneCount ? 'visible' : 'hidden'}>
-                    <p className='inline-block px-3 py-1 m-1 text-xs font-bold text-gray-800 bg-teal-500 border rounded-full shadow-lg cursor-pointer border-cyan-600 hover:text-blue-900 md:text:md'>
+            <p className='flex px-3 py-1 m-1 text-xs font-bold text-gray-800 bg-teal-500 border rounded-full shadow-lg cursor-pointer border-cyan-600 hover:text-blue-900 md:text:md'>
                       <span className='pr-1'>Cloned:</span>
                       {item.cloneCount}
                     </p>
                   </Activity>
 
                   <Activity mode={item.viewCount ? 'visible' : 'hidden'}>
-                    <p className='inline-block px-3 py-1 m-1 text-xs font-bold text-gray-800 bg-teal-500 border rounded-full shadow-lg cursor-pointer border-cyan-600 hover:text-blue-900 md:text:md'>
+            <p className='flex px-3 py-1 m-1 text-xs font-bold text-gray-800 bg-teal-500 border rounded-full shadow-lg cursor-pointer border-cyan-600 hover:text-blue-900 md:text:md'>
                       <span className='pr-1'>Views:</span>
                       {item.viewCount}
                     </p>
@@ -94,7 +87,7 @@ const Projects: React.FC<ProjectsProps> = ({ pinnedItems }) => {
               <p className='py-2 mx-5'>{item.description}</p>
               {/* tags */}
               <div className='flex flex-wrap justify-center pb-2 mx-5'>
-                {item.repositoryTopics.edges.map((tag) => (
+        {topics.map((tag) => (
                   <span
                     className='inline-block px-3 py-1 m-1 text-xs font-semibold text-blue-100 rounded-full cursor-pointer bg-tertiary'
                     key={tag.node.id}
@@ -139,7 +132,7 @@ const Projects: React.FC<ProjectsProps> = ({ pinnedItems }) => {
                 <div className='flex items-center space-x-2'>
                   <p className='hidden md:inline-block'>Contributors: </p>
                   <BsPeopleFill className='md:hidden' />
-                  {item.assignableUsers.edges.map((user) => (
+          {contributors.map((user) => (
                     <div
                       className='relative group-hover:opacity-100'
                       key={user.node.id}
@@ -159,7 +152,63 @@ const Projects: React.FC<ProjectsProps> = ({ pinnedItems }) => {
                 </div>
               </div>
             </motion.div>
+  );
+});
+
+ProjectCard.displayName = 'ProjectCard';
+
+const Projects: React.FC<ProjectsProps> = ({ pinnedItems }) => {
+  const [projects, setProjects] = useState<PinnedRepository[]>(pinnedItems);
+  const [loadedCount, setLoadedCount] = useState(3); // Start with 3 projects
+
+  // Memoize visible projects for performance
+  const visibleProjects = useMemo(() => {
+    return projects.slice(0, loadedCount);
+  }, [projects, loadedCount]);
+
+  // Load more projects progressively
+  React.useEffect(() => {
+    if (loadedCount < projects.length) {
+      const timer = setTimeout(() => {
+        setLoadedCount(prev => Math.min(prev + 2, projects.length));
+      }, 100); // Small delay to allow initial render to complete
+
+      return () => clearTimeout(timer);
+    }
+  }, [loadedCount, projects.length]);
+
+  // console.log(projects);
+
+  return (
+    <motion.section
+        className='flex justify-center bg-gradient-to-b from-primary to-secondary overflow-y-auto h-screen scrollbar-hide'
+        variants={staggerContainer}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+      >
+        <motion.div
+          className='grid gap-8 pt-6 md:grid-cols-2'
+          variants={staggerContainer}
+        >
+          {visibleProjects.map((item, index) => (
+            <ProjectCard key={item.id} item={item} index={index} />
           ))}
+
+          {/* Loading indicator for additional projects */}
+          {loadedCount < projects.length && (
+            <motion.div
+              className='flex justify-center items-center py-8'
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              <div className='flex items-center space-x-2 text-textTertiary'>
+                <div className='w-4 h-4 border-2 border-textPrimary border-t-transparent rounded-full animate-spin'></div>
+                <span className='text-sm'>Loading more projects...</span>
+              </div>
+            </motion.div>
+          )}
+
           <div className='h-20'></div>
         </motion.div>
       </motion.section>
@@ -199,7 +248,7 @@ export async function getStaticProps() {
                   forkCount
                   stargazerCount
                   openGraphImageUrl
-                  assignableUsers(first: 5) {
+                  assignableUsers(first: 3) {
                     edges {
                       node {
                         id
@@ -210,7 +259,7 @@ export async function getStaticProps() {
                   }
                   description
                   url
-                  repositoryTopics(first: 6) {
+                  repositoryTopics(first: 7) {
                     edges {
                       node {
                         id
