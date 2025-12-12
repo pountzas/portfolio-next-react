@@ -1,16 +1,21 @@
-import React from 'react';
-import { IoIosContact } from 'react-icons/io';
-import { GiSkills } from 'react-icons/gi';
-import { RiGitRepositoryLine } from 'react-icons/ri';
-import { FaHome } from 'react-icons/fa';
+import { motion } from 'framer-motion';
+import { flipOut, flipFromTop } from './animations/pageAnimations';
 
-import { useRouter } from 'next/router';
+import NavItem from './NavItem';
+import { useNavGroup } from './NavGroup';
 
 const Header: React.FC = () => {
-  const router = useRouter();
+  const navItems = useNavGroup();
 
   return (
-    <div className='sticky top-0 z-50 py-3 border-b shadow-sm border-borderSecondary bg-primary '>
+    <motion.div
+      className='sticky top-0 z-50 py-3 border-b shadow-sm border-borderSecondary bg-primary'
+      style={{ perspective: '1000px', transformStyle: 'preserve-3d' }}
+      variants={flipFromTop}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+    >
       {/* left section */}
       <div className='flex justify-between mx-auto md:max-w-4xl xl:max-w-6xl '>
         <h1 className='px-3 font-semibold text-textPrimary md:px-0'>
@@ -20,67 +25,20 @@ const Header: React.FC = () => {
 
         {/* right section */}
         <div className='flex px-3 space-x-8 text-textTertiary md:px-0'>
-          <div className='cursor-pointer' onClick={() => router.push('/')}>
-            <div
-              className={`hidden md:block px-1 text-lg uppercase font-semibold
-              ${router.pathname === '/' ? 'text-textPrimary' : ''}`}
-            >
-              Home
-            </div>
-            <FaHome
-              className={`text-2xl md:hidden ${router.pathname === '/' ? 'text-textPrimary' : ''
-                }`}
+          {navItems.map((item) => (
+            <NavItem
+              key={item.label}
+              label={item.label}
+              path={item.path}
+              mobileIcon={item.icon}
+              isActive={item.isActive}
+              onClick={item.onClick}
             />
-          </div>
-          <div
-            className='cursor-pointer'
-            onClick={() => router.push('/Projects')}
-          >
-            <div
-              className={`hidden md:block px-1 text-lg uppercase font-semibold
-              ${router.pathname === '/Projects' ? 'text-textPrimary' : ''}`}
-            >
-              Projects
-            </div>
-            <RiGitRepositoryLine
-              className={`text-2xl md:hidden ${router.pathname === '/Projects' ? 'text-textPrimary' : ''
-                }`}
-            />
-          </div>
-          <div
-            className='cursor-pointer'
-            onClick={() => router.push('/Skills')}
-          >
-            <div
-              className={`hidden md:block px-1 text-lg uppercase font-semibold
-              ${router.pathname === '/Skills' ? 'text-textPrimary' : ''}`}
-            >
-              Skills
-            </div>
-            <GiSkills
-              className={`text-2xl md:hidden ${router.pathname === '/Skills' ? 'text-textPrimary' : ''
-                }`}
-            />
-          </div>
-          {/* <div
-            className='cursor-pointer'
-            onClick={() => router.push('/Contact')}
-          >
-            <div
-              className={`hidden md:block text-lg uppercase font-semibold
-              ${router.pathname === '/Contact' ? 'text-textPrimary' : ''}`}
-            >
-              Contact
-            </div>
-            <IoIosContact
-              className={`text-2xl md:hidden ${
-                router.pathname === '/Contact' ? 'text-textPrimary' : ''
-              }`}
-            />
-          </div> */}
+          ))}
+         
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
