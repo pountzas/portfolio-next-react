@@ -27,8 +27,22 @@ export const pageVariants: Variants = {
   },
 };
 
-// Flip-out animation for page exit
+// Flip-out animation for page exit with entry states for header
 export const flipOut: Variants = {
+  initial: {
+    opacity: 0,
+    scale: 0.9,
+    rotateY: -45,
+  },
+  animate: {
+    opacity: 1,
+    scale: 1,
+    rotateY: 0,
+    transition: {
+      duration: 0.3,
+      ease: [0.25, 0.46, 0.45, 0.94],
+    },
+  },
   exit: {
     opacity: 0,
     scale: 0.9,
