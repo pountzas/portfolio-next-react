@@ -12,7 +12,7 @@
     "node": "22.x"
   },
   "dependencies": {
-    "@apollo/client": "^4.0.9",
+    "@apollo/client": "^4.0.10",
     "framer-motion": "^12.23.25",
     "graphql": "16.9.0",
     "next": "^16.0.10",
@@ -34,6 +34,6 @@
     "eslint": "8.47.0",
     "eslint-config-next": "13.5.11",
     "postcss": "8.5.3",
-    "tailwindcss": "3.3.3"
+    "tailwindcss": "^3.4.19"
   }
 }
