@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, Activity } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { staggerContainer, createStaggeredFlip } from '../components/animations/pageAnimations';
 
 import {
   ApolloClient,
   InMemoryCache,
-  createHttpLink,
+  HttpLink,
   gql,
 } from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
+import { SetContextLink } from '@apollo/client/link/context';
 
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import type { PinnedRepository } from '../types/github';
+import type { PinnedRepository, GitHubApiResponse } from '../types/github';
 
 import {
   AiOutlineStar,
@@ -30,15 +30,31 @@ interface ProjectsProps {
 const Projects: React.FC<ProjectsProps> = ({ pinnedItems }) => {
   const [projects, setProjects] = useState<PinnedRepository[]>(pinnedItems);
 
+  // console.log(projects);
+
   return (
-    <div className='max-h-screen overflow-y-scroll cursor-pointer bg-tertiary scrollbar-hide'>
-      <Header />
-      <section className='flex justify-center'>
-        <div className='grid gap-8 p-3 pb-10 m-4 md:grid-cols-2'>
-          {projects.map((item) => (
-            <div
+    <motion.section
+        className='flex justify-center bg-gradient-to-b from-primary to-secondary overflow-y-auto h-screen scrollbar-hide'
+        variants={staggerContainer}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+      >
+        <motion.div
+          className='grid gap-8 pt-6 md:grid-cols-2'
+          variants={staggerContainer}
+        >
+          {projects.map((item, index) => (
+            <motion.div
               key={item.id}
               className='flex flex-col justify-between max-w-xs border-2 text-textPrimary border-borderSecondary rounded-xl bg-quaternary md:max-w-md'
+              variants={createStaggeredFlip(0.2, 0.15)(index)}
+              whileHover={{
+                // scale: 1.02,
+                // rotateY: 5,
+                boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
+                transition: { duration: 0.3 }
+              }}
             >
               <h1 className='p-2 mb-3 text-xl font-semibold text-center rounded-t-lg bg-secondary'>
                 {item.name}
@@ -53,26 +69,26 @@ const Projects: React.FC<ProjectsProps> = ({ pinnedItems }) => {
                   priority
                 />
                 <div className='absolute top-auto flex items-center justify-center pb-2 inset-1'>
-                  {item.object && (
+                  <Activity mode={item.object ? 'visible' : 'hidden'}> 
                     <p className='flex px-3 py-1 m-1 text-xs font-bold text-gray-800 bg-teal-500 border rounded-full shadow-lg cursor-pointer border-cyan-600 hover:text-blue-900 md:text:md'>
                       <span className='pr-1'>Commits: </span>
-                      {item.object.history.totalCount}
+                      {item.object?.history?.totalCount}
                     </p>
-                  )}
+                  </Activity>
 
-                  {item.cloneCount && (
+                  <Activity mode={item.cloneCount ? 'visible' : 'hidden'}>
                     <p className='inline-block px-3 py-1 m-1 text-xs font-bold text-gray-800 bg-teal-500 border rounded-full shadow-lg cursor-pointer border-cyan-600 hover:text-blue-900 md:text:md'>
-                      <p className='pr-1'>Cloned:</p>
+                      <span className='pr-1'>Cloned:</span>
                       {item.cloneCount}
                     </p>
-                  )}
+                  </Activity>
 
-                  {item.viewCount && (
+                  <Activity mode={item.viewCount ? 'visible' : 'hidden'}>
                     <p className='inline-block px-3 py-1 m-1 text-xs font-bold text-gray-800 bg-teal-500 border rounded-full shadow-lg cursor-pointer border-cyan-600 hover:text-blue-900 md:text:md'>
-                      <p className='pr-1'>Views:</p>
+                      <span className='pr-1'>Views:</span>
                       {item.viewCount}
                     </p>
-                  )}
+                  </Activity>
                 </div>
               </div>
               <p className='py-2 mx-5'>{item.description}</p>
@@ -142,35 +158,34 @@ const Projects: React.FC<ProjectsProps> = ({ pinnedItems }) => {
                   ))}
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
-      </section>
-      <Footer />
-    </div>
+          <div className='h-20'></div>
+        </motion.div>
+      </motion.section>
   );
 }
 
 export async function getStaticProps() {
-  const httpLink = createHttpLink({
+  const httpLink = new HttpLink({
     uri: 'https://api.github.com/graphql',
   });
 
-  const authLink = setContext((_, { headers }) => {
-    return {
-      headers: {
-        ...headers,
-        authorization: `Bearer ${process.env.GITHUB_ACCESS_TOKEN}`,
-      },
-    };
-  });
+  const token = process.env.GITHUB_ACCESS_TOKEN;
+
+  const authLink = new SetContextLink((prevContext, operation) => ({
+    headers: {
+      ...prevContext.headers,
+      authorization: token ? `Bearer ${token}` : "",
+    },
+  }));
 
   const client = new ApolloClient({
     link: authLink.concat(httpLink),
     cache: new InMemoryCache(),
   });
 
-  const { data } = await client.query({
+  const { data } = await client.query<GitHubApiResponse>({
     query: gql`
       {
         user(login: "pountzas") {
@@ -225,6 +240,10 @@ export async function getStaticProps() {
       }
     `,
   });
+
+  if (!data) {
+    throw new Error('Failed to fetch GitHub data');
+  }
 
   const { user } = data;
   const pinned = user.pinnedItems.edges.map(({ node }: { node: PinnedRepository }) => node);

@@ -5,13 +5,7 @@ import {
   AiFillTwitterSquare,
   AiFillFacebook,
 } from 'react-icons/ai';
-
-export interface SocialItem {
-  id: number;
-  name: string;
-  path: string;
-  icon: React.JSX.Element;
-}
+import { SocialItem } from '../types';
 
 const Socials: SocialItem[] = [
   {
