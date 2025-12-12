@@ -63,6 +63,8 @@ export interface SkillTemplateProps {
   description?: string;
   proficiency?: number;
   officialSite?: string;
+  isAnyModalOpen?: boolean;
+  setIsAnyModalOpen?: (isOpen: boolean) => void;
 }
 
 // =============================================================================

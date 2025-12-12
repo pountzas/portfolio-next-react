@@ -9,8 +9,11 @@ import SkillTemplate from "../components/SkillTemplate";
 
 import { motion } from "framer-motion";
 import { staggerContainer, createStaggeredFlip, flipFromTop, flipFromBottom, flipFromLeft, flipFromRight } from "../components/animations/pageAnimations";
+import { useState } from "react";
 
 function Skills() {
+  const [isAnyModalOpen, setIsAnyModalOpen] = useState(false);
+
   return (
     <motion.div
         className='flex justify-center bg-gradient-to-b from-primary to-secondary h-[calc(100vh-3px)] overflow-y-auto scrollbar-hide'
@@ -63,6 +66,8 @@ function Skills() {
                       description={language.description}
                       proficiency={language.proficiency}
                       officialSite={language.officialSite}
+                      isAnyModalOpen={isAnyModalOpen}
+                      setIsAnyModalOpen={setIsAnyModalOpen}
                     />
                   </motion.div>
                 </motion.div>
@@ -102,6 +107,8 @@ function Skills() {
                       description={library.description}
                       proficiency={library.proficiency}
                       officialSite={library.officialSite}
+                      isAnyModalOpen={isAnyModalOpen}
+                      setIsAnyModalOpen={setIsAnyModalOpen}
                     />
                   </motion.div>
                 </motion.div>
@@ -141,6 +148,8 @@ function Skills() {
                       description={framework.description}
                       proficiency={framework.proficiency}
                       officialSite={framework.officialSite}
+                      isAnyModalOpen={isAnyModalOpen}
+                      setIsAnyModalOpen={setIsAnyModalOpen}
                     />
                   </motion.div>
                 </motion.div>
@@ -180,6 +189,8 @@ function Skills() {
                       description={tool.description}
                       proficiency={tool.proficiency}
                       officialSite={tool.officialSite}
+                      isAnyModalOpen={isAnyModalOpen}
+                      setIsAnyModalOpen={setIsAnyModalOpen}
                     />
                   </motion.div>
                 </motion.div>
@@ -219,6 +230,8 @@ function Skills() {
                       description={lesson.description}
                       proficiency={lesson.proficiency}
                       officialSite={lesson.officialSite}
+                      isAnyModalOpen={isAnyModalOpen}
+                      setIsAnyModalOpen={setIsAnyModalOpen}
                     />
                   </motion.div>
                 </motion.div>
@@ -258,6 +271,8 @@ function Skills() {
                       description={service.description}
                       proficiency={service.proficiency}
                       officialSite={service.officialSite}
+                      isAnyModalOpen={isAnyModalOpen}
+                      setIsAnyModalOpen={setIsAnyModalOpen}
                     />
                   </motion.div>
                 </motion.div>

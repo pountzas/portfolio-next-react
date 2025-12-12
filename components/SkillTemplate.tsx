@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, Activity } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { fuseBurnVariants, borderGlowVariants, createBorderFusePath, createFireParticles } from './animations/fireAnimations';
 import { SkillTemplateProps } from '../types';
+import ModalWrapper from './ModalWrapper';
 
 // Animation variants for skill card transformation
 const skillCardVariants = {
@@ -31,27 +32,28 @@ const skillCardVariants = {
   },
 };
 
-function SkillTemplate({ id, icon, skillName, description, proficiency, officialSite }: SkillTemplateProps) {
+function SkillTemplate({ id, icon, skillName, description, proficiency, officialSite, isAnyModalOpen = false, setIsAnyModalOpen }: SkillTemplateProps) {
   const [isHovered, setIsHovered] = useState(false);
-  const [showModal, setShowModal] = useState(false);
   const [fireCompleted, setFireCompleted] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-
 
   // Handle fire animation completion
   useEffect(() => {
-    if (fireCompleted && isHovered) {
-      // Brief pause before modal transformation
+    if (fireCompleted && isHovered && !isAnyModalOpen) {
+      // Only open modal if no other modal is currently open
       const timer = setTimeout(() => {
         setShowModal(true);
+        setIsAnyModalOpen?.(true); // Notify parent that a modal is now open
       }, 200);
       return () => clearTimeout(timer);
     }
-  }, [fireCompleted, isHovered]);
+  }, [fireCompleted, isHovered, isAnyModalOpen, setIsAnyModalOpen]);
 
   // Handle modal close
   const handleCloseModal = () => {
     setShowModal(false);
+    setIsAnyModalOpen?.(false); // Notify parent that no modal is open
     // Reset state after animation completes
     setTimeout(() => {
       setFireCompleted(false);
@@ -61,8 +63,11 @@ function SkillTemplate({ id, icon, skillName, description, proficiency, official
 
   // Handle hover start
   const handleHoverStart = () => {
-    setIsHovered(true);
-    setFireCompleted(false);
+    // Only allow hover if no modal is currently open
+    if (!isAnyModalOpen) {
+      setIsHovered(true);
+      setFireCompleted(false);
+    }
   };
 
   // Handle hover end
@@ -76,28 +81,30 @@ function SkillTemplate({ id, icon, skillName, description, proficiency, official
 
   return (
     <>
-      {/* Modal Overlay */}
-      <AnimatePresence>
-        <Activity mode={showModal ? "visible" : "hidden"} >
-          <motion.div
-            className="fixed inset-0 z-60 bg-black bg-opacity-10"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            onClick={handleCloseModal}
-            style={{
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0
-            }}
-            />
-          </Activity>
-      </AnimatePresence>
+      {/* Modal Overlay with Keyboard Support */}
+      <ModalWrapper isOpen={showModal} onClose={handleCloseModal}>
+        <AnimatePresence>
+          <Activity mode={showModal ? "visible" : "hidden"} >
+            <motion.div
+              className="fixed inset-0 z-60 bg-black bg-opacity-10"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              onClick={handleCloseModal}
+              style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0
+              }}
+              />
+            </Activity>
+        </AnimatePresence>
+      </ModalWrapper>
 
-      {/* Skill Card/Modal */}
+      {/* Skill Card */}
       <motion.div
         ref={containerRef}
         className={`relative flex items-center justify-center p-2 m-2 text-gray-500 transition duration-150 ease-in-out border shadow-xl rounded-xl border-borderSecondary bg-quaternary md:w-20 md:h-20 duration-400 shadow-quaternary ${!showModal && 'grayscale hover:grayscale-0' }`}
@@ -236,7 +243,7 @@ function SkillTemplate({ id, icon, skillName, description, proficiency, official
                 {/* <div className="flex justify-between items-center mb-2">
                   <span className="text-textPrimary font-medium">Proficiency</span>
                   <span className="text-textTertiary">{proficiency || 80}%</span>
-                </div> */}
+                  </div> */}
                 <div className="w-full bg-tertiary rounded-full h-3">
                   <motion.div
                     className="bg-gradient-to-r from-orange-500 to-red-500 h-3 rounded-full"
@@ -315,5 +322,4 @@ function SkillTemplate({ id, icon, skillName, description, proficiency, official
     </>
   );
 }
-
 export default SkillTemplate;
