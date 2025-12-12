@@ -13,7 +13,7 @@ import { staggerContainer, createStaggeredFlip, flipFromTop, flipFromBottom, fli
 function Skills() {
   return (
     <motion.div
-        className='flex justify-center bg-gradient-to-b from-primary to-secondary scr h-[calc(100vh-3px)] overflow-y-auto scrollbar-hide'
+        className='flex justify-center bg-gradient-to-b from-primary to-secondary h-[calc(100vh-3px)] overflow-y-auto scrollbar-hide'
         style={{ perspective: '1000px', transformStyle: 'preserve-3d' }}
         variants={staggerContainer}
         initial="initial"
