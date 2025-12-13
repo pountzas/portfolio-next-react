@@ -86,7 +86,7 @@ function SkillTemplate({ id, icon, skillName, description, proficiency, official
         <AnimatePresence>
           <Activity mode={showModal ? "visible" : "hidden"} >
             <motion.div
-              className="fixed inset-0 z-60 bg-black bg-opacity-10"
+              className="fixed inset-0 z-[60] bg-black bg-opacity-10"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}

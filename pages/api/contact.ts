@@ -1,7 +1,22 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Validate required environment variables
+const { RESEND_API_KEY, CONTACT_EMAIL, RESEND_FROM_EMAIL } = process.env;
+
+if (!RESEND_API_KEY) {
+  throw new Error('RESEND_API_KEY environment variable is required');
+}
+
+if (!CONTACT_EMAIL) {
+  throw new Error('CONTACT_EMAIL environment variable is required');
+}
+
+const resend = new Resend(RESEND_API_KEY);
+
+// HTML escape function to prevent XSS injection
+const escapeHtml = (s: string): string =>
+  s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -9,6 +24,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
+    // Validate required environment variables at runtime
+    if (!RESEND_API_KEY) {
+      return res.status(500).json({ message: 'Server email provider is not configured' });
+    }
+    if (!CONTACT_EMAIL) {
+      return res.status(500).json({ message: 'Server recipient email is not configured' });
+    }
+
     const { name, email, subject, message } = req.body;
 
     // Validate required fields
@@ -26,11 +49,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       });
     }
 
+    // Escape user input to prevent HTML injection
+    const safeName = escapeHtml(String(name));
+    const safeEmail = escapeHtml(String(email));
+    const safeSubject = escapeHtml(String(subject));
+    const safeMessage = escapeHtml(String(message));
+
     // Send email using Resend
     const { data, error } = await resend.emails.send({
-      from: 'Portfolio Contact <onboarding@resend.dev>', // You'll need to verify your domain
-      to: process.env.CONTACT_EMAIL || 'nikos@pountzas.gr',
-      subject: `Portfolio Contact: ${subject}`,
+      from: RESEND_FROM_EMAIL || 'Portfolio Contact <onboarding@resend.dev>',
+      to: CONTACT_EMAIL,
+      subject: `Portfolio Contact: ${safeSubject}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #333; border-bottom: 2px solid #333; padding-bottom: 10px;">
@@ -38,14 +67,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           </h2>
 
           <div style="margin: 20px 0;">
-            <p><strong>Name:</strong> ${name}</p>
-            <p><strong>Email:</strong> <a href="mailto:${email}" style="color: #0066cc;">${email}</a></p>
-            <p><strong>Subject:</strong> ${subject}</p>
+            <p><strong>Name:</strong> ${safeName}</p>
+            <p><strong>Email:</strong> <a href="mailto:${safeEmail}" style="color: #0066cc;">${safeEmail}</a></p>
+            <p><strong>Subject:</strong> ${safeSubject}</p>
           </div>
 
           <div style="background-color: #f9f9f9; padding: 20px; border-radius: 5px; margin: 20px 0;">
             <h3 style="margin-top: 0; color: #333;">Message:</h3>
-            <p style="white-space: pre-wrap; line-height: 1.6;">${message}</p>
+            <p style="white-space: pre-wrap; line-height: 1.6;">${safeMessage}</p>
           </div>
 
           <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
