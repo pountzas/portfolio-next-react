@@ -12,6 +12,9 @@
 /.next/
 /out/
 
+# typescript build cache
+tsconfig.tsbuildinfo
+
 # production
 /build
 /memory-bank

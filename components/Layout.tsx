@@ -11,12 +11,8 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const router = useRouter();
-  const [showFooter, setShowFooter] = useState(true);
-
-  useEffect(() => {
-    // Hide footer on home page, show on all other pages
-    setShowFooter(router.pathname !== '/');
-  }, [router.pathname]);
+  // Hide footer on home page, show on all other pages
+  const showFooter = router.pathname !== '/';
 
   return (
     <div className="min-h-screen bg-tertiary h-screen overflow-y-clip scrollbar-hide" style={{ perspective: '1000px', transformStyle: 'preserve-3d' }}>

@@ -1,18 +1,19 @@
 {
   "name": "portfolio-next-react",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
     "type-check": "tsc --noEmit"
   },
   "engines": {
     "node": "22.x"
   },
   "dependencies": {
-    "@apollo/client": "^4.0.9",
+    "@apollo/client": "^4.0.10",
     "framer-motion": "^12.23.25",
     "graphql": "16.9.0",
     "next": "^16.0.10",
@@ -21,6 +22,8 @@
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "react-icons": "4.10.1",
+    "resend": "^6.6.0",
+    "rxjs": "^7",
     "tailwind-scrollbar": "^2.0.1",
     "tailwind-scrollbar-hide": "^1.1.7",
     "typescript": "^5.9.3"
@@ -30,9 +33,9 @@
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "autoprefixer": "10.4.14",
-    "eslint": "8.47.0",
-    "eslint-config-next": "13.5.11",
+    "eslint": "9.39.2",
+    "eslint-config-next": "16.0.10",
     "postcss": "8.5.3",
-    "tailwindcss": "3.3.3"
+    "tailwindcss": "3.4.17"
   }
 }
