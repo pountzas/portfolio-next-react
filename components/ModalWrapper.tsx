@@ -19,6 +19,7 @@ const ModalWrapper: React.FC<ModalWrapperProps> = ({
   // Handle mounting/unmounting with delay for exit animations
   useEffect(() => {
     if (isOpen) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setMounted(true);
     } else {
       // Delay unmounting to allow exit animations to complete
