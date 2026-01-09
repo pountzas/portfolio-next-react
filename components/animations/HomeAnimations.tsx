@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { motion } from "framer-motion";
 import {
@@ -51,8 +51,13 @@ export default function HomeAnimations() {
               variants={createStaggeredFlip(0.7, 0.1)(index)}
               whileHover={{ scale: 1.1, rotateY: 10 }}
               whileTap={{ scale: 0.95 }}>
-              <Link target={"_blank"} href={social.path} passHref>
-                <div className="text-3xl md:text-4xl">{social.icon}</div>
+              <Link
+                target="_blank"
+                href={social.path}
+                rel="noopener noreferrer"
+                aria-label={`Visit my ${social.name} profile`}
+                className="text-3xl md:text-4xl">
+                {social.icon}
               </Link>
             </motion.div>
           ))}
