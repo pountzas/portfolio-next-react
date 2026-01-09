@@ -17,19 +17,11 @@ function Skills() {
   return (
     <div className="h-[calc(100vh-3px)] overflow-y-auto scrollbar-hide pb-16">
       <motion.div
-        // className="flex justify-center bg-gradient-to-b from-primary to-secondary overflow-y-auto h-screen scrollbar-hide"
         style={{ perspective: "1000px", transformStyle: "preserve-3d" }}
         variants={staggerContainer}
         initial="initial"
         animate="animate"
         exit="exit">
-        {/* <motion.h1
-          className="pt-6 text-2xl font-semibold text-center cursor-pointer text-textPrimary"
-          variants={flipFromTop}
-        >
-          My Skillset
-        </motion.h1> */}
-
         <motion.div
           className="grid-cols-3 gap-4 pt-3 pb-12 mx-auto md:grid md:max-w-4xl lg:max-w-7xl"
           variants={staggerContainer}>

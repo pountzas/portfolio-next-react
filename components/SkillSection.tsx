@@ -53,7 +53,7 @@ const SkillSection: React.FC<SkillSectionProps> = ({
           transition: {
             duration: 0.6,
             delay: baseDelay + index * staggerDelay,
-            ease: [0.25, 0.46, 0.45, 0.94]
+            ease: [0.25, 0.46, 0.45, 0.94] as const
           }
         };
       case 'top':
@@ -63,7 +63,7 @@ const SkillSection: React.FC<SkillSectionProps> = ({
           transition: {
             duration: 0.6,
             delay: baseDelay + index * staggerDelay,
-            ease: [0.25, 0.46, 0.45, 0.94]
+            ease: [0.25, 0.46, 0.45, 0.94] as const
           }
         };
       case 'right':
@@ -73,7 +73,7 @@ const SkillSection: React.FC<SkillSectionProps> = ({
           transition: {
             duration: 0.6,
             delay: baseDelay + index * staggerDelay,
-            ease: [0.25, 0.46, 0.45, 0.94]
+            ease: [0.25, 0.46, 0.45, 0.94] as const
           }
         };
       case 'bottom':
@@ -83,7 +83,7 @@ const SkillSection: React.FC<SkillSectionProps> = ({
           transition: {
             duration: 0.6,
             delay: baseDelay + index * staggerDelay,
-            ease: [0.25, 0.46, 0.45, 0.94]
+            ease: [0.25, 0.46, 0.45, 0.94] as const
           }
         };
       default:
@@ -93,7 +93,7 @@ const SkillSection: React.FC<SkillSectionProps> = ({
           transition: {
             duration: 0.6,
             delay: baseDelay + index * staggerDelay,
-            ease: [0.25, 0.46, 0.45, 0.94]
+            ease: [0.25, 0.46, 0.45, 0.94] as const
           }
         };
     }
