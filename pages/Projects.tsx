@@ -100,7 +100,7 @@ const ProjectCard = memo<ProjectCardProps>(({ item, index }) => {
             <AiFillGithub />
           </div>
         </Link>
-        {item.homepageUrl ? (
+        {item.homepageUrl && (
           <Link
             target={"_blank"}
             rel="noopener noreferrer"
@@ -110,10 +110,6 @@ const ProjectCard = memo<ProjectCardProps>(({ item, index }) => {
               <GrDeploy />
             </div>
           </Link>
-        ) : (
-          <p className="inline-block px-3 py-1 m-1 text-sm font-bold rounded-full text-textSecondary bg-textTertiary hover:bg-tertiary">
-            in progress
-          </p>
         )}
       </div>
       {/* last section */}
