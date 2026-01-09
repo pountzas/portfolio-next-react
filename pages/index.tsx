@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Header from "../components/Header";
 import Socials from "../components/Socials";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -7,11 +6,8 @@ import {
   staggerContainer,
   flipFromTop,
   flipFromBottom,
-  flipFromLeft,
-  createStaggeredFlip,
-  flipOut
+  createStaggeredFlip
 } from "../components/animations/pageAnimations";
-// import Image from 'next/image';
 
 export default function Home() {
   return (

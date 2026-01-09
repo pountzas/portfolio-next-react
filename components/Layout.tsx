@@ -1,9 +1,9 @@
-import { ReactNode } from 'react';
-import { useRouter } from 'next/router';
-import { AnimatePresence, motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
-import Header from './Header';
-import Footer from './Footer';
+"use client";
+import { ReactNode } from "react";
+import { useRouter } from "next/router";
+import { AnimatePresence, motion } from "framer-motion";
+import Header from "./Header";
+import Footer from "./Footer";
 
 interface LayoutProps {
   children: ReactNode;
@@ -12,10 +12,12 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const router = useRouter();
   // Hide footer on home page, show on all other pages
-  const showFooter = router.pathname !== '/';
+  const showFooter = router.pathname !== "/";
 
   return (
-    <div className="min-h-screen bg-tertiary h-screen overflow-y-clip scrollbar-hide" style={{ perspective: '1000px', transformStyle: 'preserve-3d' }}>
+    <div
+      className="min-h-screen bg-tertiary h-screen overflow-y-clip scrollbar-hide"
+      style={{ perspective: "1000px", transformStyle: "preserve-3d" }}>
       <Header />
       <AnimatePresence mode="wait" initial={false}>
         <motion.main
@@ -27,8 +29,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             duration: 0.3,
             ease: "easeInOut"
           }}
-          className="flex-1"
-        >
+          className="flex-1">
           {children}
         </motion.main>
       </AnimatePresence>
@@ -41,8 +42,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             transition={{
               duration: 0.4,
               ease: "easeInOut"
-            }}
-          >
+            }}>
             <Footer />
           </motion.div>
         )}
