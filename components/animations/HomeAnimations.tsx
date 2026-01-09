@@ -29,7 +29,7 @@ export default function HomeAnimations() {
           I am a full-stack web developer
         </motion.h2>
         <motion.p variants={createStaggeredFlip(0.4, 0.1)(2)}>
-          I am from Greece and i have studied Graphic Design and Web Development.
+          I am from Greece and I have studied Graphic Design and Web Development.
         </motion.p>
         <motion.p className="" variants={createStaggeredFlip(0.5, 0.1)(3)}>
           I specialize in JavaScript, React and NEXT.js
