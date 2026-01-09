@@ -66,10 +66,17 @@ export const staggerFlipOut: Variants = {
 
 // Stagger container for multiple items
 export const staggerContainer: Variants = {
+  initial: {},
   animate: {
     transition: {
       staggerChildren: 0.1,
       delayChildren: 0.2,
+    },
+  },
+  exit: {
+    transition: {
+      staggerChildren: -0.05,
+      staggerDirection: -1,
     },
   },
 };

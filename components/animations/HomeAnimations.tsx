@@ -66,10 +66,9 @@ export default function HomeAnimations() {
           className="flex items-center justify-center pb-8"
           variants={flipFromBottom}>
           <Link
-            target={"_blank"}
-            className=""
+            target="_blank"
             href="https://drive.google.com/file/d/1SycAJg1BXhDatjAuq1idZL9EOnV3tbSW/view?usp=sharing"
-            passHref>
+            rel="noopener noreferrer">
             <motion.div
               className="p-2 font-semibold text-center border-2 rounded-lg cursor-pointer text-textTertiary border-borderSecondary bg-secondary hover:text-blue-50"
               variants={createStaggeredFlip(1.0, 0.1)(0)}
