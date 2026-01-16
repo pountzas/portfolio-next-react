@@ -1,4 +1,5 @@
 import React, { useState, Activity, useMemo, memo } from "react";
+import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -170,33 +171,65 @@ const Projects: React.FC<ProjectsProps> = ({ pinnedItems }) => {
   // console.log(projects);
 
   return (
-    <motion.section
-      className="flex justify-center bg-gradient-to-b from-primary to-secondary overflow-y-auto h-screen scrollbar-hide"
-      variants={staggerContainer}
-      initial="initial"
-      animate="animate"
-      exit="exit">
-      <motion.div className="grid gap-8 pt-6 md:grid-cols-2" variants={staggerContainer}>
-        {visibleProjects.map((item, index) => (
-          <ProjectCard key={item.id} item={item} index={index} />
-        ))}
+    <>
+      <Head>
+        <title>
+          Projects - Nikos Pountzas Portfolio | GitHub Repositories & Open Source Work
+        </title>
+        <meta
+          name="description"
+          content="Explore Nikos Pountzas's portfolio projects - full-stack web applications, open source contributions, and development work showcased on GitHub."
+        />
+        <meta
+          name="keywords"
+          content="Nikos Pountzas, portfolio projects, GitHub repositories, web development projects, React applications, open source"
+        />
+        <meta property="og:title" content="Projects - Nikos Pountzas Portfolio" />
+        <meta
+          property="og:description"
+          content="Full-stack web development projects and open source contributions by Nikos Pountzas."
+        />
+        <meta
+          property="og:url"
+          content="https://pountzas-portfolio.vercel.app/projects"
+        />
+        <meta name="twitter:title" content="Projects - Nikos Pountzas Portfolio" />
+        <meta
+          name="twitter:description"
+          content="Explore my web development projects and GitHub repositories."
+        />
+        <link rel="canonical" href="https://pountzas-portfolio.vercel.app/projects" />
+      </Head>
+      <motion.section
+        className="flex justify-center bg-gradient-to-b from-primary to-secondary overflow-y-auto h-screen scrollbar-hide"
+        variants={staggerContainer}
+        initial="initial"
+        animate="animate"
+        exit="exit">
+        <motion.div
+          className="grid gap-8 pt-6 md:grid-cols-2"
+          variants={staggerContainer}>
+          {visibleProjects.map((item, index) => (
+            <ProjectCard key={item.id} item={item} index={index} />
+          ))}
 
-        {/* Loading indicator for additional projects */}
-        {loadedCount < projects.length && (
-          <motion.div
-            className="flex justify-center items-center py-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}>
-            <div className="flex items-center space-x-2 text-textTertiary">
-              <div className="w-4 h-4 border-2 border-textPrimary border-t-transparent rounded-full animate-spin"></div>
-              <span className="text-sm">Loading more projects...</span>
-            </div>
-          </motion.div>
-        )}
+          {/* Loading indicator for additional projects */}
+          {loadedCount < projects.length && (
+            <motion.div
+              className="flex justify-center items-center py-8"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}>
+              <div className="flex items-center space-x-2 text-textTertiary">
+                <div className="w-4 h-4 border-2 border-textPrimary border-t-transparent rounded-full animate-spin"></div>
+                <span className="text-sm">Loading more projects...</span>
+              </div>
+            </motion.div>
+          )}
 
-        <div className="h-20"></div>
-      </motion.div>
-    </motion.section>
+          <div className="h-20"></div>
+        </motion.div>
+      </motion.section>
+    </>
   );
 };
 
