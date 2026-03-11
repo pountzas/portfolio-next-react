@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { motion } from "framer-motion";
 import {
   staggerContainer,
@@ -289,258 +290,285 @@ function Contact() {
   };
 
   return (
-    <motion.div
-      className="max-w-4xl mx-auto px-4 py-8 h-[calc(100vh-111px)] overflow-y-auto scrollbar-hide"
-      style={{ perspective: "1000px", transformStyle: "preserve-3d" }}
-      variants={staggerContainer}
-      initial="initial"
-      animate="animate"
-      exit="exit">
-      <motion.div className="text-center mb-12" variants={flipFromTop}>
-        <motion.h1
-          className="text-4xl md:text-5xl font-bold text-textPrimary mb-4"
-          variants={createStaggeredFlip(0.2, 0.1)(0)}>
-          Get In Touch
-        </motion.h1>
-        <motion.p
-          className="text-lg text-textTertiary max-w-2xl mx-auto"
-          variants={createStaggeredFlip(0.3, 0.1)(1)}>
-          Have a project in mind or want to collaborate? I{"'"}d love to hear from you.
-          Let{"'"}s create something amazing together.
-        </motion.p>
-      </motion.div>
+    <>
+      <Head>
+        <title>Contact - Nikos Pountzas | Get In Touch</title>
+        <meta
+          name="description"
+          content="Get in touch with Nikos Pountzas. Send a message to discuss your next web development project or collaboration opportunity."
+        />
+        <meta
+          name="keywords"
+          content="Nikos Pountzas, contact, get in touch, web development, project inquiry, collaboration"
+        />
+        <meta property="og:title" content="Contact - Nikos Pountzas" />
+        <meta
+          property="og:description"
+          content="Send a message to discuss your next web development project or collaboration opportunity."
+        />
+        <meta property="og:url" content="https://pountzas-portfolio.vercel.app/contact" />
+        <meta name="twitter:title" content="Contact - Nikos Pountzas" />
+        <meta
+          name="twitter:description"
+          content="Get in touch to discuss your next web development project."
+        />
+        <link rel="canonical" href="https://pountzas-portfolio.vercel.app/contact" />
+      </Head>
+      <motion.div
+        className="max-w-4xl mx-auto px-4 py-8 h-[calc(100vh-111px)] overflow-y-auto scrollbar-hide"
+        style={{ perspective: "1000px", transformStyle: "preserve-3d" }}
+        variants={staggerContainer}
+        initial="initial"
+        animate="animate"
+        exit="exit">
+        <motion.div className="text-center mb-12" variants={flipFromTop}>
+          <motion.h1
+            className="text-4xl md:text-5xl font-bold text-textPrimary mb-4"
+            variants={createStaggeredFlip(0.2, 0.1)(0)}>
+            Get In Touch
+          </motion.h1>
+          <motion.p
+            className="text-lg text-textTertiary max-w-2xl mx-auto"
+            variants={createStaggeredFlip(0.3, 0.1)(1)}>
+            Have a project in mind or want to collaborate? I{"'"}d love to hear from you.
+            Let{"'"}s create something amazing together.
+          </motion.p>
+        </motion.div>
 
-      <div className="grid md:grid-cols-2 gap-8">
-        <motion.div className="space-y-8" variants={flipFromLeft}>
-          <motion.div variants={createStaggeredFlip(0.4, 0.1)(0)}>
-            <h2 className="text-2xl font-semibold text-textPrimary mb-6">
-              Let{"'"}s Connect
-            </h2>
-            <div className="space-y-4">
-              <motion.div
-                className="flex items-center space-x-3"
-                variants={createStaggeredFlip(0.5, 0.1)(1)}>
-                <div className="w-10 h-10 bg-quaternary rounded-full flex items-center justify-center border border-borderSecondary">
-                  <span className="text-textPrimary">📧</span>
-                </div>
-                <div>
-                  <p className="text-textPrimary font-medium">Email</p>
-                  <p className="text-textTertiary">nikos@pountzas.gr</p>
-                </div>
-              </motion.div>
+        <div className="grid md:grid-cols-2 gap-8">
+          <motion.div className="space-y-8" variants={flipFromLeft}>
+            <motion.div variants={createStaggeredFlip(0.4, 0.1)(0)}>
+              <h2 className="text-2xl font-semibold text-textPrimary mb-6">
+                Let{"'"}s Connect
+              </h2>
+              <div className="space-y-4">
+                <motion.div
+                  className="flex items-center space-x-3"
+                  variants={createStaggeredFlip(0.5, 0.1)(1)}>
+                  <div className="w-10 h-10 bg-quaternary rounded-full flex items-center justify-center border border-borderSecondary">
+                    <span className="text-textPrimary">📧</span>
+                  </div>
+                  <div>
+                    <p className="text-textPrimary font-medium">Email</p>
+                    <p className="text-textTertiary">nikos@pountzas.gr</p>
+                  </div>
+                </motion.div>
 
-              <motion.div
-                className="flex items-center space-x-3"
-                variants={createStaggeredFlip(0.6, 0.1)(2)}>
-                <div className="w-10 h-10 bg-quaternary rounded-full flex items-center justify-center border border-borderSecondary">
-                  <span className="text-textPrimary">📍</span>
-                </div>
-                <div>
-                  <p className="text-textPrimary font-medium">Location</p>
-                  <p className="text-textTertiary">Greece</p>
-                </div>
-              </motion.div>
+                <motion.div
+                  className="flex items-center space-x-3"
+                  variants={createStaggeredFlip(0.6, 0.1)(2)}>
+                  <div className="w-10 h-10 bg-quaternary rounded-full flex items-center justify-center border border-borderSecondary">
+                    <span className="text-textPrimary">📍</span>
+                  </div>
+                  <div>
+                    <p className="text-textPrimary font-medium">Location</p>
+                    <p className="text-textTertiary">Greece</p>
+                  </div>
+                </motion.div>
 
-              <motion.div
-                className="flex items-center space-x-3"
-                variants={createStaggeredFlip(0.7, 0.1)(3)}>
-                <div className="w-10 h-10 bg-quaternary rounded-full flex items-center justify-center border border-borderSecondary">
-                  <span className="text-textPrimary">💼</span>
-                </div>
-                <div>
-                  <p className="text-textPrimary font-medium">Availability</p>
-                  <p className="text-textTertiary">Open to new opportunities</p>
-                </div>
-              </motion.div>
-            </div>
+                <motion.div
+                  className="flex items-center space-x-3"
+                  variants={createStaggeredFlip(0.7, 0.1)(3)}>
+                  <div className="w-10 h-10 bg-quaternary rounded-full flex items-center justify-center border border-borderSecondary">
+                    <span className="text-textPrimary">💼</span>
+                  </div>
+                  <div>
+                    <p className="text-textPrimary font-medium">Availability</p>
+                    <p className="text-textTertiary">Open to new opportunities</p>
+                  </div>
+                </motion.div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              className="bg-quaternary p-6 rounded-lg border border-borderSecondary"
+              variants={createStaggeredFlip(0.8, 0.1)(4)}>
+              <h3 className="text-lg font-semibold text-textPrimary mb-3">
+                Quick Response
+              </h3>
+              <p className="text-textTertiary text-sm">
+                I typically respond to messages within 24 hours. For urgent inquiries,
+                feel free to follow up or connect via social media.
+              </p>
+            </motion.div>
           </motion.div>
 
           <motion.div
-            className="bg-quaternary p-6 rounded-lg border border-borderSecondary"
-            variants={createStaggeredFlip(0.8, 0.1)(4)}>
-            <h3 className="text-lg font-semibold text-textPrimary mb-3">
-              Quick Response
-            </h3>
-            <p className="text-textTertiary text-sm">
-              I typically respond to messages within 24 hours. For urgent inquiries, feel
-              free to follow up or connect via social media.
-            </p>
-          </motion.div>
-        </motion.div>
+            className="bg-quaternary p-8 rounded-lg border border-borderSecondary"
+            variants={flipFromRight}>
+            <motion.form
+              onSubmit={handleSubmit}
+              className="space-y-6"
+              variants={staggerContainer}>
+              {/* Status Message */}
+              {submitStatus.type && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`p-4 rounded-lg border ${
+                    submitStatus.type === "success"
+                      ? "bg-green-900/20 border-green-500/30 text-green-400"
+                      : "bg-red-900/20 border-red-500/30 text-red-400"
+                  }`}>
+                  {submitStatus.message}
+                </motion.div>
+              )}
 
-        <motion.div
-          className="bg-quaternary p-8 rounded-lg border border-borderSecondary"
-          variants={flipFromRight}>
-          <motion.form
-            onSubmit={handleSubmit}
-            className="space-y-6"
-            variants={staggerContainer}>
-            {/* Status Message */}
-            {submitStatus.type && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className={`p-4 rounded-lg border ${
-                  submitStatus.type === "success"
-                    ? "bg-green-900/20 border-green-500/30 text-green-400"
-                    : "bg-red-900/20 border-red-500/30 text-red-400"
-                }`}>
-                {submitStatus.message}
+              <motion.div variants={createStaggeredFlip(0.5, 0.1)(0)}>
+                <label htmlFor="name" className="block text-textPrimary font-medium mb-2">
+                  Name
+                </label>
+                <motion.input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className={`w-full px-4 py-3 bg-tertiary border rounded-lg text-textPrimary placeholder-textTertiary focus:outline-none transition-colors ${
+                    errors.name
+                      ? "border-red-500"
+                      : "border-borderSecondary focus:border-textPrimary"
+                  }`}
+                  placeholder="Your name"
+                  disabled={isSubmitting}
+                  variants={createStaggeredFlip(0.6, 0.1)(1)}
+                  whileFocus={{ scale: 1.02 }}
+                />
+                {errors.name && (
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="text-red-400 text-sm mt-1">
+                    {errors.name}
+                  </motion.p>
+                )}
               </motion.div>
-            )}
 
-            <motion.div variants={createStaggeredFlip(0.5, 0.1)(0)}>
-              <label htmlFor="name" className="block text-textPrimary font-medium mb-2">
-                Name
-              </label>
-              <motion.input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className={`w-full px-4 py-3 bg-tertiary border rounded-lg text-textPrimary placeholder-textTertiary focus:outline-none transition-colors ${
-                  errors.name
-                    ? "border-red-500"
-                    : "border-borderSecondary focus:border-textPrimary"
-                }`}
-                placeholder="Your name"
+              <motion.div variants={createStaggeredFlip(0.6, 0.1)(2)}>
+                <label
+                  htmlFor="email"
+                  className="block text-textPrimary font-medium mb-2">
+                  Email
+                </label>
+                <motion.input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className={`w-full px-4 py-3 bg-tertiary border rounded-lg text-textPrimary placeholder-textTertiary focus:outline-none transition-colors ${
+                    errors.email
+                      ? "border-red-500"
+                      : "border-borderSecondary focus:border-textPrimary"
+                  }`}
+                  placeholder="your.email@example.com"
+                  disabled={isSubmitting}
+                  variants={createStaggeredFlip(0.7, 0.1)(3)}
+                  whileFocus={{ scale: 1.02 }}
+                />
+                {errors.email && (
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="text-red-400 text-sm mt-1">
+                    {errors.email}
+                  </motion.p>
+                )}
+              </motion.div>
+
+              <motion.div variants={createStaggeredFlip(0.7, 0.1)(4)}>
+                <label
+                  htmlFor="subject"
+                  className="block text-textPrimary font-medium mb-2">
+                  Subject
+                </label>
+                <motion.input
+                  type="text"
+                  id="subject"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  className={`w-full px-4 py-3 bg-tertiary border rounded-lg text-textPrimary placeholder-textTertiary focus:outline-none transition-colors ${
+                    errors.subject
+                      ? "border-red-500"
+                      : "border-borderSecondary focus:border-textPrimary"
+                  }`}
+                  placeholder="Project inquiry"
+                  disabled={isSubmitting}
+                  variants={createStaggeredFlip(0.8, 0.1)(5)}
+                  whileFocus={{ scale: 1.02 }}
+                />
+                {errors.subject && (
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="text-red-400 text-sm mt-1">
+                    {errors.subject}
+                  </motion.p>
+                )}
+              </motion.div>
+
+              <motion.div variants={createStaggeredFlip(0.8, 0.1)(6)}>
+                <label
+                  htmlFor="message"
+                  className="block text-textPrimary font-medium mb-2">
+                  Message
+                </label>
+                <motion.textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  rows={5}
+                  className={`w-full px-4 py-3 bg-tertiary border rounded-lg text-textPrimary placeholder-textTertiary focus:outline-none transition-colors resize-none ${
+                    errors.message
+                      ? "border-red-500"
+                      : "border-borderSecondary focus:border-textPrimary"
+                  }`}
+                  placeholder="Tell me about your project..."
+                  disabled={isSubmitting}
+                  variants={createStaggeredFlip(0.9, 0.1)(7)}
+                  whileFocus={{ scale: 1.02 }}
+                />
+                {errors.message && (
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="text-red-400 text-sm mt-1">
+                    {errors.message}
+                  </motion.p>
+                )}
+              </motion.div>
+
+              <motion.button
+                type="submit"
                 disabled={isSubmitting}
-                variants={createStaggeredFlip(0.6, 0.1)(1)}
-                whileFocus={{ scale: 1.02 }}
-              />
-              {errors.name && (
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="text-red-400 text-sm mt-1">
-                  {errors.name}
-                </motion.p>
-              )}
-            </motion.div>
-
-            <motion.div variants={createStaggeredFlip(0.6, 0.1)(2)}>
-              <label htmlFor="email" className="block text-textPrimary font-medium mb-2">
-                Email
-              </label>
-              <motion.input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className={`w-full px-4 py-3 bg-tertiary border rounded-lg text-textPrimary placeholder-textTertiary focus:outline-none transition-colors ${
-                  errors.email
-                    ? "border-red-500"
-                    : "border-borderSecondary focus:border-textPrimary"
+                className={`w-full py-3 px-6 rounded-lg font-semibold transition-colors ${
+                  isSubmitting
+                    ? "bg-gray-600 text-gray-400 cursor-not-allowed"
+                    : "bg-textPrimary text-primary hover:bg-opacity-90"
                 }`}
-                placeholder="your.email@example.com"
-                disabled={isSubmitting}
-                variants={createStaggeredFlip(0.7, 0.1)(3)}
-                whileFocus={{ scale: 1.02 }}
-              />
-              {errors.email && (
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="text-red-400 text-sm mt-1">
-                  {errors.email}
-                </motion.p>
-              )}
-            </motion.div>
-
-            <motion.div variants={createStaggeredFlip(0.7, 0.1)(4)}>
-              <label
-                htmlFor="subject"
-                className="block text-textPrimary font-medium mb-2">
-                Subject
-              </label>
-              <motion.input
-                type="text"
-                id="subject"
-                name="subject"
-                value={formData.subject}
-                onChange={handleChange}
-                className={`w-full px-4 py-3 bg-tertiary border rounded-lg text-textPrimary placeholder-textTertiary focus:outline-none transition-colors ${
-                  errors.subject
-                    ? "border-red-500"
-                    : "border-borderSecondary focus:border-textPrimary"
-                }`}
-                placeholder="Project inquiry"
-                disabled={isSubmitting}
-                variants={createStaggeredFlip(0.8, 0.1)(5)}
-                whileFocus={{ scale: 1.02 }}
-              />
-              {errors.subject && (
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="text-red-400 text-sm mt-1">
-                  {errors.subject}
-                </motion.p>
-              )}
-            </motion.div>
-
-            <motion.div variants={createStaggeredFlip(0.8, 0.1)(6)}>
-              <label
-                htmlFor="message"
-                className="block text-textPrimary font-medium mb-2">
-                Message
-              </label>
-              <motion.textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                rows={5}
-                className={`w-full px-4 py-3 bg-tertiary border rounded-lg text-textPrimary placeholder-textTertiary focus:outline-none transition-colors resize-none ${
-                  errors.message
-                    ? "border-red-500"
-                    : "border-borderSecondary focus:border-textPrimary"
-                }`}
-                placeholder="Tell me about your project..."
-                disabled={isSubmitting}
-                variants={createStaggeredFlip(0.9, 0.1)(7)}
-                whileFocus={{ scale: 1.02 }}
-              />
-              {errors.message && (
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="text-red-400 text-sm mt-1">
-                  {errors.message}
-                </motion.p>
-              )}
-            </motion.div>
-
-            <motion.button
-              type="submit"
-              disabled={isSubmitting}
-              className={`w-full py-3 px-6 rounded-lg font-semibold transition-colors ${
-                isSubmitting
-                  ? "bg-gray-600 text-gray-400 cursor-not-allowed"
-                  : "bg-textPrimary text-primary hover:bg-opacity-90"
-              }`}
-              variants={createStaggeredFlip(1.0, 0.1)(8)}
-              whileHover={!isSubmitting ? { scale: 1.02, rotateY: 2 } : {}}
-              whileTap={!isSubmitting ? { scale: 0.98 } : {}}>
-              {isSubmitting ? (
-                <div className="flex items-center justify-center space-x-2">
-                  <motion.div
-                    className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full"
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                  />
-                  <span>Sending...</span>
-                </div>
-              ) : (
-                "Send Message"
-              )}
-            </motion.button>
-          </motion.form>
-        </motion.div>
-      </div>
-    </motion.div>
+                variants={createStaggeredFlip(1.0, 0.1)(8)}
+                whileHover={!isSubmitting ? { scale: 1.02, rotateY: 2 } : {}}
+                whileTap={!isSubmitting ? { scale: 0.98 } : {}}>
+                {isSubmitting ? (
+                  <div className="flex items-center justify-center space-x-2">
+                    <motion.div
+                      className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full"
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    />
+                    <span>Sending...</span>
+                  </div>
+                ) : (
+                  "Send Message"
+                )}
+              </motion.button>
+            </motion.form>
+          </motion.div>
+        </div>
+      </motion.div>
+    </>
   );
 }
 
