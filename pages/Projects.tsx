@@ -168,8 +168,6 @@ const Projects: React.FC<ProjectsProps> = ({ pinnedItems }) => {
     }
   }, [loadedCount, projects.length]);
 
-  // console.log(projects);
-
   return (
     <>
       <Head>

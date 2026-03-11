@@ -1,4 +1,4 @@
-export default {
+const nextConfig = {
   // Image optimization
   images: {
     remotePatterns: [
@@ -40,3 +40,5 @@ export default {
   //   return config;
   // },
 };
+
+export default nextConfig;
