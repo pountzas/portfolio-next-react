@@ -15,7 +15,7 @@
   "dependencies": {
     "@apollo/client": "^4.0.10",
     "framer-motion": "^12.23.25",
-    "graphql": "16.9.0",
+    "graphql": "16.14.2",
     "next": "^16.2.9",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
