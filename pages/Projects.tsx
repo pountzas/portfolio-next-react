@@ -1,4 +1,4 @@
-import React, { useState, Activity, useMemo, memo } from "react";
+import React, { useState, Activity, useMemo, memo, useEffect } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,6 +12,12 @@ import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client";
 import { SetContextLink } from "@apollo/client/link/context";
 
 import type { PinnedRepository, GitHubApiResponse } from "../types/github";
+import ProjectCategorySwitcher from "../components/ProjectCategorySwitcher";
+import {
+  PROJECT_CATEGORIES,
+  getProjectsForCategory,
+  type ProjectCategoryId
+} from "../lib/projectCategories";
 
 import { AiOutlineStar, AiOutlineFork, AiFillEye, AiFillGithub } from "react-icons/ai";
 import { GrDeploy } from "react-icons/gr";
@@ -19,16 +25,19 @@ import { BsPeopleFill } from "react-icons/bs";
 
 interface ProjectsProps {
   pinnedItems: PinnedRepository[];
+  repositories: PinnedRepository[];
 }
 
 interface ProjectCardProps {
   item: PinnedRepository;
   index: number;
+  size?: "default" | "compact";
 }
 
 // Memoized Project Card Component for better performance
-const ProjectCard = memo<ProjectCardProps>(({ item, index }) => {
-  // Memoize expensive computations
+const ProjectCard = memo<ProjectCardProps>(({ item, index, size = "default" }) => {
+  const isCompact = size === "compact";
+
   const contributors = useMemo(
     () => item.assignableUsers?.edges || [],
     [item.assignableUsers]
@@ -40,21 +49,28 @@ const ProjectCard = memo<ProjectCardProps>(({ item, index }) => {
 
   return (
     <motion.div
-      className="flex flex-col justify-between max-w-xs border-2 text-textPrimary border-borderSecondary rounded-xl bg-quaternary md:max-w-md"
+      className={`flex flex-col justify-between border-2 text-textPrimary border-borderSecondary rounded-xl bg-quaternary ${
+        isCompact
+          ? "max-w-[17rem] md:max-w-xs"
+          : "max-w-xs md:max-w-md"
+      }`}
       variants={createStaggeredFlip(0.2, 0.15)(index)}
       whileHover={{
         boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
         transition: { duration: 0.3 }
       }}>
-      <h1 className="p-2 mb-3 text-xl font-semibold text-center rounded-t-lg bg-secondary">
+      <h1
+        className={`font-semibold text-center rounded-t-lg bg-secondary ${
+          isCompact ? "p-1.5 mb-2 text-lg" : "p-2 mb-3 text-xl"
+        }`}>
         {item.name}
       </h1>
-      <div className="relative mx-5">
+      <div className={isCompact ? "relative mx-3" : "relative mx-5"}>
         <Image
           className="rounded-lg"
           src={item.openGraphImageUrl}
-          width={640}
-          height={420}
+          width={isCompact ? 480 : 640}
+          height={isCompact ? 315 : 420}
           alt={item.name}
           priority={index < 2}
           placeholder="blur"
@@ -62,42 +78,59 @@ const ProjectCard = memo<ProjectCardProps>(({ item, index }) => {
         />
         <div className="absolute top-auto flex items-center justify-center pb-2 inset-1">
           <Activity mode={item.object ? "visible" : "hidden"}>
-            <p className="flex px-3 py-1 m-1 text-xs font-bold text-gray-800 bg-teal-500 border rounded-full shadow-lg cursor-pointer border-cyan-600 hover:text-blue-900 md:text:md">
+            <p
+              className={`flex m-1 font-bold text-gray-800 bg-teal-500 border rounded-full shadow-lg cursor-pointer border-cyan-600 hover:text-blue-900 ${
+                isCompact ? "px-2 py-0.5 text-[10px]" : "px-3 py-1 text-xs md:text-md"
+              }`}>
               <span className="pr-1">Commits: </span>
               {item.object?.history?.totalCount}
             </p>
           </Activity>
 
           <Activity mode={item.cloneCount ? "visible" : "hidden"}>
-            <p className="flex px-3 py-1 m-1 text-xs font-bold text-gray-800 bg-teal-500 border rounded-full shadow-lg cursor-pointer border-cyan-600 hover:text-blue-900 md:text:md">
+            <p
+              className={`flex m-1 font-bold text-gray-800 bg-teal-500 border rounded-full shadow-lg cursor-pointer border-cyan-600 hover:text-blue-900 ${
+                isCompact ? "px-2 py-0.5 text-[10px]" : "px-3 py-1 text-xs md:text-md"
+              }`}>
               <span className="pr-1">Cloned:</span>
               {item.cloneCount}
             </p>
           </Activity>
 
           <Activity mode={item.viewCount ? "visible" : "hidden"}>
-            <p className="flex px-3 py-1 m-1 text-xs font-bold text-gray-800 bg-teal-500 border rounded-full shadow-lg cursor-pointer border-cyan-600 hover:text-blue-900 md:text:md">
+            <p
+              className={`flex m-1 font-bold text-gray-800 bg-teal-500 border rounded-full shadow-lg cursor-pointer border-cyan-600 hover:text-blue-900 ${
+                isCompact ? "px-2 py-0.5 text-[10px]" : "px-3 py-1 text-xs md:text-md"
+              }`}>
               <span className="pr-1">Views:</span>
               {item.viewCount}
             </p>
           </Activity>
         </div>
       </div>
-      <p className="py-2 mx-5">{item.description}</p>
-      {/* tags */}
-      <div className="flex flex-wrap justify-center pb-2 mx-5">
+      <p className={isCompact ? "py-1.5 mx-3 text-sm" : "py-2 mx-5"}>
+        {item.description}
+      </p>
+      <div
+        className={`flex flex-wrap justify-center pb-2 ${
+          isCompact ? "mx-3" : "mx-5"
+        }`}>
         {topics.map((tag) => (
           <span
-            className="inline-block px-3 py-1 m-1 text-xs font-semibold text-blue-100 rounded-full cursor-pointer bg-tertiary"
+            className={`inline-block m-1 font-semibold text-blue-100 rounded-full cursor-pointer bg-tertiary ${
+              isCompact ? "px-2 py-0.5 text-[10px]" : "px-3 py-1 text-xs"
+            }`}
             key={tag.node.id}>
             {tag.node.topic.name}
           </span>
         ))}
       </div>
-      {/* Links */}
       <div className="flex items-center justify-center pb-3">
         <Link target={"_blank"} rel="noopener noreferrer" href={item.url} passHref>
-          <div className="inline-block px-3 py-1 m-1 text-xl font-semibold rounded-full text-textSecondary bg-textTertiary hover:bg-tertiary">
+          <div
+            className={`inline-block m-1 font-semibold rounded-full text-textSecondary bg-textTertiary hover:bg-tertiary ${
+              isCompact ? "px-2 py-0.5 text-lg" : "px-3 py-1 text-xl"
+            }`}>
             <AiFillGithub />
           </div>
         </Link>
@@ -107,14 +140,19 @@ const ProjectCard = memo<ProjectCardProps>(({ item, index }) => {
             rel="noopener noreferrer"
             href={item.homepageUrl}
             passHref>
-            <div className="inline-block px-3 py-1 m-1 text-xl font-semibold rounded-full text-textSecondary bg-textTertiary hover:bg-tertiary">
+            <div
+              className={`inline-block m-1 font-semibold rounded-full text-textSecondary bg-textTertiary hover:bg-tertiary ${
+                isCompact ? "px-2 py-0.5 text-lg" : "px-3 py-1 text-xl"
+              }`}>
               <GrDeploy />
             </div>
           </Link>
         )}
       </div>
-      {/* last section */}
-      <div className="flex justify-between p-2 px-5 rounded-b-lg bg-secondary">
+      <div
+        className={`flex justify-between rounded-b-lg bg-secondary ${
+          isCompact ? "p-1.5 px-3 text-sm" : "p-2 px-5"
+        }`}>
         <div className="flex items-center space-x-4 whitespace-normal">
           <AiOutlineFork />
           {item.forkCount}
@@ -131,8 +169,8 @@ const ProjectCard = memo<ProjectCardProps>(({ item, index }) => {
               <Image
                 className="rounded-full"
                 src={user.node.avatarUrl}
-                width={25}
-                height={25}
+                width={isCompact ? 20 : 25}
+                height={isCompact ? 20 : 25}
                 alt={user.node.name || "Contributor"}
               />
               <span className="absolute inset-0 z-10 flex justify-center text-sm font-semibold text-gray-300 opacity-0 -top-6 hover:opacity-100 whitespace-nowrap">
@@ -148,25 +186,40 @@ const ProjectCard = memo<ProjectCardProps>(({ item, index }) => {
 
 ProjectCard.displayName = "ProjectCard";
 
-const Projects: React.FC<ProjectsProps> = ({ pinnedItems }) => {
-  const [projects, setProjects] = useState<PinnedRepository[]>(pinnedItems);
-  const [loadedCount, setLoadedCount] = useState(3); // Start with 3 projects
+const Projects: React.FC<ProjectsProps> = ({ pinnedItems, repositories }) => {
+  const [activeCategory, setActiveCategory] = useState<ProjectCategoryId>("pinned");
+  const [loadedCount, setLoadedCount] = useState(3);
 
-  // Memoize visible projects for performance
+  const categoryProjects = useMemo(
+    () => getProjectsForCategory(activeCategory, pinnedItems, repositories),
+    [activeCategory, pinnedItems, repositories]
+  );
+
   const visibleProjects = useMemo(() => {
-    return projects.slice(0, loadedCount);
-  }, [projects, loadedCount]);
+    return categoryProjects.slice(0, loadedCount);
+  }, [categoryProjects, loadedCount]);
 
-  // Load more projects progressively
-  React.useEffect(() => {
-    if (loadedCount < projects.length) {
+  const emptyMessage = useMemo(() => {
+    const category = PROJECT_CATEGORIES.find((item) => item.id === activeCategory);
+    return category?.emptyMessage ?? "No projects found.";
+  }, [activeCategory]);
+
+  const cardSize = activeCategory === "pinned" ? "default" : "compact";
+
+  useEffect(() => {
+    if (loadedCount < categoryProjects.length) {
       const timer = setTimeout(() => {
-        setLoadedCount((prev) => Math.min(prev + 2, projects.length));
-      }, 100); // Small delay to allow initial render to complete
+        setLoadedCount((prev) => Math.min(prev + 2, categoryProjects.length));
+      }, 100);
 
       return () => clearTimeout(timer);
     }
-  }, [loadedCount, projects.length]);
+  }, [loadedCount, categoryProjects.length]);
+
+  const handleCategoryChange = (category: ProjectCategoryId) => {
+    setActiveCategory(category);
+    setLoadedCount(3);
+  };
 
   return (
     <>
@@ -199,33 +252,61 @@ const Projects: React.FC<ProjectsProps> = ({ pinnedItems }) => {
         <link rel="canonical" href="https://pountzas-portfolio.vercel.app/projects" />
       </Head>
       <motion.section
-        className="flex justify-center bg-gradient-to-b from-primary to-secondary overflow-y-auto h-screen scrollbar-hide"
+        className="flex flex-col items-center bg-gradient-to-b from-primary to-secondary overflow-y-auto h-screen scrollbar-hide"
         variants={staggerContainer}
         initial="initial"
         animate="animate"
         exit="exit">
-        <motion.div
-          className="grid gap-8 pt-6 md:grid-cols-2"
-          variants={staggerContainer}>
-          {visibleProjects.map((item, index) => (
-            <ProjectCard key={item.id} item={item} index={index} />
-          ))}
+        <div className="sticky top-0 z-10 w-full px-4 pt-4 pb-2 bg-gradient-to-b from-primary via-primary to-transparent">
+          <ProjectCategorySwitcher
+            activeCategory={activeCategory}
+            onChange={handleCategoryChange}
+          />
+        </div>
 
-          {/* Loading indicator for additional projects */}
-          {loadedCount < projects.length && (
-            <motion.div
-              className="flex justify-center items-center py-8"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}>
-              <div className="flex items-center space-x-2 text-textTertiary">
-                <div className="w-4 h-4 border-2 border-textPrimary border-t-transparent rounded-full animate-spin"></div>
-                <span className="text-sm">Loading more projects...</span>
-              </div>
-            </motion.div>
-          )}
+        {categoryProjects.length === 0 ? (
+          <motion.div
+            className="flex items-center justify-center flex-1 px-6 py-16"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            role="tabpanel"
+            aria-labelledby={`project-tab-${activeCategory}`}>
+            <p className="text-sm text-center text-textTertiary md:text-base">
+              {emptyMessage}
+            </p>
+          </motion.div>
+        ) : (
+          <motion.div
+            className={`grid pt-4 md:grid-cols-2 ${
+              cardSize === "compact" ? "gap-6" : "gap-8"
+            }`}
+            variants={staggerContainer}
+            role="tabpanel"
+            aria-labelledby={`project-tab-${activeCategory}`}>
+            {visibleProjects.map((item, index) => (
+              <ProjectCard
+                key={`${activeCategory}-${item.id}`}
+                item={item}
+                index={index}
+                size={cardSize}
+              />
+            ))}
 
-          <div className="h-20"></div>
-        </motion.div>
+            {loadedCount < categoryProjects.length && (
+              <motion.div
+                className="flex justify-center items-center py-8 md:col-span-2"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}>
+                <div className="flex items-center space-x-2 text-textTertiary">
+                  <div className="w-4 h-4 border-2 border-textPrimary border-t-transparent rounded-full animate-spin"></div>
+                  <span className="text-sm">Loading more projects...</span>
+                </div>
+              </motion.div>
+            )}
+
+            <div className="h-20 md:col-span-2"></div>
+          </motion.div>
+        )}
       </motion.section>
     </>
   );
@@ -275,7 +356,7 @@ export async function getStaticProps() {
                   }
                   description
                   url
-                  repositoryTopics(first: 7) {
+                  repositoryTopics(first: 20) {
                     edges {
                       node {
                         id
@@ -301,6 +382,55 @@ export async function getStaticProps() {
               }
             }
           }
+          repositories(
+            first: 100
+            privacy: PUBLIC
+            ownerAffiliations: OWNER
+            orderBy: { field: UPDATED_AT, direction: DESC }
+          ) {
+            edges {
+              node {
+                id
+                name
+                forkCount
+                stargazerCount
+                openGraphImageUrl
+                assignableUsers(first: 3) {
+                  edges {
+                    node {
+                      id
+                      avatarUrl
+                      name
+                    }
+                  }
+                }
+                description
+                url
+                repositoryTopics(first: 20) {
+                  edges {
+                    node {
+                      id
+                      topic {
+                        name
+                      }
+                    }
+                  }
+                }
+                watchers {
+                  totalCount
+                }
+                homepageUrl
+                object(expression: "main") {
+                  ... on Commit {
+                    id
+                    history {
+                      totalCount
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     `
@@ -314,10 +444,14 @@ export async function getStaticProps() {
   const pinned = user.pinnedItems.edges.map(
     ({ node }: { node: PinnedRepository }) => node
   );
+  const repositories = user.repositories.edges.map(
+    ({ node }: { node: PinnedRepository }) => node
+  );
 
   return {
     props: {
-      pinnedItems: pinned
+      pinnedItems: pinned,
+      repositories
     },
     revalidate: 60
   };

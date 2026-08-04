@@ -63,9 +63,18 @@ export interface PinnedItemsConnection {
   edges: PinnedItemEdge[];
 }
 
+export interface RepositoryEdge {
+  node: GitHubRepository;
+}
+
+export interface RepositoriesConnection {
+  edges: RepositoryEdge[];
+}
+
 export interface GitHubUserProfile {
   id: string;
   pinnedItems: PinnedItemsConnection;
+  repositories: RepositoriesConnection;
 }
 
 export interface GitHubApiResponse {
