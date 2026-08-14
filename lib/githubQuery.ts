@@ -1,4 +1,6 @@
 const RETRYABLE_STATUS_CODES = new Set([429, 502, 503, 504]);
+const MAX_RETRY_AFTER_MS = 8000;
+const JITTER_MS = 250;
 const RETRYABLE_ERROR_CODES = new Set([
   "UND_ERR_SOCKET",
   "UND_ERR_CONNECT_TIMEOUT",
@@ -68,6 +70,65 @@ export function isRetryableGithubError(error: unknown): boolean {
   return false;
 }
 
+function readRetryAfterMs(error: unknown): number | undefined {
+  const seen = new Set<object>();
+  let current: unknown = error;
+
+  while (current && typeof current === "object" && !seen.has(current)) {
+    seen.add(current);
+
+    if (readStatusCode(current) === 429) {
+      const response = "response" in current ? current.response : undefined;
+      const headers =
+        response && typeof response === "object" && "headers" in response
+          ? response.headers
+          : "headers" in current
+            ? current.headers
+            : undefined;
+      const retryAfter = readHeader(headers, "retry-after");
+      if (retryAfter) {
+        return parseRetryAfterMs(retryAfter);
+      }
+    }
+
+    const nextCause = "cause" in current ? current.cause : undefined;
+    const nextNetworkError =
+      "networkError" in current ? current.networkError : undefined;
+    current = nextCause ?? nextNetworkError;
+  }
+
+  return undefined;
+}
+
+function readHeader(headers: unknown, name: string): string | undefined {
+  if (!headers || typeof headers !== "object") {
+    return undefined;
+  }
+
+  if ("get" in headers && typeof headers.get === "function") {
+    const value = headers.get(name);
+    return typeof value === "string" ? value : undefined;
+  }
+
+  const record = headers as Record<string, unknown>;
+  const direct = record[name] ?? record[name.toLowerCase()];
+  return typeof direct === "string" ? direct : undefined;
+}
+
+function parseRetryAfterMs(value: string): number | undefined {
+  const seconds = Number(value);
+  if (Number.isFinite(seconds) && seconds >= 0) {
+    return Math.min(seconds * 1000, MAX_RETRY_AFTER_MS);
+  }
+
+  const dateMs = Date.parse(value);
+  if (Number.isNaN(dateMs)) {
+    return undefined;
+  }
+
+  return Math.min(Math.max(dateMs - Date.now(), 0), MAX_RETRY_AFTER_MS);
+}
+
 export async function queryGithubWithRetry<T>(
   query: () => Promise<T>,
   attempts = 4
@@ -82,7 +143,10 @@ export async function queryGithubWithRetry<T>(
       if (!isRetryableGithubError(error) || attempt === attempts) {
         throw error;
       }
-      await new Promise((resolve) => setTimeout(resolve, 1500 * attempt));
+      const retryAfterMs = readRetryAfterMs(error);
+      const delay =
+        (retryAfterMs ?? 1500 * attempt) + Math.floor(Math.random() * JITTER_MS);
+      await new Promise((resolve) => setTimeout(resolve, delay));
     }
   }
 

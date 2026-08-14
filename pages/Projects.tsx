@@ -11,7 +11,11 @@ import {
 import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client";
 import { SetContextLink } from "@apollo/client/link/context";
 
-import type { PinnedRepository, GitHubUserProfile } from "../types/github";
+import {
+  isGitHubRepository,
+  type GitHubUserProfile,
+  type PinnedRepository
+} from "../types/github";
 import ProjectCategorySwitcher from "../components/ProjectCategorySwitcher";
 import {
   PROJECT_CATEGORIES,
@@ -49,6 +53,8 @@ const ProjectCard = memo<ProjectCardProps>(({ item, index, size = "default" }) =
     () => item.repositoryTopics?.edges || [],
     [item.repositoryTopics]
   );
+  const commitHistory =
+    item.object?.history ?? item.defaultBranchRef?.target?.history;
 
   return (
     <motion.div
@@ -80,13 +86,13 @@ const ProjectCard = memo<ProjectCardProps>(({ item, index, size = "default" }) =
           blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+IRjWjBqO6O2mhP//Z"
         />
         <div className="absolute top-auto flex items-center justify-center pb-2 inset-1">
-          <Activity mode={item.object ? "visible" : "hidden"}>
+          <Activity mode={commitHistory ? "visible" : "hidden"}>
             <p
               className={`flex m-1 font-bold text-gray-800 bg-teal-500 border rounded-full shadow-lg cursor-pointer border-cyan-600 hover:text-blue-900 ${
                 isCompact ? "px-2 py-0.5 text-[10px]" : "px-3 py-1 text-xs md:text-md"
               }`}>
               <span className="pr-1">Commits: </span>
-              {item.object?.history?.totalCount}
+              {commitHistory?.totalCount}
             </p>
           </Activity>
 
@@ -363,13 +369,16 @@ const PINNED_PROJECTS_QUERY = gql`
       pinnedItems(first: 6) {
         edges {
           node {
+            __typename
             ... on Repository {
               ...RepositoryCardFields
-              object(expression: "main") {
-                ... on Commit {
-                  id
-                  history {
-                    totalCount
+              defaultBranchRef {
+                target {
+                  ... on Commit {
+                    id
+                    history {
+                      totalCount
+                    }
                   }
                 }
               }
@@ -420,16 +429,18 @@ export async function getStaticProps() {
     cache: new InMemoryCache()
   });
 
-  const pinnedResult = await queryGithubWithRetry(() =>
-    client.query<{ user: Pick<GitHubUserProfile, "id" | "pinnedItems"> }>({
-      query: PINNED_PROJECTS_QUERY
-    })
-  );
-  const repositoryResult = await queryGithubWithRetry(() =>
-    client.query<{ user: Pick<GitHubUserProfile, "repositories"> }>({
-      query: REPOSITORY_LIST_QUERY
-    })
-  );
+  const [pinnedResult, repositoryResult] = await Promise.all([
+    queryGithubWithRetry(() =>
+      client.query<{ user: Pick<GitHubUserProfile, "id" | "pinnedItems"> }>({
+        query: PINNED_PROJECTS_QUERY
+      })
+    ),
+    queryGithubWithRetry(() =>
+      client.query<{ user: Pick<GitHubUserProfile, "repositories"> }>({
+        query: REPOSITORY_LIST_QUERY
+      })
+    )
+  ]);
 
   const pinnedUser = pinnedResult.data?.user;
   const repositoryUser = repositoryResult.data?.user;
@@ -439,12 +450,10 @@ export async function getStaticProps() {
   }
 
   const pinned = excludeTemplateRepos(
-    pinnedUser.pinnedItems.edges.map(({ node }: { node: PinnedRepository }) => node)
+    pinnedUser.pinnedItems.edges.map((edge) => edge.node).filter(isGitHubRepository)
   );
   const repositories = excludeTemplateRepos(
-    repositoryUser.repositories.edges.map(
-      ({ node }: { node: PinnedRepository }) => node
-    )
+    repositoryUser.repositories.edges.map((edge) => edge.node)
   );
 
   return {
