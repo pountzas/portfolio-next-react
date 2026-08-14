@@ -19,6 +19,7 @@ import {
   getProjectsForCategory,
   type ProjectCategoryId
 } from "../lib/projectCategories";
+import { getProjectImageSrc } from "../lib/projectImage";
 
 import { AiOutlineStar, AiOutlineFork, AiFillEye, AiFillGithub } from "react-icons/ai";
 import { GrDeploy } from "react-icons/gr";
@@ -69,7 +70,7 @@ const ProjectCard = memo<ProjectCardProps>(({ item, index, size = "default" }) =
       <div className={isCompact ? "relative mx-3" : "relative mx-5"}>
         <Image
           className="rounded-lg"
-          src={item.openGraphImageUrl}
+          src={getProjectImageSrc(item)}
           width={isCompact ? 480 : 640}
           height={isCompact ? 315 : 420}
           alt={item.name}
@@ -348,6 +349,10 @@ export async function getStaticProps() {
                   forkCount
                   stargazerCount
                   openGraphImageUrl
+                  isPrivate
+                  defaultBranchRef {
+                    name
+                  }
                   assignableUsers(first: 3) {
                     edges {
                       node {
@@ -397,6 +402,10 @@ export async function getStaticProps() {
                 forkCount
                 stargazerCount
                 openGraphImageUrl
+                isPrivate
+                defaultBranchRef {
+                  name
+                }
                 assignableUsers(first: 3) {
                   edges {
                     node {
