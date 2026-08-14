@@ -316,6 +316,53 @@ const Projects: React.FC<ProjectsProps> = ({ pinnedItems, repositories }) => {
   );
 };
 
+function isRetryableGithubError(error: unknown): boolean {
+  if (!error || typeof error !== "object") {
+    return false;
+  }
+
+  const directStatus =
+    "statusCode" in error && typeof error.statusCode === "number"
+      ? error.statusCode
+      : undefined;
+  const nestedError =
+    "networkError" in error &&
+    error.networkError &&
+    typeof error.networkError === "object"
+      ? error.networkError
+      : undefined;
+  const nestedStatus =
+    nestedError &&
+    "statusCode" in nestedError &&
+    typeof nestedError.statusCode === "number"
+      ? nestedError.statusCode
+      : undefined;
+  const status = directStatus ?? nestedStatus;
+
+  return status === 502 || status === 503 || status === 504;
+}
+
+async function queryGithubWithRetry<T>(
+  query: () => Promise<T>,
+  attempts = 3
+): Promise<T> {
+  let lastError: unknown;
+
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      return await query();
+    } catch (error) {
+      lastError = error;
+      if (!isRetryableGithubError(error) || attempt === attempts) {
+        throw error;
+      }
+      await new Promise((resolve) => setTimeout(resolve, 1500 * attempt));
+    }
+  }
+
+  throw lastError;
+}
+
 export async function getStaticProps() {
   const httpLink = new HttpLink({
     uri: "https://api.github.com/graphql"
@@ -335,8 +382,9 @@ export async function getStaticProps() {
     cache: new InMemoryCache()
   });
 
-  const { data } = await client.query<GitHubApiResponse>({
-    query: gql`
+  const { data } = await queryGithubWithRetry(() =>
+    client.query<GitHubApiResponse>({
+      query: gql`
       {
         user(login: "pountzas") {
           id
@@ -445,7 +493,8 @@ export async function getStaticProps() {
         }
       }
     `
-  });
+    })
+  );
 
   if (!data) {
     throw new Error("Failed to fetch GitHub data");
