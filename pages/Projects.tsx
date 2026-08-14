@@ -15,6 +15,7 @@ import type { PinnedRepository, GitHubApiResponse } from "../types/github";
 import ProjectCategorySwitcher from "../components/ProjectCategorySwitcher";
 import {
   PROJECT_CATEGORIES,
+  excludeTemplateRepos,
   getProjectsForCategory,
   type ProjectCategoryId
 } from "../lib/projectCategories";
@@ -384,7 +385,6 @@ export async function getStaticProps() {
           }
           repositories(
             first: 100
-            privacy: PUBLIC
             ownerAffiliations: OWNER
             orderBy: { field: UPDATED_AT, direction: DESC }
           ) {
@@ -441,11 +441,11 @@ export async function getStaticProps() {
   }
 
   const { user } = data;
-  const pinned = user.pinnedItems.edges.map(
-    ({ node }: { node: PinnedRepository }) => node
+  const pinned = excludeTemplateRepos(
+    user.pinnedItems.edges.map(({ node }: { node: PinnedRepository }) => node)
   );
-  const repositories = user.repositories.edges.map(
-    ({ node }: { node: PinnedRepository }) => node
+  const repositories = excludeTemplateRepos(
+    user.repositories.edges.map(({ node }: { node: PinnedRepository }) => node)
   );
 
   return {

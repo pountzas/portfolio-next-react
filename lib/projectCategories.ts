@@ -1,6 +1,11 @@
 import type { GitHubRepository } from "../types/github";
 
-export type ProjectCategoryId = "pinned" | "web" | "mobile" | "desktop";
+export type ProjectCategoryId =
+  | "pinned"
+  | "web"
+  | "mobile"
+  | "desktop"
+  | "dependencies";
 
 export interface ProjectCategory {
   id: ProjectCategoryId;
@@ -28,6 +33,11 @@ export const PROJECT_CATEGORIES: ProjectCategory[] = [
     id: "desktop",
     label: "Windows/MacOS",
     emptyMessage: "No Windows/MacOS apps tagged yet."
+  },
+  {
+    id: "dependencies",
+    label: "Dependencies",
+    emptyMessage: "No dependencies tagged yet."
   }
 ];
 
@@ -37,15 +47,29 @@ export const CATEGORY_TOPICS: Record<
 > = {
   web: ["web", "web-app", "nextjs"],
   mobile: ["mobile", "react-native", "android", "ios"],
-  desktop: ["desktop", "electron", "windows", "macos", "tauri", "tauri-v2"]
+  desktop: ["desktop", "electron", "windows", "macos", "tauri", "tauri-v2"],
+  dependencies: ["dependency", "dependencies", "package"]
 };
 
 export const CATEGORY_LIMIT = 12;
+
+export const EXCLUDED_TOPICS = ["template"] as const;
 
 export function getRepositoryTopicNames(repo: GitHubRepository): string[] {
   return (repo.repositoryTopics?.edges || []).map((edge) =>
     edge.node.topic.name.toLowerCase()
   );
+}
+
+export function hasExcludedTopic(repo: GitHubRepository): boolean {
+  const topicNames = getRepositoryTopicNames(repo);
+  return EXCLUDED_TOPICS.some((excluded) => topicNames.includes(excluded));
+}
+
+export function excludeTemplateRepos(
+  repos: GitHubRepository[]
+): GitHubRepository[] {
+  return repos.filter((repo) => !hasExcludedTopic(repo));
 }
 
 export function filterReposByTopics(
@@ -67,15 +91,20 @@ export function getProjectsForCategory(
   pinnedItems: GitHubRepository[],
   repositories: GitHubRepository[]
 ): GitHubRepository[] {
+  const visiblePinned = excludeTemplateRepos(pinnedItems);
+  const visibleRepos = excludeTemplateRepos(repositories);
+
   switch (categoryId) {
     case "pinned":
-      return pinnedItems;
+      return visiblePinned;
     case "web":
-      return filterReposByTopics(repositories, CATEGORY_TOPICS.web);
+      return filterReposByTopics(visibleRepos, CATEGORY_TOPICS.web);
     case "mobile":
-      return filterReposByTopics(repositories, CATEGORY_TOPICS.mobile);
+      return filterReposByTopics(visibleRepos, CATEGORY_TOPICS.mobile);
     case "desktop":
-      return filterReposByTopics(repositories, CATEGORY_TOPICS.desktop);
+      return filterReposByTopics(visibleRepos, CATEGORY_TOPICS.desktop);
+    case "dependencies":
+      return filterReposByTopics(visibleRepos, CATEGORY_TOPICS.dependencies);
     default: {
       const _exhaustive: never = categoryId;
       return _exhaustive;
