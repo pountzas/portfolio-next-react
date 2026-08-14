@@ -38,6 +38,10 @@ export interface CommitObject {
   history: CommitHistory;
 }
 
+export interface DefaultBranchRef {
+  name: string;
+}
+
 export interface GitHubRepository {
   id: string;
   name: string;
@@ -47,6 +51,8 @@ export interface GitHubRepository {
   forkCount: number;
   stargazerCount: number;
   openGraphImageUrl: string;
+  isPrivate: boolean;
+  defaultBranchRef: DefaultBranchRef | null;
   cloneCount?: number;
   viewCount?: number;
   assignableUsers: AssignableUsersConnection;
@@ -63,9 +69,18 @@ export interface PinnedItemsConnection {
   edges: PinnedItemEdge[];
 }
 
+export interface RepositoryEdge {
+  node: GitHubRepository;
+}
+
+export interface RepositoriesConnection {
+  edges: RepositoryEdge[];
+}
+
 export interface GitHubUserProfile {
   id: string;
   pinnedItems: PinnedItemsConnection;
+  repositories: RepositoriesConnection;
 }
 
 export interface GitHubApiResponse {

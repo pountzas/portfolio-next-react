@@ -9,6 +9,20 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "avatars.githubusercontent.com"
+      },
+      {
+        protocol: "https",
+        hostname: "opengraph.githubassets.com"
+      }
+    ],
+    localPatterns: [
+      {
+        pathname: "/api/project-image/**",
+        search: ""
+      },
+      {
+        pathname: "/images/**",
+        search: ""
       }
     ],
     // Optimize image loading

@@ -67,7 +67,7 @@ export default function HomeAnimations() {
           variants={flipFromBottom}>
           <Link
             target="_blank"
-            href="https://drive.google.com/file/d/1SycAJg1BXhDatjAuq1idZL9EOnV3tbSW/view?usp=sharing"
+            href="https://drive.google.com/file/d/1zG9Vfln_Bg2lM8tyMPFSpl5__pnPIYXs/view?usp=sharing"
             rel="noopener noreferrer">
             <motion.div
               className="p-2 font-semibold text-center border-2 rounded-lg cursor-pointer text-textTertiary border-borderSecondary bg-secondary hover:text-blue-50"
