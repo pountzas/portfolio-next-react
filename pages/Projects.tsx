@@ -271,6 +271,7 @@ const Projects: React.FC<ProjectsProps> = ({ pinnedItems, repositories }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             role="tabpanel"
+            id={`project-panel-${activeCategory}`}
             aria-labelledby={`project-tab-${activeCategory}`}>
             <p className="text-sm text-center text-textTertiary md:text-base">
               {emptyMessage}
@@ -283,6 +284,7 @@ const Projects: React.FC<ProjectsProps> = ({ pinnedItems, repositories }) => {
             }`}
             variants={staggerContainer}
             role="tabpanel"
+            id={`project-panel-${activeCategory}`}
             aria-labelledby={`project-tab-${activeCategory}`}>
             {visibleProjects.map((item, index) => (
               <ProjectCard
