@@ -40,9 +40,11 @@ export interface CommitObject {
 
 export interface DefaultBranchRef {
   name: string;
+  target?: CommitObject | null;
 }
 
 export interface GitHubRepository {
+  __typename?: string;
   id: string;
   name: string;
   description: string | null;
@@ -62,7 +64,7 @@ export interface GitHubRepository {
 }
 
 export interface PinnedItemEdge {
-  node: GitHubRepository;
+  node: GitHubRepository | { __typename?: string };
 }
 
 export interface PinnedItemsConnection {
@@ -89,3 +91,20 @@ export interface GitHubApiResponse {
 
 // Type for the processed pinned items used in components
 export type PinnedRepository = GitHubRepository;
+
+export function isGitHubRepository(node: unknown): node is GitHubRepository {
+  if (!node || typeof node !== "object") {
+    return false;
+  }
+
+  if ("__typename" in node && typeof node.__typename === "string") {
+    return node.__typename === "Repository";
+  }
+
+  return (
+    "name" in node &&
+    "url" in node &&
+    "isPrivate" in node &&
+    "openGraphImageUrl" in node
+  );
+}

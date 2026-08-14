@@ -11,7 +11,11 @@ import {
 import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client";
 import { SetContextLink } from "@apollo/client/link/context";
 
-import type { PinnedRepository, GitHubApiResponse } from "../types/github";
+import {
+  isGitHubRepository,
+  type GitHubUserProfile,
+  type PinnedRepository
+} from "../types/github";
 import ProjectCategorySwitcher from "../components/ProjectCategorySwitcher";
 import {
   PROJECT_CATEGORIES,
@@ -19,6 +23,7 @@ import {
   getProjectsForCategory,
   type ProjectCategoryId
 } from "../lib/projectCategories";
+import { queryGithubWithRetry } from "../lib/githubQuery";
 import { getProjectImageSrc } from "../lib/projectImage";
 
 import { AiOutlineStar, AiOutlineFork, AiFillEye, AiFillGithub } from "react-icons/ai";
@@ -48,6 +53,8 @@ const ProjectCard = memo<ProjectCardProps>(({ item, index, size = "default" }) =
     () => item.repositoryTopics?.edges || [],
     [item.repositoryTopics]
   );
+  const commitHistory =
+    item.object?.history ?? item.defaultBranchRef?.target?.history;
 
   return (
     <motion.div
@@ -79,13 +86,13 @@ const ProjectCard = memo<ProjectCardProps>(({ item, index, size = "default" }) =
           blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+IRjWjBqO6O2mhP//Z"
         />
         <div className="absolute top-auto flex items-center justify-center pb-2 inset-1">
-          <Activity mode={item.object ? "visible" : "hidden"}>
+          <Activity mode={commitHistory ? "visible" : "hidden"}>
             <p
               className={`flex m-1 font-bold text-gray-800 bg-teal-500 border rounded-full shadow-lg cursor-pointer border-cyan-600 hover:text-blue-900 ${
                 isCompact ? "px-2 py-0.5 text-[10px]" : "px-3 py-1 text-xs md:text-md"
               }`}>
               <span className="pr-1">Commits: </span>
-              {item.object?.history?.totalCount}
+              {commitHistory?.totalCount}
             </p>
           </Activity>
 
@@ -316,6 +323,93 @@ const Projects: React.FC<ProjectsProps> = ({ pinnedItems, repositories }) => {
   );
 };
 
+const REPOSITORY_CARD_FIELDS = gql`
+  fragment RepositoryCardFields on Repository {
+    id
+    name
+    forkCount
+    stargazerCount
+    openGraphImageUrl
+    isPrivate
+    defaultBranchRef {
+      name
+    }
+    assignableUsers(first: 3) {
+      edges {
+        node {
+          id
+          avatarUrl
+          name
+        }
+      }
+    }
+    description
+    url
+    repositoryTopics(first: 20) {
+      edges {
+        node {
+          id
+          topic {
+            name
+          }
+        }
+      }
+    }
+    watchers {
+      totalCount
+    }
+    homepageUrl
+  }
+`;
+
+const PINNED_PROJECTS_QUERY = gql`
+  query PinnedProjects {
+    user(login: "pountzas") {
+      id
+      pinnedItems(first: 6) {
+        edges {
+          node {
+            __typename
+            ... on Repository {
+              ...RepositoryCardFields
+              defaultBranchRef {
+                target {
+                  ... on Commit {
+                    id
+                    history {
+                      totalCount
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  ${REPOSITORY_CARD_FIELDS}
+`;
+
+const REPOSITORY_LIST_QUERY = gql`
+  query RepositoryList {
+    user(login: "pountzas") {
+      repositories(
+        first: 100
+        ownerAffiliations: OWNER
+        orderBy: { field: UPDATED_AT, direction: DESC }
+      ) {
+        edges {
+          node {
+            ...RepositoryCardFields
+          }
+        }
+      }
+    }
+  }
+  ${REPOSITORY_CARD_FIELDS}
+`;
+
 export async function getStaticProps() {
   const httpLink = new HttpLink({
     uri: "https://api.github.com/graphql"
@@ -335,128 +429,31 @@ export async function getStaticProps() {
     cache: new InMemoryCache()
   });
 
-  const { data } = await client.query<GitHubApiResponse>({
-    query: gql`
-      {
-        user(login: "pountzas") {
-          id
-          pinnedItems(first: 6) {
-            edges {
-              node {
-                ... on Repository {
-                  id
-                  name
-                  forkCount
-                  stargazerCount
-                  openGraphImageUrl
-                  isPrivate
-                  defaultBranchRef {
-                    name
-                  }
-                  assignableUsers(first: 3) {
-                    edges {
-                      node {
-                        id
-                        avatarUrl
-                        name
-                      }
-                    }
-                  }
-                  description
-                  url
-                  repositoryTopics(first: 20) {
-                    edges {
-                      node {
-                        id
-                        topic {
-                          name
-                        }
-                      }
-                    }
-                  }
-                  watchers {
-                    totalCount
-                  }
-                  homepageUrl
-                  object(expression: "main") {
-                    ... on Commit {
-                      id
-                      history {
-                        totalCount
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-          repositories(
-            first: 100
-            ownerAffiliations: OWNER
-            orderBy: { field: UPDATED_AT, direction: DESC }
-          ) {
-            edges {
-              node {
-                id
-                name
-                forkCount
-                stargazerCount
-                openGraphImageUrl
-                isPrivate
-                defaultBranchRef {
-                  name
-                }
-                assignableUsers(first: 3) {
-                  edges {
-                    node {
-                      id
-                      avatarUrl
-                      name
-                    }
-                  }
-                }
-                description
-                url
-                repositoryTopics(first: 20) {
-                  edges {
-                    node {
-                      id
-                      topic {
-                        name
-                      }
-                    }
-                  }
-                }
-                watchers {
-                  totalCount
-                }
-                homepageUrl
-                object(expression: "main") {
-                  ... on Commit {
-                    id
-                    history {
-                      totalCount
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    `
-  });
+  const [pinnedResult, repositoryResult] = await Promise.all([
+    queryGithubWithRetry(() =>
+      client.query<{ user: Pick<GitHubUserProfile, "id" | "pinnedItems"> }>({
+        query: PINNED_PROJECTS_QUERY
+      })
+    ),
+    queryGithubWithRetry(() =>
+      client.query<{ user: Pick<GitHubUserProfile, "repositories"> }>({
+        query: REPOSITORY_LIST_QUERY
+      })
+    )
+  ]);
 
-  if (!data) {
+  const pinnedUser = pinnedResult.data?.user;
+  const repositoryUser = repositoryResult.data?.user;
+
+  if (!pinnedUser || !repositoryUser) {
     throw new Error("Failed to fetch GitHub data");
   }
 
-  const { user } = data;
   const pinned = excludeTemplateRepos(
-    user.pinnedItems.edges.map(({ node }: { node: PinnedRepository }) => node)
+    pinnedUser.pinnedItems.edges.map((edge) => edge.node).filter(isGitHubRepository)
   );
   const repositories = excludeTemplateRepos(
-    user.repositories.edges.map(({ node }: { node: PinnedRepository }) => node)
+    repositoryUser.repositories.edges.map((edge) => edge.node)
   );
 
   return {
