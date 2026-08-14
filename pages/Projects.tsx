@@ -11,7 +11,7 @@ import {
 import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client";
 import { SetContextLink } from "@apollo/client/link/context";
 
-import type { PinnedRepository, GitHubApiResponse } from "../types/github";
+import type { PinnedRepository, GitHubUserProfile } from "../types/github";
 import ProjectCategorySwitcher from "../components/ProjectCategorySwitcher";
 import {
   PROJECT_CATEGORIES,
@@ -19,6 +19,7 @@ import {
   getProjectsForCategory,
   type ProjectCategoryId
 } from "../lib/projectCategories";
+import { queryGithubWithRetry } from "../lib/githubQuery";
 import { getProjectImageSrc } from "../lib/projectImage";
 
 import { AiOutlineStar, AiOutlineFork, AiFillEye, AiFillGithub } from "react-icons/ai";
@@ -316,52 +317,89 @@ const Projects: React.FC<ProjectsProps> = ({ pinnedItems, repositories }) => {
   );
 };
 
-function isRetryableGithubError(error: unknown): boolean {
-  if (!error || typeof error !== "object") {
-    return false;
-  }
-
-  const directStatus =
-    "statusCode" in error && typeof error.statusCode === "number"
-      ? error.statusCode
-      : undefined;
-  const nestedError =
-    "networkError" in error &&
-    error.networkError &&
-    typeof error.networkError === "object"
-      ? error.networkError
-      : undefined;
-  const nestedStatus =
-    nestedError &&
-    "statusCode" in nestedError &&
-    typeof nestedError.statusCode === "number"
-      ? nestedError.statusCode
-      : undefined;
-  const status = directStatus ?? nestedStatus;
-
-  return status === 502 || status === 503 || status === 504;
-}
-
-async function queryGithubWithRetry<T>(
-  query: () => Promise<T>,
-  attempts = 3
-): Promise<T> {
-  let lastError: unknown;
-
-  for (let attempt = 1; attempt <= attempts; attempt += 1) {
-    try {
-      return await query();
-    } catch (error) {
-      lastError = error;
-      if (!isRetryableGithubError(error) || attempt === attempts) {
-        throw error;
+const REPOSITORY_CARD_FIELDS = gql`
+  fragment RepositoryCardFields on Repository {
+    id
+    name
+    forkCount
+    stargazerCount
+    openGraphImageUrl
+    isPrivate
+    defaultBranchRef {
+      name
+    }
+    assignableUsers(first: 3) {
+      edges {
+        node {
+          id
+          avatarUrl
+          name
+        }
       }
-      await new Promise((resolve) => setTimeout(resolve, 1500 * attempt));
+    }
+    description
+    url
+    repositoryTopics(first: 20) {
+      edges {
+        node {
+          id
+          topic {
+            name
+          }
+        }
+      }
+    }
+    watchers {
+      totalCount
+    }
+    homepageUrl
+  }
+`;
+
+const PINNED_PROJECTS_QUERY = gql`
+  query PinnedProjects {
+    user(login: "pountzas") {
+      id
+      pinnedItems(first: 6) {
+        edges {
+          node {
+            ... on Repository {
+              ...RepositoryCardFields
+              object(expression: "main") {
+                ... on Commit {
+                  id
+                  history {
+                    totalCount
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
+  ${REPOSITORY_CARD_FIELDS}
+`;
 
-  throw lastError;
-}
+const REPOSITORY_LIST_QUERY = gql`
+  query RepositoryList {
+    user(login: "pountzas") {
+      repositories(
+        first: 100
+        ownerAffiliations: OWNER
+        orderBy: { field: UPDATED_AT, direction: DESC }
+      ) {
+        edges {
+          node {
+            ...RepositoryCardFields
+          }
+        }
+      }
+    }
+  }
+  ${REPOSITORY_CARD_FIELDS}
+`;
 
 export async function getStaticProps() {
   const httpLink = new HttpLink({
@@ -382,130 +420,31 @@ export async function getStaticProps() {
     cache: new InMemoryCache()
   });
 
-  const { data } = await queryGithubWithRetry(() =>
-    client.query<GitHubApiResponse>({
-      query: gql`
-      {
-        user(login: "pountzas") {
-          id
-          pinnedItems(first: 6) {
-            edges {
-              node {
-                ... on Repository {
-                  id
-                  name
-                  forkCount
-                  stargazerCount
-                  openGraphImageUrl
-                  isPrivate
-                  defaultBranchRef {
-                    name
-                  }
-                  assignableUsers(first: 3) {
-                    edges {
-                      node {
-                        id
-                        avatarUrl
-                        name
-                      }
-                    }
-                  }
-                  description
-                  url
-                  repositoryTopics(first: 20) {
-                    edges {
-                      node {
-                        id
-                        topic {
-                          name
-                        }
-                      }
-                    }
-                  }
-                  watchers {
-                    totalCount
-                  }
-                  homepageUrl
-                  object(expression: "main") {
-                    ... on Commit {
-                      id
-                      history {
-                        totalCount
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-          repositories(
-            first: 100
-            ownerAffiliations: OWNER
-            orderBy: { field: UPDATED_AT, direction: DESC }
-          ) {
-            edges {
-              node {
-                id
-                name
-                forkCount
-                stargazerCount
-                openGraphImageUrl
-                isPrivate
-                defaultBranchRef {
-                  name
-                }
-                assignableUsers(first: 3) {
-                  edges {
-                    node {
-                      id
-                      avatarUrl
-                      name
-                    }
-                  }
-                }
-                description
-                url
-                repositoryTopics(first: 20) {
-                  edges {
-                    node {
-                      id
-                      topic {
-                        name
-                      }
-                    }
-                  }
-                }
-                watchers {
-                  totalCount
-                }
-                homepageUrl
-                object(expression: "main") {
-                  ... on Commit {
-                    id
-                    history {
-                      totalCount
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    `
+  const pinnedResult = await queryGithubWithRetry(() =>
+    client.query<{ user: Pick<GitHubUserProfile, "id" | "pinnedItems"> }>({
+      query: PINNED_PROJECTS_QUERY
+    })
+  );
+  const repositoryResult = await queryGithubWithRetry(() =>
+    client.query<{ user: Pick<GitHubUserProfile, "repositories"> }>({
+      query: REPOSITORY_LIST_QUERY
     })
   );
 
-  if (!data) {
+  const pinnedUser = pinnedResult.data?.user;
+  const repositoryUser = repositoryResult.data?.user;
+
+  if (!pinnedUser || !repositoryUser) {
     throw new Error("Failed to fetch GitHub data");
   }
 
-  const { user } = data;
   const pinned = excludeTemplateRepos(
-    user.pinnedItems.edges.map(({ node }: { node: PinnedRepository }) => node)
+    pinnedUser.pinnedItems.edges.map(({ node }: { node: PinnedRepository }) => node)
   );
   const repositories = excludeTemplateRepos(
-    user.repositories.edges.map(({ node }: { node: PinnedRepository }) => node)
+    repositoryUser.repositories.edges.map(
+      ({ node }: { node: PinnedRepository }) => node
+    )
   );
 
   return {
