@@ -1,10 +1,12 @@
 # This is my Portfolio project build with [Next.js](https://nextjs.org/)
 
-This project uses GraphQL to manipulate gtihub api in order to have the latest 6 pinned projects from my github account.
+This project uses GraphQL to load GitHub repos onto the Projects page: the latest pinned items plus category tabs (web, mobile, desktop, dependencies). Click a project card and it animates out into a centered modal (and back on close) with the full description, topics, stats, and live-demo links. GitHub links are shown only for public repositories.
+
+The Skills page groups technologies by what they ship — Languages, Web, Native Apps, Backend & Data, Tooling & Platforms, and Design — including Rust, Tauri, Firebase, and Supabase.
+
+When I change a pinned project on GitHub, the portfolio updates on the next rebuild.
 <br>
-So when i change a project in Github profile, automaticaly it updates on the Portfolio Site.
-<br>
-⭐️ Star the project and see the changes happen.
+Star the project and see the changes happen.
 
 ## Build with
 
@@ -13,6 +15,7 @@ So when i change a project in Github profile, automaticaly it updates on the Por
 - Tailwind-css
 - GraphQL
 - Framer Motion
+- Rust / Tauri (listed in skills; used for native desktop work)
 
 <!-- ## Getting Started
 

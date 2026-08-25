@@ -70,7 +70,7 @@ const ModalWrapper: React.FC<ModalWrapperProps> = ({
       ref={modalRef}
       tabIndex={-1}
       style={{ outline: 'none' }}
-      aria-hidden={!isOpen}
+      aria-hidden={isOpen ? undefined : true}
       className={!isOpen ? 'sr-only' : undefined}
     >
       {children}
