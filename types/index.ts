@@ -19,36 +19,6 @@ export interface BaseSkillItem {
   officialSite: string;
 }
 
-/**
- * Programming language skill item
- */
-export interface Language extends BaseSkillItem {}
-
-/**
- * Framework skill item (Next.js, Rails, Tailwind, Bootstrap, etc.)
- */
-export interface Framework extends BaseSkillItem {}
-
-/**
- * Library skill item (React, Redux, Framer Motion, etc.)
- */
-export interface Library extends BaseSkillItem {}
-
-/**
- * Development tool skill item (VS Code, Git, Photoshop, etc.)
- */
-export interface Tool extends BaseSkillItem {}
-
-/**
- * Service/platform skill item (GitHub, Firebase, Vercel, etc.)
- */
-export interface Service extends BaseSkillItem {}
-
-/**
- * Learning goal skill item (Web3, Solidity, Three.js, etc.)
- */
-export interface LearningItem extends BaseSkillItem {}
-
 // =============================================================================
 // COMPONENT PROPS TYPES
 // =============================================================================
