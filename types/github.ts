@@ -43,6 +43,34 @@ export interface DefaultBranchRef {
   target?: CommitObject | null;
 }
 
+export interface ReleasesConnection {
+  totalCount: number;
+}
+
+export interface ConnectionPageInfo {
+  hasNextPage: boolean;
+  endCursor: string | null;
+}
+
+export interface ReleaseAsset {
+  downloadCount: number;
+}
+
+export interface ReleaseAssetsConnection {
+  nodes: ReleaseAsset[];
+  pageInfo?: ConnectionPageInfo;
+}
+
+export interface ReleaseNode {
+  id?: string;
+  releaseAssets: ReleaseAssetsConnection;
+}
+
+export interface ReleasesWithAssetsConnection {
+  nodes: ReleaseNode[];
+  pageInfo?: ConnectionPageInfo;
+}
+
 export interface GitHubRepository {
   __typename?: string;
   id: string;
@@ -57,6 +85,11 @@ export interface GitHubRepository {
   defaultBranchRef: DefaultBranchRef | null;
   cloneCount?: number;
   viewCount?: number;
+  releases?: ReleasesConnection;
+  releaseCount?: number;
+  downloadCount?: number;
+  /** npm registry downloads for the last year (package projects only). */
+  npmInstallCount?: number;
   assignableUsers: AssignableUsersConnection;
   repositoryTopics: RepositoryTopicsConnection;
   watchers: WatchersConnection;

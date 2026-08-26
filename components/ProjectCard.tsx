@@ -55,6 +55,9 @@ function ProjectImage({
 }) {
   const commitHistory =
     item.object?.history ?? item.defaultBranchRef?.target?.history;
+  const hasReleases = (item.releaseCount ?? 0) > 0;
+  const hasDownloads = (item.downloadCount ?? 0) > 0;
+  const hasNpmInstalls = (item.npmInstallCount ?? 0) > 0;
   const badgeClass =
     badgeSize === "md"
       ? "flex m-1 font-bold text-gray-800 bg-teal-500 border rounded-full shadow-lg border-cyan-600 px-3 py-1 text-xs"
@@ -83,6 +86,26 @@ function ProjectImage({
             <p className={badgeClass}>
               <span className="pr-1">Commits:</span>
               {commitHistory?.totalCount}
+            </p>
+          </Activity>
+          <Activity mode={hasReleases ? "visible" : "hidden"}>
+            <p className={badgeClass}>
+              <span className="pr-1">Releases:</span>
+              {item.releaseCount}
+            </p>
+          </Activity>
+          <Activity mode={hasDownloads ? "visible" : "hidden"}>
+            <p className={badgeClass}>
+              <span className="pr-1">Downloads:</span>
+              {item.downloadCount}
+            </p>
+          </Activity>
+          <Activity mode={hasNpmInstalls ? "visible" : "hidden"}>
+            <p
+              className={badgeClass}
+              title="npm downloads in the last 12 months">
+              <span className="pr-1">npm:</span>
+              {item.npmInstallCount?.toLocaleString()}
             </p>
           </Activity>
           <Activity mode={item.cloneCount ? "visible" : "hidden"}>
