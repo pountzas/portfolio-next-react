@@ -4,9 +4,9 @@ import {
   fetchLightProjectLists,
   fetchProjectStatsById,
   resolveEnrichmentIds,
-  type LightProjectLists,
-  type ProjectStatsById
+  type LightProjectLists
 } from "./githubProjectFetch";
+import type { ProjectStatsById } from "./githubReleaseStats";
 
 const IS_DEV = process.env.NODE_ENV === "development";
 const LIGHT_TTL_MS = IS_DEV ? 15 * 60 * 1000 : 60 * 1000;

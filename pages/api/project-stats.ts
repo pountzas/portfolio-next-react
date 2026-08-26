@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getCachedProjectStats } from "../../lib/githubProjectCache";
-import type { ProjectStatsById } from "../../lib/githubProjectFetch";
+import type { ProjectStatsById } from "../../lib/githubReleaseStats";
 
 export default async function handler(
   req: NextApiRequest,

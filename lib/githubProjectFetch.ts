@@ -12,6 +12,8 @@ import {
   collectDependencyRepoIds,
   collectDisplayedRepoIds,
   fetchNpmInstallCountsByRepoId,
+  type ProjectStatPatch,
+  type ProjectStatsById,
   type RepositoryCommitHistoryNode,
   type RepositoryPackageJsonNode,
   type RepositoryReleaseDownloadsNode
@@ -153,15 +155,6 @@ const PACKAGE_JSON_QUERY = gql`
     }
   }
 `;
-
-export interface ProjectStatPatch {
-  commitTotalCount?: number;
-  releaseCount?: number;
-  downloadCount?: number;
-  npmInstallCount?: number;
-}
-
-export type ProjectStatsById = Record<string, ProjectStatPatch>;
 
 export interface LightProjectLists {
   pinnedItems: GitHubRepository[];
@@ -367,45 +360,4 @@ export function resolveEnrichmentIds(
     displayedIds: collectDisplayedRepoIds(pinnedItems, repositories),
     dependencyIds: collectDependencyRepoIds(repositories)
   };
-}
-
-export function applyProjectStatsById(
-  repos: GitHubRepository[],
-  byId: ProjectStatsById
-): GitHubRepository[] {
-  return repos.map((repo) => {
-    const patch = byId[repo.id];
-    if (!patch) {
-      return repo;
-    }
-
-    let next: GitHubRepository = { ...repo };
-
-    if (patch.commitTotalCount !== undefined && next.defaultBranchRef) {
-      next = {
-        ...next,
-        defaultBranchRef: {
-          ...next.defaultBranchRef,
-          target: {
-            id: next.defaultBranchRef.target?.id ?? next.id,
-            history: { totalCount: patch.commitTotalCount }
-          }
-        }
-      };
-    }
-
-    if (patch.releaseCount !== undefined) {
-      next = { ...next, releaseCount: patch.releaseCount };
-    }
-
-    if (patch.downloadCount !== undefined) {
-      next = { ...next, downloadCount: patch.downloadCount };
-    }
-
-    if (patch.npmInstallCount !== undefined) {
-      next = { ...next, npmInstallCount: patch.npmInstallCount };
-    }
-
-    return next;
-  });
 }

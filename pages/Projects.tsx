@@ -15,7 +15,7 @@ import {
 import {
   applyProjectStatsById,
   type ProjectStatsById
-} from "../lib/githubProjectFetch";
+} from "../lib/githubReleaseStats";
 import { getCachedLightProjectLists } from "../lib/githubProjectCache";
 
 interface ProjectsProps {
@@ -27,18 +27,21 @@ const Projects: React.FC<ProjectsProps> = ({
   pinnedItems: initialPinned,
   repositories: initialRepositories
 }) => {
-  const [pinnedItems, setPinnedItems] = useState(initialPinned);
-  const [repositories, setRepositories] = useState(initialRepositories);
+  const [statsById, setStatsById] = useState<ProjectStatsById>({});
   const [activeCategory, setActiveCategory] = useState<ProjectCategoryId>("pinned");
   const [loadedCount, setLoadedCount] = useState(3);
   const [selectedProject, setSelectedProject] = useState<PinnedRepository | null>(
     null
   );
 
-  useEffect(() => {
-    setPinnedItems(initialPinned);
-    setRepositories(initialRepositories);
-  }, [initialPinned, initialRepositories]);
+  const pinnedItems = useMemo(
+    () => applyProjectStatsById(initialPinned, statsById),
+    [initialPinned, statsById]
+  );
+  const repositories = useMemo(
+    () => applyProjectStatsById(initialRepositories, statsById),
+    [initialRepositories, statsById]
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -53,12 +56,7 @@ const Projects: React.FC<ProjectsProps> = ({
         if (cancelled || !data.byId) {
           return;
         }
-
-        setPinnedItems((prev) => applyProjectStatsById(prev, data.byId!));
-        setRepositories((prev) => applyProjectStatsById(prev, data.byId!));
-        setSelectedProject((prev) =>
-          prev ? applyProjectStatsById([prev], data.byId!)[0] ?? prev : prev
-        );
+        setStatsById(data.byId);
       } catch (error) {
         console.warn("[Projects] stats enrichment failed:", error);
       }
