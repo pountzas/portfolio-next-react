@@ -3,36 +3,72 @@ import Head from "next/head";
 import { LayoutGroup, motion } from "framer-motion";
 import { staggerContainer } from "../components/animations/pageAnimations";
 
-import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client";
-import { SetContextLink } from "@apollo/client/link/context";
-
-import {
-  isGitHubRepository,
-  type GitHubUserProfile,
-  type PinnedRepository
-} from "../types/github";
+import type { PinnedRepository } from "../types/github";
 import ProjectCategorySwitcher from "../components/ProjectCategorySwitcher";
 import ProjectCard from "../components/ProjectCard";
 import ProjectModal from "../components/ProjectModal";
 import {
   PROJECT_CATEGORIES,
-  excludeTemplateRepos,
   getProjectsForCategory,
   type ProjectCategoryId
 } from "../lib/projectCategories";
-import { queryGithubWithRetry } from "../lib/githubQuery";
+import {
+  applyProjectStatsById,
+  type ProjectStatsById
+} from "../lib/githubProjectFetch";
+import { getCachedLightProjectLists } from "../lib/githubProjectCache";
 
 interface ProjectsProps {
   pinnedItems: PinnedRepository[];
   repositories: PinnedRepository[];
 }
 
-const Projects: React.FC<ProjectsProps> = ({ pinnedItems, repositories }) => {
+const Projects: React.FC<ProjectsProps> = ({
+  pinnedItems: initialPinned,
+  repositories: initialRepositories
+}) => {
+  const [pinnedItems, setPinnedItems] = useState(initialPinned);
+  const [repositories, setRepositories] = useState(initialRepositories);
   const [activeCategory, setActiveCategory] = useState<ProjectCategoryId>("pinned");
   const [loadedCount, setLoadedCount] = useState(3);
   const [selectedProject, setSelectedProject] = useState<PinnedRepository | null>(
     null
   );
+
+  useEffect(() => {
+    setPinnedItems(initialPinned);
+    setRepositories(initialRepositories);
+  }, [initialPinned, initialRepositories]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function enrichStats() {
+      try {
+        const response = await fetch("/api/project-stats");
+        if (!response.ok) {
+          return;
+        }
+        const data = (await response.json()) as { byId?: ProjectStatsById };
+        if (cancelled || !data.byId) {
+          return;
+        }
+
+        setPinnedItems((prev) => applyProjectStatsById(prev, data.byId!));
+        setRepositories((prev) => applyProjectStatsById(prev, data.byId!));
+        setSelectedProject((prev) =>
+          prev ? applyProjectStatsById([prev], data.byId!)[0] ?? prev : prev
+        );
+      } catch (error) {
+        console.warn("[Projects] stats enrichment failed:", error);
+      }
+    }
+
+    void enrichStats();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const categoryProjects = useMemo(
     () => getProjectsForCategory(activeCategory, pinnedItems, repositories),
@@ -163,142 +199,12 @@ const Projects: React.FC<ProjectsProps> = ({ pinnedItems, repositories }) => {
   );
 };
 
-const REPOSITORY_CARD_FIELDS = gql`
-  fragment RepositoryCardFields on Repository {
-    id
-    name
-    forkCount
-    stargazerCount
-    openGraphImageUrl
-    isPrivate
-    defaultBranchRef {
-      name
-    }
-    assignableUsers(first: 3) {
-      edges {
-        node {
-          id
-          avatarUrl
-          name
-        }
-      }
-    }
-    description
-    url
-    repositoryTopics(first: 20) {
-      edges {
-        node {
-          id
-          topic {
-            name
-          }
-        }
-      }
-    }
-    watchers {
-      totalCount
-    }
-    homepageUrl
-  }
-`;
-
-const PINNED_PROJECTS_QUERY = gql`
-  query PinnedProjects {
-    user(login: "pountzas") {
-      id
-      pinnedItems(first: 6) {
-        edges {
-          node {
-            __typename
-            ... on Repository {
-              ...RepositoryCardFields
-              defaultBranchRef {
-                target {
-                  ... on Commit {
-                    id
-                    history {
-                      totalCount
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  ${REPOSITORY_CARD_FIELDS}
-`;
-
-const REPOSITORY_LIST_QUERY = gql`
-  query RepositoryList {
-    user(login: "pountzas") {
-      repositories(
-        first: 100
-        ownerAffiliations: OWNER
-        orderBy: { field: UPDATED_AT, direction: DESC }
-      ) {
-        edges {
-          node {
-            ...RepositoryCardFields
-          }
-        }
-      }
-    }
-  }
-  ${REPOSITORY_CARD_FIELDS}
-`;
-
 export async function getStaticProps() {
-  const httpLink = new HttpLink({
-    uri: "https://api.github.com/graphql"
-  });
-
-  const token = process.env.GITHUB_ACCESS_TOKEN;
-
-  const authLink = new SetContextLink((prevContext, operation) => ({
-    headers: {
-      ...prevContext.headers,
-      authorization: token ? `Bearer ${token}` : ""
-    }
-  }));
-
-  const client = new ApolloClient({
-    link: authLink.concat(httpLink),
-    cache: new InMemoryCache()
-  });
-
-  const [pinnedResult, repositoryResult] = await Promise.all([
-    queryGithubWithRetry(() =>
-      client.query<{ user: Pick<GitHubUserProfile, "id" | "pinnedItems"> }>({
-        query: PINNED_PROJECTS_QUERY
-      })
-    ),
-    queryGithubWithRetry(() =>
-      client.query<{ user: Pick<GitHubUserProfile, "repositories"> }>({
-        query: REPOSITORY_LIST_QUERY
-      })
-    )
-  ]);
-
-  const pinnedUser = pinnedResult.data?.user;
-  const repositoryUser = repositoryResult.data?.user;
-
-  if (!pinnedUser || !repositoryUser) {
-    throw new Error("Failed to fetch GitHub data");
-  }
-
-  const pinned = excludeTemplateRepos(
-    pinnedUser.pinnedItems.edges.map((edge) => edge.node).filter(isGitHubRepository)
-  );
-  const repositories = excludeTemplateRepos(
-    repositoryUser.repositories.edges.map((edge) => edge.node)
-  );
+  const { pinnedItems, repositories } = await getCachedLightProjectLists();
 
   return {
     props: {
-      pinnedItems: pinned,
+      pinnedItems,
       repositories
     },
     revalidate: 60
