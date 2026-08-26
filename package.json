@@ -10,7 +10,7 @@
     "type-check": "tsc --noEmit"
   },
   "engines": {
-    "node": "22.x"
+    "node": "24.x"
   },
   "dependencies": {
     "@apollo/client": "^4.2.12",
