@@ -43,6 +43,27 @@ export interface DefaultBranchRef {
   target?: CommitObject | null;
 }
 
+export interface ReleasesConnection {
+  totalCount: number;
+}
+
+export interface ReleaseAsset {
+  downloadCount: number;
+}
+
+export interface ReleaseAssetsConnection {
+  nodes: ReleaseAsset[];
+}
+
+export interface ReleaseNode {
+  releaseAssets: ReleaseAssetsConnection;
+}
+
+export interface ReleasesWithAssetsConnection {
+  // Cap: first 30 releases / 20 assets — enough for this portfolio.
+  nodes: ReleaseNode[];
+}
+
 export interface GitHubRepository {
   __typename?: string;
   id: string;
@@ -57,6 +78,11 @@ export interface GitHubRepository {
   defaultBranchRef: DefaultBranchRef | null;
   cloneCount?: number;
   viewCount?: number;
+  releases?: ReleasesConnection;
+  releaseCount?: number;
+  downloadCount?: number;
+  /** npm registry downloads for the last year (package projects only). */
+  npmInstallCount?: number;
   assignableUsers: AssignableUsersConnection;
   repositoryTopics: RepositoryTopicsConnection;
   watchers: WatchersConnection;

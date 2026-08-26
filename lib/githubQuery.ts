@@ -36,8 +36,15 @@ function isRetryableMessage(message: string): boolean {
     normalized.includes("fetch failed") ||
     normalized.includes("network") ||
     normalized.includes("timeout") ||
-    normalized.includes("socket")
+    normalized.includes("socket") ||
+    normalized.includes("unexpected end of json") ||
+    normalized.includes("unexpected token") ||
+    normalized.includes("json input")
   );
+}
+
+function isEmptyGithubBody(error: object): boolean {
+  return "bodyText" in error && error.bodyText === "";
 }
 
 export function isRetryableGithubError(error: unknown): boolean {
@@ -49,6 +56,16 @@ export function isRetryableGithubError(error: unknown): boolean {
 
     const status = readStatusCode(current);
     if (status !== undefined && RETRYABLE_STATUS_CODES.has(status)) {
+      return true;
+    }
+
+    // GitHub sometimes returns HTTP 200 with an empty/truncated JSON body.
+    if (isEmptyGithubBody(current)) {
+      return true;
+    }
+
+    const name = "name" in current ? current.name : undefined;
+    if (name === "ServerParseError") {
       return true;
     }
 
@@ -151,4 +168,33 @@ export async function queryGithubWithRetry<T>(
   }
 
   throw lastError;
+}
+
+export function chunkIds(ids: string[], size: number): string[][] {
+  if (size <= 0) {
+    return [ids];
+  }
+  const chunks: string[][] = [];
+  for (let index = 0; index < ids.length; index += size) {
+    chunks.push(ids.slice(index, index + size));
+  }
+  return chunks;
+}
+
+/** Run an ID-based GraphQL nodes query in small sequential batches. */
+export async function queryGithubNodesInChunks<TNode>(
+  ids: string[],
+  chunkSize: number,
+  queryChunk: (chunkIds: string[]) => Promise<Array<TNode | null>>
+): Promise<Array<TNode | null>> {
+  if (ids.length === 0) {
+    return [];
+  }
+
+  const nodes: Array<TNode | null> = [];
+  for (const chunk of chunkIds(ids, chunkSize)) {
+    const chunkNodes = await queryChunk(chunk);
+    nodes.push(...chunkNodes);
+  }
+  return nodes;
 }

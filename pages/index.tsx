@@ -1,5 +1,6 @@
 import Head from "next/head";
 import HomeAnimations from "../components/animations/HomeAnimations";
+import PrefetchProjects from "../components/PrefetchProjects";
 
 export default function Home() {
   return (
@@ -31,6 +32,7 @@ export default function Home() {
         <link rel="canonical" href="https://pountzas-portfolio.vercel.app" />
       </Head>
 
+      <PrefetchProjects />
       <HomeAnimations />
     </>
   );
