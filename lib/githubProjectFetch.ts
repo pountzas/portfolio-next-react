@@ -7,7 +7,8 @@ import {
 import { queryGithubWithRetry, queryGithubNodesInChunks } from "./githubQuery";
 import { createGithubApolloClient } from "./githubApollo";
 import {
-  buildDownloadCountMap,
+  sumAssetDownloadCounts,
+  sumReleaseDownloads,
   buildPackageNameByRepoId,
   collectDependencyRepoIds,
   collectDisplayedRepoIds,
@@ -121,18 +122,49 @@ const COMMIT_AND_RELEASE_COUNT_QUERY = gql`
   }
 `;
 
+const RELEASE_PAGE_SIZE = 50;
+const ASSET_PAGE_SIZE = 50;
+const MAX_CONNECTION_PAGES = 100;
+
 const RELEASE_DOWNLOADS_QUERY = gql`
-  query ReleaseDownloads($ids: [ID!]!) {
+  query ReleaseDownloads($ids: [ID!]!, $after: String) {
     nodes(ids: $ids) {
       ... on Repository {
         id
-        releases(first: 30) {
+        releases(first: 50, after: $after) {
+          pageInfo {
+            hasNextPage
+            endCursor
+          }
           nodes {
-            releaseAssets(first: 20) {
+            id
+            releaseAssets(first: 50) {
+              pageInfo {
+                hasNextPage
+                endCursor
+              }
               nodes {
                 downloadCount
               }
             }
+          }
+        }
+      }
+    }
+  }
+`;
+
+const RELEASE_ASSETS_PAGE_QUERY = gql`
+  query ReleaseAssetsPage($id: ID!, $after: String) {
+    node(id: $id) {
+      ... on Release {
+        releaseAssets(first: 50, after: $after) {
+          pageInfo {
+            hasNextPage
+            endCursor
+          }
+          nodes {
+            downloadCount
           }
         }
       }
@@ -231,6 +263,127 @@ function collectReleaseIdsFromCountNodes(
   return ids;
 }
 
+interface ReleaseAssetsPage {
+  pageInfo?: {
+    hasNextPage: boolean;
+    endCursor: string | null;
+  };
+  nodes: Array<{ downloadCount: number }>;
+}
+
+async function queryReleaseDownloadsPage(
+  client: ApolloClient,
+  ids: string[],
+  after?: string | null
+): Promise<Array<RepositoryReleaseDownloadsNode | null>> {
+  const result = await queryGithubWithRetry(
+    () =>
+      client.query<{
+        nodes: Array<RepositoryReleaseDownloadsNode | null>;
+      }>({
+        query: RELEASE_DOWNLOADS_QUERY,
+        variables: after ? { ids, after } : { ids },
+        fetchPolicy: "no-cache"
+      }),
+    3
+  );
+  return result.data?.nodes ?? [];
+}
+
+async function sumRemainingReleaseAssets(
+  client: ApolloClient,
+  releaseId: string,
+  after: string | null
+): Promise<number> {
+  let total = 0;
+  let cursor: string | null = after;
+  let pages = 0;
+
+  while (cursor && pages < MAX_CONNECTION_PAGES) {
+    pages += 1;
+    const result = await queryGithubWithRetry(
+      () =>
+        client.query<{
+          node: { releaseAssets?: ReleaseAssetsPage } | null;
+        }>({
+          query: RELEASE_ASSETS_PAGE_QUERY,
+          variables: { id: releaseId, after: cursor },
+          fetchPolicy: "no-cache"
+        }),
+      3
+    );
+    const assets = result.data?.node?.releaseAssets;
+    total += sumAssetDownloadCounts(assets?.nodes);
+    cursor = assets?.pageInfo?.hasNextPage
+      ? assets.pageInfo.endCursor
+      : null;
+  }
+
+  return total;
+}
+
+async function sumDownloadsFromReleasesPage(
+  client: ApolloClient,
+  releases: RepositoryReleaseDownloadsNode["releases"] | null | undefined
+): Promise<number> {
+  let total = sumReleaseDownloads(releases);
+
+  for (const release of releases?.nodes ?? []) {
+    const assets = release.releaseAssets;
+    if (!release.id || !assets?.pageInfo?.hasNextPage) {
+      continue;
+    }
+    total += await sumRemainingReleaseAssets(
+      client,
+      release.id,
+      assets.pageInfo.endCursor
+    );
+  }
+
+  return total;
+}
+
+async function fetchReleaseDownloadTotals(
+  client: ApolloClient,
+  repoIds: string[]
+): Promise<Map<string, number>> {
+  const totals = new Map<string, number>();
+  if (repoIds.length === 0) {
+    return totals;
+  }
+
+  const firstPages = await queryGithubNodesInChunks<RepositoryReleaseDownloadsNode>(
+    repoIds,
+    4,
+    (ids) => queryReleaseDownloadsPage(client, ids)
+  );
+
+  for (const node of firstPages) {
+    if (!node?.id) {
+      continue;
+    }
+
+    let total = await sumDownloadsFromReleasesPage(client, node.releases);
+    let cursor = node.releases?.pageInfo?.hasNextPage
+      ? node.releases.pageInfo.endCursor
+      : null;
+    let pages = 1;
+
+    while (cursor && pages < MAX_CONNECTION_PAGES) {
+      pages += 1;
+      const [nextNode] = await queryReleaseDownloadsPage(client, [node.id], cursor);
+      total += await sumDownloadsFromReleasesPage(client, nextNode?.releases);
+      cursor = nextNode?.releases?.pageInfo?.hasNextPage
+        ? nextNode.releases.pageInfo.endCursor
+        : null;
+    }
+
+    totals.set(node.id, total);
+  }
+
+  return totals;
+}
+
 export async function fetchProjectStatsById(options: {
   displayedIds: string[];
   dependencyIds: string[];
@@ -259,29 +412,11 @@ export async function fetchProjectStatsById(options: {
 
   const releaseIds = collectReleaseIdsFromCountNodes(countNodes);
 
-  const [downloadNodes, packageJsonNodes] = await Promise.all([
+  const [downloadById, packageJsonNodes] = await Promise.all([
     loadOptionalStats(
       "release downloads",
-      () =>
-        queryGithubNodesInChunks<RepositoryReleaseDownloadsNode>(
-          releaseIds,
-          4,
-          async (ids) => {
-            const result = await queryGithubWithRetry(
-              () =>
-                client.query<{
-                  nodes: Array<RepositoryReleaseDownloadsNode | null>;
-                }>({
-                  query: RELEASE_DOWNLOADS_QUERY,
-                  variables: { ids },
-                  fetchPolicy: "no-cache"
-                }),
-              3
-            );
-            return result.data?.nodes ?? [];
-          }
-        ),
-      []
+      () => fetchReleaseDownloadTotals(client, releaseIds),
+      new Map<string, number>()
     ),
     loadOptionalStats(
       "package.json",
@@ -308,7 +443,6 @@ export async function fetchProjectStatsById(options: {
     )
   ]);
 
-  const downloadById = buildDownloadCountMap(downloadNodes);
   const npmById = await fetchNpmInstallCountsByRepoId(
     buildPackageNameByRepoId(packageJsonNodes)
   );

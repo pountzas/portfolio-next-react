@@ -47,21 +47,28 @@ export interface ReleasesConnection {
   totalCount: number;
 }
 
+export interface ConnectionPageInfo {
+  hasNextPage: boolean;
+  endCursor: string | null;
+}
+
 export interface ReleaseAsset {
   downloadCount: number;
 }
 
 export interface ReleaseAssetsConnection {
   nodes: ReleaseAsset[];
+  pageInfo?: ConnectionPageInfo;
 }
 
 export interface ReleaseNode {
+  id?: string;
   releaseAssets: ReleaseAssetsConnection;
 }
 
 export interface ReleasesWithAssetsConnection {
-  // Cap: first 30 releases / 20 assets — enough for this portfolio.
   nodes: ReleaseNode[];
+  pageInfo?: ConnectionPageInfo;
 }
 
 export interface GitHubRepository {

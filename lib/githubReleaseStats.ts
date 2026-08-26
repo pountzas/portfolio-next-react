@@ -28,7 +28,18 @@ export interface RepositoryPackageJsonNode {
   object: { text: string } | null;
 }
 
-/** Sum downloadCount across release assets (up to query caps). */
+/** Sum downloadCount across release asset nodes. */
+export function sumAssetDownloadCounts(
+  assets: Array<{ downloadCount?: number }> | null | undefined
+): number {
+  let total = 0;
+  for (const asset of assets ?? []) {
+    total += asset.downloadCount ?? 0;
+  }
+  return total;
+}
+
+/** Sum downloadCount across all release assets in a connection page. */
 export function sumReleaseDownloads(
   releases: ReleasesWithAssetsConnection | null | undefined
 ): number {
@@ -38,9 +49,7 @@ export function sumReleaseDownloads(
 
   let total = 0;
   for (const release of releases.nodes) {
-    for (const asset of release.releaseAssets?.nodes ?? []) {
-      total += asset.downloadCount ?? 0;
-    }
+    total += sumAssetDownloadCounts(release.releaseAssets?.nodes);
   }
   return total;
 }
