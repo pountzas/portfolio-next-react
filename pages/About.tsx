@@ -14,6 +14,7 @@ import Link from "next/link";
 function About() {
   return (
     <>
+    
       <Head>
         <title>About - Nikos Pountzas | Full-Stack Developer from Greece</title>
         <meta

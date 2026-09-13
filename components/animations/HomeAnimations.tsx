@@ -10,7 +10,7 @@ import {
 import Socials from "../Socials";
 import Link from "next/link";
 
-export default function HomeAnimations() {
+const HomeAnimations = () => {
   return (
     <motion.div
       className="max-w-xs grid-cols-1 py-4 mx-auto mt-24 space-y-5 border rounded-lg border-borderSecondary md:pt-8 bg-quaternary sm:max-w-md md:max-w-2xl xl:max-w-6xl"
@@ -81,8 +81,11 @@ export default function HomeAnimations() {
               My CV
             </motion.div>
           </Link>
+
         </motion.div>
       </motion.div>
     </motion.div>
   );
-}
+};
+
+export default HomeAnimations;
