@@ -66,3 +66,32 @@ None in app source under this worktree. No intentional leftovers.
 
 - Merge-back: `/apply-worktree`
 - Cleanup: `/delete-worktree`
+
+---
+
+## Review fix — chip-contrast helper false positive (Important)
+
+**Date:** 2026-09-18  
+**Finding:** `hasCollapsedChipContrastBuffer(projectCardSource)` was a false positive. Collapsed chips interpolate `COLLAPSED_CHIP_TEXT_CLASS_NAME` / `COLLAPSED_CHIP_BG_CLASS_NAME` (no literal `text-primary` / `bg-textTertiary` in source). The helper returned true because expanded links contain `text-white` near `hover:bg-textTertiary`.
+
+### How closed
+
+- Helper now accepts adjacent `${COLLAPSED_CHIP_TEXT_CLASS_NAME}` / `${COLLAPSED_CHIP_BG_CLASS_NAME}` token pairs.
+- Literal `bg-textTertiary` matching uses `(?<!hover:)` so `hover:bg-textTertiary` does not count as chip bg.
+- Fixtures: expanded-only `text-white`+`hover:bg-textTertiary` → false; token interpolation → true; import-only unused tokens → false.
+- Source contract asserts adjacent token usage regex (not import-only `|text-primary` / `|bg-textTertiary`).
+- Product chip classes unchanged.
+
+### TDD
+
+- **RED:** `tdd-run.mjs --name "requires buffer contrast..." --expect red` → `status: fail` (expanded hover false positive + missing token-pair recognition)
+- **GREEN:** same `--expect green` → `status: pass`
+- Full: `node --test components/ProjectCard.a11y.test.mjs` → **20/20 pass**; `npx tsc --noEmit` → exit 0
+
+### Files
+
+| File | Action |
+|------|--------|
+| `components/projectCardA11y.mjs` | tighten helper (token pair + no hover:bg) |
+| `components/ProjectCard.a11y.test.mjs` | fixtures + adjacent-token source assert |
+| `.superpowers/sdd/task-10-report.md` | append this fix note |

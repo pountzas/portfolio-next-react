@@ -80,6 +80,32 @@ describe("project card a11y helpers", () => {
       hasCollapsedChipContrastBuffer("text-primary bg-textTertiary"),
       true,
     );
+    // Expanded GitHub link: text-white near hover:bg-textTertiary must NOT
+    // count as the collapsed chip buffer (false-positive seam).
+    assert.equal(
+      hasCollapsedChipContrastBuffer(
+        'className={`inline-flex font-medium text-white bg-tertiary hover:bg-textTertiary ${TOUCH_TARGET_CLASS_NAME}`}',
+      ),
+      false,
+    );
+    // Collapsed chips interpolate the token pair in className.
+    assert.equal(
+      hasCollapsedChipContrastBuffer(
+        'className={`rounded-full ${COLLAPSED_CHIP_TEXT_CLASS_NAME} ${COLLAPSED_CHIP_BG_CLASS_NAME} hover:bg-tertiary`}',
+      ),
+      true,
+    );
+    // Import-only / unused tokens must not count as usage.
+    assert.equal(
+      hasCollapsedChipContrastBuffer(
+        `import {
+  COLLAPSED_CHIP_BG_CLASS_NAME,
+  COLLAPSED_CHIP_TEXT_CLASS_NAME,
+} from "./projectCardA11y.mjs";
+export const x = "no chip className";`,
+      ),
+      false,
+    );
   });
 
   it("cycles Tab focus to the other edge of the dialog", () => {
@@ -165,18 +191,17 @@ describe("ProjectCard source contracts", () => {
   });
 
   it("collapsed chips use primary/white buffer contrast on bg-textTertiary", () => {
+    // Broken helper currently passes on full source via expanded text-white
+    // near hover:bg-textTertiary — that is the false positive under fix.
     assert.equal(hasCollapsedChipContrastBuffer(projectCardSource), true);
+    // Usage (not import-only): adjacent token interpolation in chip className.
     assert.match(
       projectCardSource,
-      /COLLAPSED_CHIP_TEXT_CLASS_NAME|text-primary/,
-    );
-    assert.match(
-      projectCardSource,
-      /COLLAPSED_CHIP_BG_CLASS_NAME|bg-textTertiary/,
+      /\$\{COLLAPSED_CHIP_TEXT_CLASS_NAME\}[\s\S]{0,80}\$\{COLLAPSED_CHIP_BG_CLASS_NAME\}/,
     );
     assert.doesNotMatch(
       projectCardSource,
-      /text-textSecondary[\s\S]{0,80}bg-textTertiary|bg-textTertiary[\s\S]{0,80}text-textSecondary/,
+      /text-textSecondary[\s\S]{0,80}(?<!hover:)bg-textTertiary|(?<!hover:)bg-textTertiary[\s\S]{0,80}text-textSecondary/,
     );
   });
 

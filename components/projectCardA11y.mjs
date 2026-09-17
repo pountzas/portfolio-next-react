@@ -66,6 +66,9 @@ export function findTextSpacingClipClasses(source) {
 /**
  * True when collapsed chip markup uses buffer contrast (primary or white)
  * on the tertiary chip background, not knife-edge textSecondary.
+ * Accepts adjacent COLLAPSED_CHIP_* token interpolation or literal classes.
+ * Does not treat expanded `text-white` near `hover:bg-textTertiary` as a hit,
+ * and does not count import-only token names without `${...}` usage.
  * @param {string} source
  * @returns {boolean}
  */
@@ -75,18 +78,26 @@ export function hasCollapsedChipContrastBuffer(source) {
   }
 
   const usesKnifeEdge =
-    /text-textSecondary[\s\S]{0,80}bg-textTertiary|bg-textTertiary[\s\S]{0,80}text-textSecondary/.test(
+    /text-textSecondary[\s\S]{0,80}(?<!hover:)bg-textTertiary|(?<!hover:)bg-textTertiary[\s\S]{0,80}text-textSecondary/.test(
       source,
     );
   if (usesKnifeEdge) {
     return false;
   }
 
-  const usesBufferText =
-    /text-primary[\s\S]{0,120}bg-textTertiary|bg-textTertiary[\s\S]{0,120}text-primary|text-white[\s\S]{0,120}bg-textTertiary|bg-textTertiary[\s\S]{0,120}text-white/.test(
+  const usesTokenPair =
+    /\$\{COLLAPSED_CHIP_TEXT_CLASS_NAME\}[\s\S]{0,80}\$\{COLLAPSED_CHIP_BG_CLASS_NAME\}|\$\{COLLAPSED_CHIP_BG_CLASS_NAME\}[\s\S]{0,80}\$\{COLLAPSED_CHIP_TEXT_CLASS_NAME\}/.test(
       source,
     );
-  return usesBufferText;
+  if (usesTokenPair) {
+    return true;
+  }
+
+  const usesLiteralBuffer =
+    /text-primary[\s\S]{0,120}(?<!hover:)bg-textTertiary|(?<!hover:)bg-textTertiary[\s\S]{0,120}text-primary|text-white[\s\S]{0,120}(?<!hover:)bg-textTertiary|(?<!hover:)bg-textTertiary[\s\S]{0,120}text-white/.test(
+      source,
+    );
+  return usesLiteralBuffer;
 }
 
 /** Focusable selectors inside the expanded dialog for Tab trapping. */
