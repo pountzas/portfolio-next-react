@@ -306,13 +306,19 @@ function Contact() {
           property="og:description"
           content="Send a message to discuss your next web development project or collaboration opportunity."
         />
-        <meta property="og:url" content="https://pountzas-portfolio.vercel.app/contact" />
+        <meta
+          property="og:url"
+          content="https://pountzas-portfolio.vercel.app/Contact"
+        />
         <meta name="twitter:title" content="Contact - Nikos Pountzas" />
         <meta
           name="twitter:description"
           content="Get in touch to discuss your next web development project."
         />
-        <link rel="canonical" href="https://pountzas-portfolio.vercel.app/contact" />
+        <link
+          rel="canonical"
+          href="https://pountzas-portfolio.vercel.app/Contact"
+        />
       </Head>
       <motion.div
         className="max-w-4xl mx-auto px-4 py-8 h-[calc(100vh-111px)] overflow-y-auto scrollbar-hide"

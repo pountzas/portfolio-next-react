@@ -119,14 +119,17 @@ const Projects: React.FC<ProjectsProps> = ({
         />
         <meta
           property="og:url"
-          content="https://pountzas-portfolio.vercel.app/projects"
+          content="https://pountzas-portfolio.vercel.app/Projects"
         />
         <meta name="twitter:title" content="Projects - Nikos Pountzas Portfolio" />
         <meta
           name="twitter:description"
           content="Explore my web development projects and GitHub repositories."
         />
-        <link rel="canonical" href="https://pountzas-portfolio.vercel.app/projects" />
+        <link
+          rel="canonical"
+          href="https://pountzas-portfolio.vercel.app/Projects"
+        />
       </Head>
       <LayoutGroup>
         <motion.section
@@ -135,6 +138,7 @@ const Projects: React.FC<ProjectsProps> = ({
           initial="initial"
           animate="animate"
           exit="exit">
+          <h1 className="sr-only">Projects</h1>
           <div className="sticky top-0 z-10 w-full px-4 pt-4 pb-2 bg-gradient-to-b from-primary via-primary to-transparent">
             <ProjectCategorySwitcher
               activeCategory={activeCategory}

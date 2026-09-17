@@ -27,7 +27,10 @@ function Skills() {
           property="og:description"
           content="Technical skills grouped by what I ship: languages, web, native apps, backend & data, tooling, and design."
         />
-        <meta property="og:url" content="https://pountzas-portfolio.vercel.app/skills" />
+        <meta
+          property="og:url"
+          content="https://pountzas-portfolio.vercel.app/Skills"
+        />
         <meta
           name="twitter:title"
           content="Skills & Technologies - Nikos Pountzas Portfolio"
@@ -36,9 +39,13 @@ function Skills() {
           name="twitter:description"
           content="Explore my technical skills and development expertise."
         />
-        <link rel="canonical" href="https://pountzas-portfolio.vercel.app/skills" />
+        <link
+          rel="canonical"
+          href="https://pountzas-portfolio.vercel.app/Skills"
+        />
       </Head>
       <div className="h-[calc(100vh-3px)] overflow-y-auto scrollbar-hide pb-16">
+        <h1 className="sr-only">Skills</h1>
         <SkillsAnimations>
           {SKILL_SECTIONS.map((section, index) => (
             <SkillSection
