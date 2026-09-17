@@ -44,7 +44,7 @@ function Skills() {
           href="https://pountzas-portfolio.vercel.app/Skills"
         />
       </Head>
-      <div className="h-[calc(100vh-3px)] overflow-y-auto scrollbar-hide pb-16">
+      <div className="pb-16">
         <h1 className="sr-only">Skills</h1>
         <SkillsAnimations>
           {SKILL_SECTIONS.map((section, index) => (
