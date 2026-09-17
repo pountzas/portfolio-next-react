@@ -17,6 +17,14 @@ import type { PinnedRepository } from "../types/github";
 import { AiOutlineStar, AiOutlineFork, AiFillEye, AiFillGithub } from "react-icons/ai";
 import { GrDeploy } from "react-icons/gr";
 import { BsPeopleFill } from "react-icons/bs";
+import {
+  CLOSE_DIALOG_ARIA_LABEL,
+  GITHUB_LINK_ARIA_LABEL,
+  LIVE_DEMO_LINK_ARIA_LABEL,
+  TOUCH_TARGET_CLASS_NAME,
+  handleProjectDialogKeyDown,
+  openDetailsAriaLabel
+} from "./projectCardA11y.mjs";
 
 const PROJECT_IMAGE_BLUR =
   "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+IRjWjBqO6O2mhP//Z";
@@ -70,7 +78,7 @@ function ProjectImage({
         src={getProjectImageSrc(item)}
         width={width}
         height={height}
-        alt={item.name}
+        alt=""
         priority={index < 2}
         placeholder="blur"
         blurDataURL={PROJECT_IMAGE_BLUR}
@@ -176,16 +184,17 @@ function ProjectLinks({
 
   if (expanded) {
     return (
-      <div className="flex flex-wrap items-center justify-center gap-3 pb-4">
+      <div className="relative z-10 flex flex-wrap items-center justify-center gap-3 pb-4">
         {showGitHub && (
           <Link
             target="_blank"
             rel="noopener noreferrer"
             href={item.url}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-white bg-tertiary hover:bg-textTertiary"
+            aria-label={GITHUB_LINK_ARIA_LABEL}
+            className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-white bg-tertiary hover:bg-textTertiary ${TOUCH_TARGET_CLASS_NAME}`}
             onClick={stopCardOpen}
             onPointerDown={stopCardOpen}>
-            <AiFillGithub />
+            <AiFillGithub aria-hidden="true" />
             GitHub
           </Link>
         )}
@@ -194,10 +203,11 @@ function ProjectLinks({
             target="_blank"
             rel="noopener noreferrer"
             href={homepageUrl}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-white bg-blue-600 hover:bg-blue-700"
+            aria-label={LIVE_DEMO_LINK_ARIA_LABEL}
+            className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-white bg-blue-600 hover:bg-blue-700 ${TOUCH_TARGET_CLASS_NAME}`}
             onClick={stopCardOpen}
             onPointerDown={stopCardOpen}>
-            <GrDeploy />
+            <GrDeploy aria-hidden="true" />
             Live demo
           </Link>
         )}
@@ -206,18 +216,17 @@ function ProjectLinks({
   }
 
   return (
-    <div className="flex items-center justify-center pb-3">
+    <div className="relative z-10 flex items-center justify-center gap-2 pb-3">
       {showGitHub && (
         <Link
           target="_blank"
           rel="noopener noreferrer"
           href={item.url}
-          passHref
+          aria-label={GITHUB_LINK_ARIA_LABEL}
+          className={`inline-flex items-center justify-center m-1 font-semibold rounded-full text-textSecondary bg-textTertiary hover:bg-tertiary ${TOUCH_TARGET_CLASS_NAME}`}
           onClick={stopCardOpen}
           onPointerDown={stopCardOpen}>
-          <div className="inline-block m-1 font-semibold rounded-full text-textSecondary bg-textTertiary hover:bg-tertiary px-2 py-0.5 text-lg">
-            <AiFillGithub />
-          </div>
+          <AiFillGithub aria-hidden="true" className="text-lg" />
         </Link>
       )}
       {homepageUrl && (
@@ -225,12 +234,11 @@ function ProjectLinks({
           target="_blank"
           rel="noopener noreferrer"
           href={homepageUrl}
-          passHref
+          aria-label={LIVE_DEMO_LINK_ARIA_LABEL}
+          className={`inline-flex items-center justify-center m-1 font-semibold rounded-full text-textSecondary bg-textTertiary hover:bg-tertiary ${TOUCH_TARGET_CLASS_NAME}`}
           onClick={stopCardOpen}
           onPointerDown={stopCardOpen}>
-          <div className="inline-block m-1 font-semibold rounded-full text-textSecondary bg-textTertiary hover:bg-tertiary px-2 py-0.5 text-lg">
-            <GrDeploy />
-          </div>
+          <GrDeploy aria-hidden="true" className="text-lg" />
         </Link>
       )}
     </div>
@@ -254,29 +262,29 @@ function ProjectFooter({
     <div
       className={
         expanded
-          ? "flex flex-wrap justify-between gap-3 rounded-b-lg bg-secondary p-3 px-5 text-sm"
-          : "flex justify-between rounded-b-lg bg-secondary p-1.5 px-3 text-sm"
+          ? "relative z-10 flex flex-wrap justify-between gap-3 rounded-b-lg bg-secondary p-3 px-5 text-sm"
+          : "relative z-10 flex justify-between rounded-b-lg bg-secondary p-1.5 px-3 text-sm"
       }>
       <div className="flex items-center space-x-4 whitespace-normal">
         {expanded ? (
           <>
             <span className="inline-flex items-center gap-1">
-              <AiOutlineFork /> {item.forkCount}
+              <AiOutlineFork aria-hidden="true" /> {item.forkCount}
             </span>
             <span className="inline-flex items-center gap-1">
-              <AiOutlineStar /> {item.stargazerCount}
+              <AiOutlineStar aria-hidden="true" /> {item.stargazerCount}
             </span>
             <span className="inline-flex items-center gap-1">
-              <AiFillEye /> {item.watchers.totalCount}
+              <AiFillEye aria-hidden="true" /> {item.watchers.totalCount}
             </span>
           </>
         ) : (
           <>
-            <AiOutlineFork />
+            <AiOutlineFork aria-hidden="true" />
             {item.forkCount}
-            <AiOutlineStar />
+            <AiOutlineStar aria-hidden="true" />
             {item.stargazerCount}
-            <AiFillEye />
+            <AiFillEye aria-hidden="true" />
             {item.watchers.totalCount}
           </>
         )}
@@ -287,14 +295,11 @@ function ProjectFooter({
         ) : (
           <>
             <p className="hidden md:inline-block">Contributors: </p>
-            <BsPeopleFill className="md:hidden" />
+            <BsPeopleFill className="md:hidden" aria-hidden="true" />
           </>
         )}
         {contributors.map((user) => (
-          <div
-            className="relative"
-            key={user.node.id}
-            title={expanded ? user.node.name || undefined : undefined}>
+          <div className="relative" key={user.node.id}>
             <Image
               className="rounded-full"
               src={user.node.avatarUrl}
@@ -302,11 +307,6 @@ function ProjectFooter({
               height={avatarSize}
               alt={user.node.name || "Contributor"}
             />
-            {!expanded && (
-              <span className="absolute inset-0 z-10 flex justify-center text-sm font-semibold text-gray-300 opacity-0 -top-6 hover:opacity-100 whitespace-nowrap">
-                {user.node.name}
-              </span>
-            )}
           </div>
         ))}
       </div>
@@ -314,98 +314,122 @@ function ProjectFooter({
   );
 }
 
-const ProjectCard = memo<ProjectCardProps>(
-  ({ item, index, isSelected, onOpen, onClose }) => {
-    const articleRef = useRef<HTMLElement>(null);
+const ProjectCard = memo(function ProjectCard({
+  item,
+  index,
+  isSelected,
+  onOpen,
+  onClose
+}: ProjectCardProps) {
+  const articleRef = useRef<HTMLElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const openButtonRef = useRef<HTMLButtonElement>(null);
+  const previouslyFocusedRef = useRef<HTMLElement | null>(null);
+  const titleId = `project-title-${item.id}`;
 
-    useEffect(() => {
-      if (isSelected) {
-        articleRef.current?.focus();
-      }
-    }, [isSelected]);
+  useEffect(() => {
+    if (!isSelected) {
+      return;
+    }
 
-    const openOnActivate = () => {
-      if (!isSelected) {
-        onOpen(item);
-      }
+    previouslyFocusedRef.current =
+      (document.activeElement as HTMLElement | null) ??
+      openButtonRef.current;
+
+    closeButtonRef.current?.focus();
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      handleProjectDialogKeyDown(event, {
+        container: articleRef.current,
+        onClose,
+        getActiveElement: () => document.activeElement
+      });
     };
 
-    return (
-      <div className="relative h-full w-full max-w-[17rem] md:max-w-xs">
-        {isSelected && (
-          <div
-            className="invisible pointer-events-none flex h-full flex-col justify-between border-2 rounded-xl"
-            aria-hidden>
-            <div className="p-1.5 mb-2 text-lg">&nbsp;</div>
-            <div className="mx-3 aspect-[480/315]" />
-            <p className="py-1.5 mx-3 text-sm line-clamp-3">{item.description}</p>
-            <div className="pb-2 mx-3 h-8" />
-            <div className="pb-3 h-10" />
-            <div className="p-1.5 h-10" />
-          </div>
+    document.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      const restoreTarget =
+        previouslyFocusedRef.current ?? openButtonRef.current;
+      if (restoreTarget && typeof restoreTarget.focus === "function") {
+        restoreTarget.focus();
+      }
+    };
+  }, [isSelected, onClose]);
+
+  return (
+    <div className="relative h-full w-full max-w-[17rem] md:max-w-xs">
+      {isSelected && (
+        <div
+          className="invisible pointer-events-none flex h-full flex-col justify-between border-2 rounded-xl"
+          aria-hidden>
+          <div className="p-1.5 mb-2 text-lg">&nbsp;</div>
+          <div className="mx-3 aspect-[480/315]" />
+          <p className="py-1.5 mx-3 text-sm line-clamp-3">{item.description}</p>
+          <div className="pb-2 mx-3 h-8" />
+          <div className="pb-3 h-10" />
+          <div className="p-1.5 h-10" />
+        </div>
+      )}
+
+      <motion.article
+        ref={articleRef}
+        layout
+        layoutId={projectLayoutId(item.id)}
+        transition={{ layout: LAYOUT_TRANSITION }}
+        className={
+          isSelected
+            ? "fixed z-[120] inset-0 m-auto h-fit w-[min(92vw,42rem)] max-h-[85vh] overflow-y-auto flex flex-col border-2 text-textPrimary border-borderSecondary rounded-xl bg-quaternary shadow-2xl scrollbar-hide cursor-default"
+            : "relative flex h-full flex-col border-2 text-textPrimary border-borderSecondary rounded-xl bg-quaternary w-full"
+        }
+        variants={createStaggeredFlip(0.2, 0.15)(index)}
+        whileHover={
+          isSelected
+            ? undefined
+            : {
+                boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
+                transition: { duration: 0.3 }
+              }
+        }
+        role={isSelected ? "dialog" : undefined}
+        aria-modal={isSelected || undefined}
+        aria-labelledby={titleId}>
+        {!isSelected && (
+          <button
+            ref={openButtonRef}
+            type="button"
+            className="absolute inset-0 z-0 rounded-xl"
+            aria-label={openDetailsAriaLabel(item.name)}
+            onClick={() => onOpen(item)}
+          />
         )}
 
-        <motion.article
-          ref={articleRef}
-          layout
-          layoutId={projectLayoutId(item.id)}
-          transition={{ layout: LAYOUT_TRANSITION }}
+        {isSelected && (
+          <button
+            ref={closeButtonRef}
+            type="button"
+            className={`absolute top-3 right-3 z-10 text-textTertiary hover:text-textPrimary text-xl inline-flex items-center justify-center ${TOUCH_TARGET_CLASS_NAME}`}
+            aria-label={CLOSE_DIALOG_ARIA_LABEL}
+            onClick={(event) => {
+              event.stopPropagation();
+              onClose();
+            }}>
+            ✕
+          </button>
+        )}
+
+        <h2
+          id={titleId}
           className={
             isSelected
-              ? "fixed z-[120] inset-0 m-auto h-fit w-[min(92vw,42rem)] max-h-[85vh] overflow-y-auto flex flex-col border-2 text-textPrimary border-borderSecondary rounded-xl bg-quaternary shadow-2xl scrollbar-hide cursor-default"
-              : "relative flex h-full flex-col border-2 text-textPrimary border-borderSecondary rounded-xl bg-quaternary w-full cursor-pointer"
-          }
-          variants={createStaggeredFlip(0.2, 0.15)(index)}
-          whileHover={
-            isSelected
-              ? undefined
-              : {
-                  boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
-                  transition: { duration: 0.3 }
-                }
-          }
-          role={isSelected ? "dialog" : "button"}
-          aria-modal={isSelected || undefined}
-          aria-labelledby={`project-title-${item.id}`}
-          tabIndex={0}
-          aria-label={
-            isSelected ? undefined : `Open details for ${item.name}`
-          }
-          onClick={openOnActivate}
-          onKeyDown={(event) => {
-            if (isSelected && event.key === "Escape") {
-              event.preventDefault();
-              onClose();
-              return;
-            }
-            if (!isSelected && (event.key === "Enter" || event.key === " ")) {
-              event.preventDefault();
-              openOnActivate();
-            }
-          }}>
-          {isSelected && (
-            <button
-              type="button"
-              className="absolute top-3 right-3 z-10 text-textTertiary hover:text-textPrimary text-xl px-2"
-              aria-label="Close project details"
-              onClick={(event) => {
-                event.stopPropagation();
-                onClose();
-              }}>
-              ✕
-            </button>
-          )}
+              ? "relative z-10 font-semibold text-center rounded-t-lg bg-secondary p-3 pr-10 text-2xl"
+              : "relative z-10 font-semibold text-center rounded-t-lg bg-secondary p-1.5 mb-2 text-lg pointer-events-none"
+          }>
+          {item.name}
+        </h2>
 
-          <h2
-            id={`project-title-${item.id}`}
-            className={
-              isSelected
-                ? "font-semibold text-center rounded-t-lg bg-secondary p-3 pr-10 text-2xl"
-                : "font-semibold text-center rounded-t-lg bg-secondary p-1.5 mb-2 text-lg"
-            }>
-            {item.name}
-          </h2>
-
+        <div className={isSelected ? "relative z-10" : "relative z-0 pointer-events-none"}>
           <ProjectImage
             item={item}
             index={index}
@@ -428,15 +452,16 @@ const ProjectCard = memo<ProjectCardProps>(
           </p>
 
           <ProjectTopics item={item} expanded={isSelected} />
-          <div className={isSelected ? undefined : "mt-auto"}>
-            <ProjectLinks item={item} expanded={isSelected} />
-            <ProjectFooter item={item} expanded={isSelected} />
-          </div>
-        </motion.article>
-      </div>
-    );
-  }
-);
+        </div>
+
+        <div className={isSelected ? "relative z-10" : "relative z-10 mt-auto"}>
+          <ProjectLinks item={item} expanded={isSelected} />
+          <ProjectFooter item={item} expanded={isSelected} />
+        </div>
+      </motion.article>
+    </div>
+  );
+});
 
 ProjectCard.displayName = "ProjectCard";
 

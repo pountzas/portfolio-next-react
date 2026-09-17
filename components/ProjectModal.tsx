@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { CLOSE_OVERLAY_ARIA_LABEL } from "./projectCardA11y.mjs";
 
 interface ProjectModalProps {
   isOpen: boolean;
@@ -15,32 +16,24 @@ export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        onClose();
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-
     return () => {
       document.body.style.overflow = previousOverflow;
-      document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
   return (
     <AnimatePresence>
       {isOpen && (
-        <motion.div
+        <motion.button
           key="project-overlay"
-          className="fixed inset-0 z-[110] bg-black/60"
+          type="button"
+          className="fixed inset-0 z-[110] bg-black/60 cursor-default"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25 }}
           onClick={onClose}
-          aria-hidden
+          aria-label={CLOSE_OVERLAY_ARIA_LABEL}
         />
       )}
     </AnimatePresence>

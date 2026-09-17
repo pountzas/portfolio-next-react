@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import Head from "next/head";
 import { LayoutGroup, motion } from "framer-motion";
 import { staggerContainer } from "../components/animations/pageAnimations";
@@ -23,10 +23,10 @@ interface ProjectsProps {
   repositories: PinnedRepository[];
 }
 
-const Projects: React.FC<ProjectsProps> = ({
+export default function Projects({
   pinnedItems: initialPinned,
   repositories: initialRepositories
-}) => {
+}: ProjectsProps) {
   const [statsById, setStatsById] = useState<ProjectStatsById>({});
   const [activeCategory, setActiveCategory] = useState<ProjectCategoryId>("pinned");
   const [loadedCount, setLoadedCount] = useState(3);
@@ -92,6 +92,8 @@ const Projects: React.FC<ProjectsProps> = ({
     }
   }, [loadedCount, categoryProjects.length]);
 
+  const handleCloseProject = useCallback(() => setSelectedProject(null), []);
+
   const handleCategoryChange = (category: ProjectCategoryId) => {
     setSelectedProject(null);
     setActiveCategory(category);
@@ -133,7 +135,7 @@ const Projects: React.FC<ProjectsProps> = ({
       </Head>
       <LayoutGroup>
         <motion.section
-          className="flex flex-col items-center bg-gradient-to-b from-primary to-secondary overflow-y-auto h-screen scrollbar-hide"
+          className="flex flex-col items-center bg-gradient-to-b from-primary to-secondary min-h-screen pb-16 scrollbar-hide"
           variants={staggerContainer}
           initial="initial"
           animate="animate"
@@ -172,7 +174,7 @@ const Projects: React.FC<ProjectsProps> = ({
                   index={index}
                   isSelected={selectedProject?.id === item.id}
                   onOpen={setSelectedProject}
-                  onClose={() => setSelectedProject(null)}
+                  onClose={handleCloseProject}
                 />
               ))}
 
@@ -180,9 +182,14 @@ const Projects: React.FC<ProjectsProps> = ({
                 <motion.div
                   className="flex justify-center items-center py-8 md:col-span-2"
                   initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}>
+                  animate={{ opacity: 1 }}
+                  role="status"
+                  aria-live="polite">
                   <div className="flex items-center space-x-2 text-textTertiary">
-                    <div className="w-4 h-4 border-2 border-textPrimary border-t-transparent rounded-full animate-spin"></div>
+                    <div
+                      className="w-4 h-4 border-2 border-textPrimary border-t-transparent rounded-full animate-spin"
+                      aria-hidden="true"
+                    />
                     <span className="text-sm">Loading more projects...</span>
                   </div>
                 </motion.div>
@@ -194,12 +201,12 @@ const Projects: React.FC<ProjectsProps> = ({
         </motion.section>
         <ProjectModal
           isOpen={selectedProject !== null}
-          onClose={() => setSelectedProject(null)}
+          onClose={handleCloseProject}
         />
       </LayoutGroup>
     </>
   );
-};
+}
 
 export async function getStaticProps() {
   const { pinnedItems, repositories } = await getCachedLightProjectLists();
@@ -212,5 +219,3 @@ export async function getStaticProps() {
     revalidate: 60
   };
 }
-
-export default Projects;
