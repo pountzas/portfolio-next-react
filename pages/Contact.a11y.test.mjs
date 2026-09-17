@@ -7,10 +7,12 @@ import {
   CONTACT_ERROR_MESSAGES,
   CONTACT_FIELD_ORDER,
   FIELD_AUTOCOMPLETE,
+  contactApiValidationMessage,
   errorElementId,
   fieldErrorAriaProps,
   firstErrorFieldId,
   focusFirstErrorField,
+  scheduleFocusFirstError,
   statusLiveRegionProps,
   validateContactForm,
 } from "./contactFormA11y.mjs";
@@ -128,6 +130,70 @@ describe("contactFormA11y helpers", () => {
     focusFirstErrorField("name", doc);
     assert.equal(focused, "name");
   });
+
+  it("scheduleFocusFirstError does not call focus in the same tick as setState", () => {
+    let focused = null;
+    /** @type {Array<() => void>} */
+    const queued = [];
+    const schedule = (fn) => {
+      queued.push(fn);
+    };
+    const doc = {
+      getElementById(id) {
+        if (id !== "name") {
+          return null;
+        }
+        return {
+          focus() {
+            focused = id;
+          },
+        };
+      },
+    };
+
+    scheduleFocusFirstError("name", doc, schedule);
+    assert.equal(focused, null, "focus must not run synchronously");
+    assert.equal(queued.length, 1);
+    queued[0]();
+    assert.equal(focused, "name");
+  });
+
+  it("contactApiValidationMessage returns specific missing-field strings not allRequired", () => {
+    const empty = contactApiValidationMessage({
+      name: "",
+      email: "",
+      subject: "",
+      message: "",
+    });
+    assert.equal(empty, CONTACT_ERROR_MESSAGES.nameRequired);
+    assert.notEqual(empty, CONTACT_ERROR_MESSAGES.allRequired);
+
+    const missingEmail = contactApiValidationMessage({
+      name: "Nik",
+      email: "",
+      subject: "Hello there",
+      message: "Long enough message body",
+    });
+    assert.equal(missingEmail, CONTACT_ERROR_MESSAGES.emailRequired);
+
+    const invalidEmail = contactApiValidationMessage({
+      name: "Nik",
+      email: "not-an-email",
+      subject: "Hello there",
+      message: "Long enough message body",
+    });
+    assert.equal(invalidEmail, CONTACT_ERROR_MESSAGES.emailInvalid);
+
+    assert.equal(
+      contactApiValidationMessage({
+        name: "Nik",
+        email: "nik@example.com",
+        subject: "Hello there",
+        message: "Long enough message body",
+      }),
+      null,
+    );
+  });
 });
 
 describe("Contact.tsx source contracts", () => {
@@ -170,13 +236,14 @@ describe("Contact.tsx source contracts", () => {
     assert.match(contact, /id=["']message-error["']/);
   });
 
-  it("focuses the first invalid field after failed validateForm", () => {
+  it("focuses the first invalid field after paint via scheduleFocusFirstError", () => {
     const contact = readContact();
-    assert.match(
-      contact,
-      /document\.getElementById\([^)]*\)\?\.focus\(\)/,
-    );
+    assert.match(contact, /scheduleFocusFirstError\s*\(/);
     assert.match(contact, /firstErrorFieldId|firstError/);
+    assert.doesNotMatch(
+      contact,
+      /setErrors\([^)]*\)[\s\S]{0,120}?document\.getElementById\([^)]*\)\?\.focus\(\)/,
+    );
   });
 
   it("exposes status live region roles for success and error", () => {
@@ -206,14 +273,18 @@ describe("Contact.tsx source contracts", () => {
 });
 
 describe("contact API error string alignment", () => {
-  it("uses the same invalid-email suggestion as the client", () => {
+  it("uses contactApiValidationMessage and omits generic allRequired", () => {
     const api = readContactApi();
-    assert.match(
-      api,
-      new RegExp(
-        CONTACT_ERROR_MESSAGES.emailInvalid.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
-      ),
-    );
+    assert.match(api, /contactApiValidationMessage/);
+    assert.doesNotMatch(api, /CONTACT_ERROR_MESSAGES\.allRequired/);
     assert.doesNotMatch(api, /Please provide a valid email address/);
+    assert.doesNotMatch(
+      api,
+      /message:\s*["']Please enter a valid email address["']/,
+    );
+    assert.doesNotMatch(
+      api,
+      /message:\s*["']All fields are required["']/,
+    );
   });
 });

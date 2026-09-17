@@ -60,3 +60,35 @@
 
 - Merge-back: `/apply-worktree`
 - Cleanup: `/delete-worktree`
+
+---
+
+## Reviewer Important fixes (post-review)
+
+**Date:** 2026-09-18  
+**Findings fixed:** 2 Important (API specific messages; focus-after-commit)
+
+### Fixes
+
+1. **API 3.3.3 messages:** `pages/api/contact.ts` now calls `contactApiValidationMessage` (shared `validateContactForm`) instead of `CONTACT_ERROR_MESSAGES.allRequired`. Missing/invalid fields return the same specific client strings (`nameRequired`, `emailRequired`, `emailInvalid`, etc.). Hard-coded invalid-email duplicate removed.
+
+2. **Focus after paint:** `scheduleFocusFirstError` defers `getElementById(...).focus()` via `queueMicrotask` (injectable schedule for tests). `Contact.tsx` calls it after `setErrors` so aria/error markup can commit before focus.
+
+### TDD
+
+- **RED:** failing tests for `contactApiValidationMessage` (must not return `allRequired`) and `scheduleFocusFirstError` (must not focus sync); source contracts updated. `tdd-run.mjs --expect red` → `status: fail`.
+- **GREEN:** helpers + API/Contact wired. `node --test pages/Contact.a11y.test.mjs` → **18/18 pass**. `tsc --noEmit` → exit 0.
+
+### Files touched
+
+| File | Change |
+|------|--------|
+| `pages/contactFormA11y.mjs` | add `scheduleFocusFirstError`, `contactApiValidationMessage` |
+| `pages/Contact.a11y.test.mjs` | RED/GREEN tests + contracts |
+| `pages/Contact.tsx` | use `scheduleFocusFirstError` |
+| `pages/api/contact.ts` | use `contactApiValidationMessage` |
+| `.superpowers/sdd/task-7-report.md` | this append |
+
+### Commit
+
+- See latest `feat(a11y): …` commit on `feat/wcag-22-aa-task-7-contact` after this fix.

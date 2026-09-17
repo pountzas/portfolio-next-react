@@ -132,3 +132,35 @@ export function focusFirstErrorField(fieldId, doc = globalThis.document) {
   }
   doc.getElementById(fieldId)?.focus();
 }
+
+/**
+ * Schedule focus after React commits aria/error markup (post-setState tick).
+ * @param {string | null | undefined} fieldId
+ * @param {{ getElementById: (id: string) => { focus: () => void } | null } | null | undefined} doc
+ * @param {(cb: () => void) => void} [schedule]
+ */
+export function scheduleFocusFirstError(
+  fieldId,
+  doc = globalThis.document,
+  schedule = queueMicrotask,
+) {
+  if (!fieldId) {
+    return;
+  }
+  schedule(() => {
+    focusFirstErrorField(fieldId, doc);
+  });
+}
+
+/**
+ * API validation message aligned with client specific suggestions (3.3.3).
+ * @param {{ name?: string, email?: string, subject?: string, message?: string } | null | undefined} body
+ * @returns {string | null}
+ */
+export function contactApiValidationMessage(body) {
+  const result = validateContactForm(body ?? {});
+  if (result.isValid || !result.firstErrorFieldId) {
+    return null;
+  }
+  return result.errors[result.firstErrorFieldId] ?? null;
+}

@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { Resend } from "resend";
-import { CONTACT_ERROR_MESSAGES } from "../contactFormA11y.mjs";
+import { contactApiValidationMessage } from "../contactFormA11y.mjs";
 
 // Validate required environment variables
 const { RESEND_API_KEY, CONTACT_EMAIL, RESEND_FROM_EMAIL } = process.env;
@@ -40,18 +40,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const { name, email, subject, message } = req.body;
 
-    // Validate required fields
-    if (!name || !email || !subject || !message) {
+    // Field-level validation — same specific suggestion strings as the client (3.3.3)
+    const validationMessage = contactApiValidationMessage({
+      name,
+      email,
+      subject,
+      message
+    });
+    if (validationMessage) {
       return res.status(400).json({
-        message: CONTACT_ERROR_MESSAGES.allRequired
-      });
-    }
-
-    // Basic email validation — aligned with client CONTACT_ERROR_MESSAGES.emailInvalid
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return res.status(400).json({
-        message: "Please enter a valid email address"
+        message: validationMessage
       });
     }
 

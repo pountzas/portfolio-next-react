@@ -9,6 +9,7 @@ import {
 } from "../components/animations/pageAnimations";
 import { useState } from "react";
 import {
+  scheduleFocusFirstError,
   validateContactForm
 } from "./contactFormA11y.mjs";
 
@@ -204,9 +205,8 @@ function Contact() {
 
     const { isValid, firstErrorFieldId } = validateForm();
     if (!isValid) {
-      if (firstErrorFieldId) {
-        document.getElementById(firstErrorFieldId)?.focus();
-      }
+      // Defer focus until after React commits aria-invalid / error text
+      scheduleFocusFirstError(firstErrorFieldId);
       return;
     }
 
