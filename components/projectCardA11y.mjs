@@ -24,6 +24,71 @@ export const CLOSE_OVERLAY_ARIA_LABEL = "Close dialog overlay";
 /** 44×44 CSS px touch target (2.5.8). */
 export const TOUCH_TARGET_CLASS_NAME = "min-h-11 min-w-11";
 
+/**
+ * Collapsed GitHub / Live chip text — buffer above the 4.50 knife-edge
+ * `text-textSecondary` on `bg-textTertiary` (WCAG 1.4.3).
+ * `#16191B` on `#9C98B0` ≈ 6.33:1.
+ */
+export const COLLAPSED_CHIP_TEXT_CLASS_NAME = "text-primary";
+
+/** Collapsed GitHub / Live chip background. */
+export const COLLAPSED_CHIP_BG_CLASS_NAME = "bg-textTertiary";
+
+/**
+ * Classes that clip when users apply WCAG 1.4.12 text spacing.
+ * ProjectCard must not use these on visible content.
+ */
+export const TEXT_SPACING_CLIP_CLASS_NAMES = Object.freeze([
+  "whitespace-nowrap",
+  "line-clamp-1",
+  "line-clamp-2",
+  "line-clamp-3",
+]);
+
+/**
+ * Return which text-spacing clip classes appear in source.
+ * @param {string} source
+ * @returns {string[]}
+ */
+export function findTextSpacingClipClasses(source) {
+  if (typeof source !== "string" || source.length === 0) {
+    return [];
+  }
+
+  return TEXT_SPACING_CLIP_CLASS_NAMES.filter((className) => {
+    const pattern = new RegExp(
+      `(^|[\\s"'\\\`])${className.replace(/-/g, "\\-")}([\\s"'\\\`]|$)`,
+    );
+    return pattern.test(source);
+  });
+}
+
+/**
+ * True when collapsed chip markup uses buffer contrast (primary or white)
+ * on the tertiary chip background, not knife-edge textSecondary.
+ * @param {string} source
+ * @returns {boolean}
+ */
+export function hasCollapsedChipContrastBuffer(source) {
+  if (typeof source !== "string" || source.length === 0) {
+    return false;
+  }
+
+  const usesKnifeEdge =
+    /text-textSecondary[\s\S]{0,80}bg-textTertiary|bg-textTertiary[\s\S]{0,80}text-textSecondary/.test(
+      source,
+    );
+  if (usesKnifeEdge) {
+    return false;
+  }
+
+  const usesBufferText =
+    /text-primary[\s\S]{0,120}bg-textTertiary|bg-textTertiary[\s\S]{0,120}text-primary|text-white[\s\S]{0,120}bg-textTertiary|bg-textTertiary[\s\S]{0,120}text-white/.test(
+      source,
+    );
+  return usesBufferText;
+}
+
 /** Focusable selectors inside the expanded dialog for Tab trapping. */
 export const DIALOG_FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';

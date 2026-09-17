@@ -6,11 +6,15 @@ import { fileURLToPath } from "node:url";
 import {
   CLOSE_DIALOG_ARIA_LABEL,
   CLOSE_OVERLAY_ARIA_LABEL,
+  COLLAPSED_CHIP_BG_CLASS_NAME,
+  COLLAPSED_CHIP_TEXT_CLASS_NAME,
   GITHUB_LINK_ARIA_LABEL,
   LIVE_DEMO_LINK_ARIA_LABEL,
   TOUCH_TARGET_CLASS_NAME,
+  findTextSpacingClipClasses,
   getFocusableElements,
   handleProjectDialogKeyDown,
+  hasCollapsedChipContrastBuffer,
   nextFocusTarget,
   openDetailsAriaLabel,
 } from "./projectCardA11y.mjs";
@@ -50,6 +54,32 @@ describe("project card a11y helpers", () => {
     assert.equal(CLOSE_DIALOG_ARIA_LABEL, "Close");
     assert.equal(CLOSE_OVERLAY_ARIA_LABEL, "Close dialog overlay");
     assert.equal(TOUCH_TARGET_CLASS_NAME, "min-h-11 min-w-11");
+  });
+
+  it("locks collapsed chip buffer contrast class tokens", () => {
+    assert.equal(COLLAPSED_CHIP_TEXT_CLASS_NAME, "text-primary");
+    assert.equal(COLLAPSED_CHIP_BG_CLASS_NAME, "bg-textTertiary");
+  });
+
+  it("detects text-spacing clip classes in source strings", () => {
+    assert.deepEqual(
+      findTextSpacingClipClasses('className="line-clamp-3 whitespace-nowrap"'),
+      ["whitespace-nowrap", "line-clamp-3"],
+    );
+    assert.deepEqual(findTextSpacingClipClasses("whitespace-normal"), []);
+  });
+
+  it("requires buffer contrast for collapsed chip text/bg pairing", () => {
+    assert.equal(
+      hasCollapsedChipContrastBuffer(
+        "text-textSecondary bg-textTertiary",
+      ),
+      false,
+    );
+    assert.equal(
+      hasCollapsedChipContrastBuffer("text-primary bg-textTertiary"),
+      true,
+    );
   });
 
   it("cycles Tab focus to the other edge of the dialog", () => {
@@ -132,6 +162,26 @@ describe("ProjectCard source contracts", () => {
       /TOUCH_TARGET_CLASS_NAME|min-h-11 min-w-11/,
     );
     assert.doesNotMatch(projectCardSource, /passHref/);
+  });
+
+  it("collapsed chips use primary/white buffer contrast on bg-textTertiary", () => {
+    assert.equal(hasCollapsedChipContrastBuffer(projectCardSource), true);
+    assert.match(
+      projectCardSource,
+      /COLLAPSED_CHIP_TEXT_CLASS_NAME|text-primary/,
+    );
+    assert.match(
+      projectCardSource,
+      /COLLAPSED_CHIP_BG_CLASS_NAME|bg-textTertiary/,
+    );
+    assert.doesNotMatch(
+      projectCardSource,
+      /text-textSecondary[\s\S]{0,80}bg-textTertiary|bg-textTertiary[\s\S]{0,80}text-textSecondary/,
+    );
+  });
+
+  it("avoids whitespace-nowrap and line-clamp that clip under 1.4.12 spacing", () => {
+    assert.deepEqual(findTextSpacingClipClasses(projectCardSource), []);
   });
 
   it("uses empty alt on project OG images and drops contributor hover overlay", () => {

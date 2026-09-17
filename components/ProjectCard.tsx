@@ -19,6 +19,8 @@ import { GrDeploy } from "react-icons/gr";
 import { BsPeopleFill } from "react-icons/bs";
 import {
   CLOSE_DIALOG_ARIA_LABEL,
+  COLLAPSED_CHIP_BG_CLASS_NAME,
+  COLLAPSED_CHIP_TEXT_CLASS_NAME,
   GITHUB_LINK_ARIA_LABEL,
   LIVE_DEMO_LINK_ARIA_LABEL,
   TOUCH_TARGET_CLASS_NAME,
@@ -216,14 +218,14 @@ function ProjectLinks({
   }
 
   return (
-    <div className="relative z-10 flex items-center justify-center gap-2 pb-3">
+    <div className="relative z-10 flex flex-wrap items-center justify-center gap-2 pb-3">
       {showGitHub && (
         <Link
           target="_blank"
           rel="noopener noreferrer"
           href={item.url}
           aria-label={GITHUB_LINK_ARIA_LABEL}
-          className={`inline-flex items-center justify-center m-1 font-semibold rounded-full text-textSecondary bg-textTertiary hover:bg-tertiary ${TOUCH_TARGET_CLASS_NAME}`}
+          className={`inline-flex items-center justify-center m-1 font-semibold rounded-full ${COLLAPSED_CHIP_TEXT_CLASS_NAME} ${COLLAPSED_CHIP_BG_CLASS_NAME} hover:bg-tertiary ${TOUCH_TARGET_CLASS_NAME}`}
           onClick={stopCardOpen}
           onPointerDown={stopCardOpen}>
           <AiFillGithub aria-hidden="true" className="text-lg" />
@@ -235,7 +237,7 @@ function ProjectLinks({
           rel="noopener noreferrer"
           href={homepageUrl}
           aria-label={LIVE_DEMO_LINK_ARIA_LABEL}
-          className={`inline-flex items-center justify-center m-1 font-semibold rounded-full text-textSecondary bg-textTertiary hover:bg-tertiary ${TOUCH_TARGET_CLASS_NAME}`}
+          className={`inline-flex items-center justify-center m-1 font-semibold rounded-full ${COLLAPSED_CHIP_TEXT_CLASS_NAME} ${COLLAPSED_CHIP_BG_CLASS_NAME} hover:bg-tertiary ${TOUCH_TARGET_CLASS_NAME}`}
           onClick={stopCardOpen}
           onPointerDown={stopCardOpen}>
           <GrDeploy aria-hidden="true" className="text-lg" />
@@ -263,9 +265,9 @@ function ProjectFooter({
       className={
         expanded
           ? "relative z-10 flex flex-wrap justify-between gap-3 rounded-b-lg bg-secondary p-3 px-5 text-sm"
-          : "relative z-10 flex justify-between rounded-b-lg bg-secondary p-1.5 px-3 text-sm"
+          : "relative z-10 flex flex-wrap justify-between gap-2 rounded-b-lg bg-secondary p-1.5 px-3 text-sm"
       }>
-      <div className="flex items-center space-x-4 whitespace-normal">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 whitespace-normal">
         {expanded ? (
           <>
             <span className="inline-flex items-center gap-1">
@@ -289,7 +291,7 @@ function ProjectFooter({
           </>
         )}
       </div>
-      <div className="flex items-center space-x-2">
+      <div className="flex flex-wrap items-center gap-2">
         {expanded ? (
           <span>Contributors:</span>
         ) : (
@@ -366,7 +368,7 @@ const ProjectCard = memo(function ProjectCard({
           aria-hidden>
           <div className="p-1.5 mb-2 text-lg">&nbsp;</div>
           <div className="mx-3 aspect-[480/315]" />
-          <p className="py-1.5 mx-3 text-sm line-clamp-3">{item.description}</p>
+          <p className="py-1.5 mx-3 text-sm whitespace-normal">{item.description}</p>
           <div className="pb-2 mx-3 h-8" />
           <div className="pb-3 h-10" />
           <div className="p-1.5 h-10" />
@@ -423,8 +425,8 @@ const ProjectCard = memo(function ProjectCard({
           id={titleId}
           className={
             isSelected
-              ? "relative z-10 font-semibold text-center rounded-t-lg bg-secondary p-3 pr-10 text-2xl"
-              : "relative z-10 font-semibold text-center rounded-t-lg bg-secondary p-1.5 mb-2 text-lg pointer-events-none"
+              ? "relative z-10 font-semibold text-center rounded-t-lg bg-secondary p-3 pr-10 text-2xl break-words"
+              : "relative z-10 font-semibold text-center rounded-t-lg bg-secondary p-1.5 mb-2 text-lg pointer-events-none break-words"
           }>
           {item.name}
         </h2>
@@ -442,8 +444,8 @@ const ProjectCard = memo(function ProjectCard({
           <p
             className={
               isSelected
-                ? "py-4 mx-5 text-base leading-relaxed text-textTertiary"
-                : "py-1.5 mx-3 text-sm line-clamp-3 min-h-[4.5rem]"
+                ? "py-4 mx-5 text-base leading-relaxed text-textTertiary whitespace-normal"
+                : "py-1.5 mx-3 text-sm whitespace-normal min-h-[4.5rem]"
             }>
             {item.description ||
               (isSelected
