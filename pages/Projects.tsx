@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import Head from "next/head";
 import { LayoutGroup, motion } from "framer-motion";
 import { staggerContainer } from "../components/animations/pageAnimations";
@@ -92,6 +92,8 @@ export default function Projects({
     }
   }, [loadedCount, categoryProjects.length]);
 
+  const handleCloseProject = useCallback(() => setSelectedProject(null), []);
+
   const handleCategoryChange = (category: ProjectCategoryId) => {
     setSelectedProject(null);
     setActiveCategory(category);
@@ -172,7 +174,7 @@ export default function Projects({
                   index={index}
                   isSelected={selectedProject?.id === item.id}
                   onOpen={setSelectedProject}
-                  onClose={() => setSelectedProject(null)}
+                  onClose={handleCloseProject}
                 />
               ))}
 
@@ -199,7 +201,7 @@ export default function Projects({
         </motion.section>
         <ProjectModal
           isOpen={selectedProject !== null}
-          onClose={() => setSelectedProject(null)}
+          onClose={handleCloseProject}
         />
       </LayoutGroup>
     </>

@@ -178,6 +178,18 @@ describe("Projects page source contracts", () => {
       /overflow-y-auto h-screen|h-screen[^"']*overflow-y-auto/,
     );
   });
+
+  it("stabilizes ProjectCard onClose with useCallback so focus trap does not re-run", () => {
+    assert.match(projectsPageSource, /\buseCallback\b/);
+    assert.match(
+      projectsPageSource,
+      /const\s+\w+\s*=\s*useCallback\(\s*\(\)\s*=>\s*setSelectedProject\(null\)\s*,\s*\[\s*\]\s*\)/,
+    );
+    assert.doesNotMatch(
+      projectsPageSource,
+      /<ProjectCard[\s\S]*onClose=\{\(\)\s*=>\s*setSelectedProject\(null\)\}/,
+    );
+  });
 });
 
 describe("ProjectCategorySwitcher tab targets", () => {

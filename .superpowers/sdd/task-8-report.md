@@ -2,7 +2,7 @@
 
 ## Status
 
-**PASS** — implementation complete in isolated worktree; `tsc --noEmit` exit 0; Task 8 a11y tests GREEN (14/14).
+**PASS** — implementation complete in isolated worktree; `tsc --noEmit` exit 0; Task 8 a11y tests GREEN (15/15). Includes Important review fix: stable `onClose` via `useCallback`.
 
 ## Worktree
 
@@ -27,7 +27,7 @@ Merge-back: `/apply-worktree`. Cleanup: `/delete-worktree`.
 
 ## Test summary
 
-- `components/ProjectCard.a11y.test.mjs`: **14 pass** (helpers + ProjectCard/ProjectModal/Projects/CategorySwitcher source contracts)
+- `components/ProjectCard.a11y.test.mjs`: **15 pass** (helpers + ProjectCard/ProjectModal/Projects/CategorySwitcher source contracts)
 - Related regression: `pageHeadings` + `SocialLinks` a11y suites still green (31 pass combined)
 - `npx tsc --noEmit`: **exit 0**
 
@@ -37,7 +37,7 @@ Merge-back: `/apply-worktree`. Cleanup: `/delete-worktree`.
 
 - `components/ProjectCard.tsx` — collapsed open `<button absolute inset-0 z-0>`; no `role="button"`; expanded `role="dialog"` + focus trap/Escape/restore; named 44px links; `alt=""` OG images; removed contributor hover overlay
 - `components/ProjectModal.tsx` — `motion.button` overlay with `aria-label="Close dialog overlay"` (no `aria-hidden` click target)
-- `pages/Projects.tsx` — keep sr-only Projects h1; loading `role="status"` `aria-live="polite"`; document scroll (`min-h-screen pb-16`); drop `React.FC`
+- `pages/Projects.tsx` — keep sr-only Projects h1; loading `role="status"` `aria-live="polite"`; document scroll (`min-h-screen pb-16`); drop `React.FC`; stable `handleCloseProject` via `useCallback`
 - `components/projectCardA11y.mjs` — labels + Tab/Escape helpers
 - `components/ProjectCard.a11y.test.mjs` — TDD contracts
 
@@ -57,3 +57,19 @@ Merge-back: `/apply-worktree`. Cleanup: `/delete-worktree`.
 ## Done-when note
 
 Source contracts encode the nested-interactive + link-name fixes. Live MCP `/Projects` Axe clear remains a controller/browser verification step.
+
+## Review fix — Important: unstable onClose steals focus
+
+**Finding:** `ProjectCard` focus-trap effect depended on `onClose`. `Projects` passed `() => setSelectedProject(null)` inline. While a dialog was open, `loadedCount` ticks re-rendered the page, recreated `onClose`, re-ran the effect (cleanup restored opener focus, setup re-focused Close).
+
+**Fix:** `useCallback` — `const handleCloseProject = useCallback(() => setSelectedProject(null), [])` passed to `ProjectCard` and `ProjectModal`.
+
+### TDD evidence (review fix)
+
+| Phase | Command | Result |
+| --- | --- | --- |
+| RED | `tdd-run.mjs --file components/ProjectCard.a11y.test.mjs --expect red --name "stabilizes ProjectCard onClose"` | `status: fail` (no `useCallback` / inline `onClose`) |
+| GREEN | same `--expect green` | `status: pass` |
+| Verify | `npx tsc --noEmit`; `node --test components/ProjectCard.a11y.test.mjs` | exit 0; **15/15 pass** |
+
+**Files:** `pages/Projects.tsx`, `components/ProjectCard.a11y.test.mjs`
