@@ -8,6 +8,9 @@ import {
   createStaggeredFlip
 } from "../components/animations/pageAnimations";
 import { useState } from "react";
+import {
+  validateContactForm
+} from "./contactFormA11y.mjs";
 
 interface FormData {
   name: string;
@@ -166,39 +169,13 @@ function Contact() {
     saveRateLimitData(data);
   };
 
-  const validateForm = (): boolean => {
-    const newErrors: FormErrors = {};
-
-    // Name validation
-    if (!formData.name.trim()) {
-      newErrors.name = "Name is required";
-    } else if (formData.name.trim().length < 2) {
-      newErrors.name = "Name must be at least 2 characters";
-    }
-
-    // Email validation
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Please enter a valid email address";
-    }
-
-    // Subject validation
-    if (!formData.subject.trim()) {
-      newErrors.subject = "Subject is required";
-    } else if (formData.subject.trim().length < 5) {
-      newErrors.subject = "Subject must be at least 5 characters";
-    }
-
-    // Message validation
-    if (!formData.message.trim()) {
-      newErrors.message = "Message is required";
-    } else if (formData.message.trim().length < 10) {
-      newErrors.message = "Message must be at least 10 characters";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+  const validateForm = (): { isValid: boolean; firstErrorFieldId: string | null } => {
+    const result = validateContactForm(formData);
+    setErrors(result.errors);
+    return {
+      isValid: result.isValid,
+      firstErrorFieldId: result.firstErrorFieldId
+    };
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -225,7 +202,11 @@ function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!validateForm()) {
+    const { isValid, firstErrorFieldId } = validateForm();
+    if (!isValid) {
+      if (firstErrorFieldId) {
+        document.getElementById(firstErrorFieldId)?.focus();
+      }
       return;
     }
 
@@ -321,7 +302,7 @@ function Contact() {
         />
       </Head>
       <motion.div
-        className="max-w-4xl mx-auto px-4 py-8 h-[calc(100vh-111px)] overflow-y-auto scrollbar-hide"
+        className="max-w-4xl mx-auto px-4 py-8 pb-24"
         style={{ perspective: "1000px", transformStyle: "preserve-3d" }}
         variants={staggerContainer}
         initial="initial"
@@ -352,11 +333,17 @@ function Contact() {
                   className="flex items-center space-x-3"
                   variants={createStaggeredFlip(0.5, 0.1)(1)}>
                   <div className="w-10 h-10 bg-quaternary rounded-full flex items-center justify-center border border-borderSecondary">
-                    <span className="text-textPrimary">📧</span>
+                    <span className="text-textPrimary" aria-hidden="true">
+                      📧
+                    </span>
                   </div>
                   <div>
                     <p className="text-textPrimary font-medium">Email</p>
-                    <p className="text-textTertiary">nikos@pountzas.gr</p>
+                    <a
+                      href="mailto:nikos@pountzas.gr"
+                      className="text-textTertiary hover:text-textPrimary transition-colors">
+                      nikos@pountzas.gr
+                    </a>
                   </div>
                 </motion.div>
 
@@ -364,7 +351,9 @@ function Contact() {
                   className="flex items-center space-x-3"
                   variants={createStaggeredFlip(0.6, 0.1)(2)}>
                   <div className="w-10 h-10 bg-quaternary rounded-full flex items-center justify-center border border-borderSecondary">
-                    <span className="text-textPrimary">📍</span>
+                    <span className="text-textPrimary" aria-hidden="true">
+                      📍
+                    </span>
                   </div>
                   <div>
                     <p className="text-textPrimary font-medium">Location</p>
@@ -376,7 +365,9 @@ function Contact() {
                   className="flex items-center space-x-3"
                   variants={createStaggeredFlip(0.7, 0.1)(3)}>
                   <div className="w-10 h-10 bg-quaternary rounded-full flex items-center justify-center border border-borderSecondary">
-                    <span className="text-textPrimary">💼</span>
+                    <span className="text-textPrimary" aria-hidden="true">
+                      💼
+                    </span>
                   </div>
                   <div>
                     <p className="text-textPrimary font-medium">Availability</p>
@@ -404,6 +395,7 @@ function Contact() {
             variants={flipFromRight}>
             <motion.form
               onSubmit={handleSubmit}
+              noValidate
               className="space-y-6"
               variants={staggerContainer}>
               {/* Status Message */}
@@ -411,6 +403,8 @@ function Contact() {
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
+                  role={submitStatus.type === "error" ? "alert" : "status"}
+                  aria-live={submitStatus.type === "error" ? "assertive" : "polite"}
                   className={`p-4 rounded-lg border ${
                     submitStatus.type === "success"
                       ? "bg-green-900/20 border-green-500/30 text-green-400"
@@ -428,9 +422,14 @@ function Contact() {
                   type="text"
                   id="name"
                   name="name"
+                  autoComplete="name"
+                  required
+                  aria-required="true"
+                  aria-invalid={Boolean(errors.name)}
+                  aria-describedby={errors.name ? "name-error" : undefined}
                   value={formData.name}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 bg-tertiary border rounded-lg text-textPrimary placeholder-textTertiary focus:outline-none transition-colors ${
+                  className={`w-full px-4 py-3 bg-tertiary border rounded-lg text-textPrimary placeholder-textTertiary transition-colors ${
                     errors.name
                       ? "border-red-500"
                       : "border-borderSecondary focus:border-textPrimary"
@@ -442,6 +441,7 @@ function Contact() {
                 />
                 {errors.name && (
                   <motion.p
+                    id="name-error"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     className="text-red-400 text-sm mt-1">
@@ -460,9 +460,14 @@ function Contact() {
                   type="email"
                   id="email"
                   name="email"
+                  autoComplete="email"
+                  required
+                  aria-required="true"
+                  aria-invalid={Boolean(errors.email)}
+                  aria-describedby={errors.email ? "email-error" : undefined}
                   value={formData.email}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 bg-tertiary border rounded-lg text-textPrimary placeholder-textTertiary focus:outline-none transition-colors ${
+                  className={`w-full px-4 py-3 bg-tertiary border rounded-lg text-textPrimary placeholder-textTertiary transition-colors ${
                     errors.email
                       ? "border-red-500"
                       : "border-borderSecondary focus:border-textPrimary"
@@ -474,6 +479,7 @@ function Contact() {
                 />
                 {errors.email && (
                   <motion.p
+                    id="email-error"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     className="text-red-400 text-sm mt-1">
@@ -492,9 +498,13 @@ function Contact() {
                   type="text"
                   id="subject"
                   name="subject"
+                  required
+                  aria-required="true"
+                  aria-invalid={Boolean(errors.subject)}
+                  aria-describedby={errors.subject ? "subject-error" : undefined}
                   value={formData.subject}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 bg-tertiary border rounded-lg text-textPrimary placeholder-textTertiary focus:outline-none transition-colors ${
+                  className={`w-full px-4 py-3 bg-tertiary border rounded-lg text-textPrimary placeholder-textTertiary transition-colors ${
                     errors.subject
                       ? "border-red-500"
                       : "border-borderSecondary focus:border-textPrimary"
@@ -506,6 +516,7 @@ function Contact() {
                 />
                 {errors.subject && (
                   <motion.p
+                    id="subject-error"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     className="text-red-400 text-sm mt-1">
@@ -523,10 +534,14 @@ function Contact() {
                 <motion.textarea
                   id="message"
                   name="message"
+                  required
+                  aria-required="true"
+                  aria-invalid={Boolean(errors.message)}
+                  aria-describedby={errors.message ? "message-error" : undefined}
                   value={formData.message}
                   onChange={handleChange}
                   rows={5}
-                  className={`w-full px-4 py-3 bg-tertiary border rounded-lg text-textPrimary placeholder-textTertiary focus:outline-none transition-colors resize-none ${
+                  className={`w-full px-4 py-3 bg-tertiary border rounded-lg text-textPrimary placeholder-textTertiary transition-colors resize-none ${
                     errors.message
                       ? "border-red-500"
                       : "border-borderSecondary focus:border-textPrimary"
@@ -538,6 +553,7 @@ function Contact() {
                 />
                 {errors.message && (
                   <motion.p
+                    id="message-error"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     className="text-red-400 text-sm mt-1">

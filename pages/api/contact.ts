@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { Resend } from "resend";
+import { CONTACT_ERROR_MESSAGES } from "../contactFormA11y.mjs";
 
 // Validate required environment variables
 const { RESEND_API_KEY, CONTACT_EMAIL, RESEND_FROM_EMAIL } = process.env;
@@ -42,15 +43,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // Validate required fields
     if (!name || !email || !subject || !message) {
       return res.status(400).json({
-        message: "All fields are required"
+        message: CONTACT_ERROR_MESSAGES.allRequired
       });
     }
 
-    // Basic email validation
+    // Basic email validation — aligned with client CONTACT_ERROR_MESSAGES.emailInvalid
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return res.status(400).json({
-        message: "Please provide a valid email address"
+        message: "Please enter a valid email address"
       });
     }
 
