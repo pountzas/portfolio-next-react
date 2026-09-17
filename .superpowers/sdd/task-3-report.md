@@ -19,7 +19,7 @@
 ## Commits
 
 - `e96a359` — feat(a11y): add Layout skip link, unclip scroll, reduced motion
-- `PENDING_GATE_FIX` — test(a11y): run Layout a11y suite under plain node --test
+- `1d64238` — test(a11y): run Layout a11y suite under plain node --test
 
 ## TDD evidence
 
@@ -89,4 +89,4 @@ Also verified: `npx tsc --noEmit` exit 0; plain `node --test components/Layout.a
 
 ### Commit SHA
 
-`PENDING_GATE_FIX` (replaced after commit)
+`1d64238e64df502dbf6ea289c919c2820fad99fd` — test(a11y): run Layout a11y suite under plain node --test
