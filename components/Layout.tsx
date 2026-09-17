@@ -1,7 +1,7 @@
 "use client";
 import { ReactNode } from "react";
 import { useRouter } from "next/router";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Head from "next/head";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -10,10 +10,13 @@ interface LayoutProps {
   children: ReactNode;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+export default function Layout({ children }: LayoutProps) {
   const router = useRouter();
+  const shouldReduceMotion = useReducedMotion();
   // Hide footer on home page, show on all other pages
   const showFooter = router.pathname !== "/";
+  const pageTransitionDuration = shouldReduceMotion ? 0 : 0.3;
+  const footerTransitionDuration = shouldReduceMotion ? 0 : 0.4;
 
   return (
     <>
@@ -28,18 +31,25 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <div
-        className="min-h-screen bg-tertiary h-screen overflow-y-clip scrollbar-hide"
+        className="min-h-screen bg-tertiary"
         style={{ perspective: "1000px", transformStyle: "preserve-3d" }}>
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[200] focus:rounded focus:bg-primary focus:px-4 focus:py-2 focus:text-textPrimary focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-white">
+          Skip to main content
+        </a>
         <Header />
         <AnimatePresence mode="wait" initial={false}>
           <motion.main
+            id="main-content"
+            tabIndex={-1}
             key={router.pathname}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{
-              duration: 0.3,
-              ease: "easeInOut"
+              duration: pageTransitionDuration,
+              ease: "easeInOut",
             }}
             className="flex-1">
             {children}
@@ -52,8 +62,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{
-                duration: 0.4,
-                ease: "easeInOut"
+                duration: footerTransitionDuration,
+                ease: "easeInOut",
               }}>
               <Footer />
             </motion.div>
@@ -62,6 +72,4 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </div>
     </>
   );
-};
-
-export default Layout;
+}
