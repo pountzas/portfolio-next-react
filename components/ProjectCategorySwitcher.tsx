@@ -41,10 +41,10 @@ function nextCategoryIndex(
   }
 }
 
-const ProjectCategorySwitcher: React.FC<ProjectCategorySwitcherProps> = ({
+export default function ProjectCategorySwitcher({
   activeCategory,
   onChange
-}) => {
+}: ProjectCategorySwitcherProps) {
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
   const focusAndSelect = (index: number) => {
@@ -73,7 +73,7 @@ const ProjectCategorySwitcher: React.FC<ProjectCategorySwitcherProps> = ({
 
   return (
     <div
-      className="flex flex-wrap justify-center gap-1 p-1 mx-auto border rounded-full border-borderSecondary bg-tertiary"
+      className="flex flex-wrap justify-center gap-2 p-1 mx-auto border rounded-full border-borderSecondary bg-tertiary"
       role="tablist"
       aria-label="Project categories">
       {PROJECT_CATEGORIES.map((category, index) => {
@@ -91,7 +91,7 @@ const ProjectCategorySwitcher: React.FC<ProjectCategorySwitcherProps> = ({
             aria-selected={isActive}
             aria-controls={`project-panel-${category.id}`}
             tabIndex={isActive ? 0 : -1}
-            className={`px-3 py-1.5 text-xs font-semibold rounded-full transition-colors md:px-4 md:text-sm ${
+            className={`min-h-11 px-4 py-2 text-xs font-semibold rounded-full transition-colors md:text-sm ${
               isActive
                 ? "bg-quaternary text-textPrimary"
                 : "text-textTertiary hover:text-textPrimary"
@@ -104,6 +104,4 @@ const ProjectCategorySwitcher: React.FC<ProjectCategorySwitcherProps> = ({
       })}
     </div>
   );
-};
-
-export default ProjectCategorySwitcher;
+}
