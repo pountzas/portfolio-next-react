@@ -146,20 +146,43 @@ export const x = "no chip className";`,
 
   it("restores focus to fallback when preferred opener is disconnected", () => {
     const preferred = { isConnected: false, focus() {} };
-    const fallback = { isConnected: true, focus() {} };
+    let focused = false;
+    const fallback = {
+      isConnected: true,
+      focus() {
+        focused = true;
+      },
+    };
     assert.equal(
       resolveFocusRestoreTarget(preferred, fallback),
       fallback,
     );
-    assert.equal(
-      resolveFocusRestoreTarget(
-        { isConnected: true, focus() {} },
-        fallback,
-      ).isConnected,
-      true,
+    const connected = resolveFocusRestoreTarget(
+      { isConnected: true, focus() {} },
+      fallback,
     );
+    assert.equal(connected.isConnected, true);
+    assert.equal(typeof connected.focus, "function");
     assert.equal(resolveFocusRestoreTarget(null, fallback), fallback);
     assert.equal(resolveFocusRestoreTarget(preferred, null), null);
+    const restoreTarget = resolveFocusRestoreTarget(preferred, fallback);
+    assert.equal(typeof restoreTarget.focus, "function");
+    restoreTarget.focus();
+    assert.equal(focused, true);
+  });
+
+  it("types resolveFocusRestoreTarget return as focusable", () => {
+    const a11ySource = readFileSync(
+      join(componentsDir, "projectCardA11y.mjs"),
+      "utf8",
+    );
+    const jsdoc = a11ySource.match(
+      /\/\*\*[\s\S]*?@returns[^\n]*\n[\s\S]*?export function resolveFocusRestoreTarget/,
+    )?.[0] ?? "";
+    assert.match(
+      jsdoc,
+      /@returns\s*\{[^}\n]*focus\s*:\s*\(\)\s*=>\s*void/,
+    );
   });
 
   it("records the open control before onOpen so restore survives unmount", () => {
