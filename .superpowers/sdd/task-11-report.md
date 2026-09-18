@@ -4,7 +4,7 @@
 **Date:** 2026-09-18  
 **Worktree:** `E:\c backup 4 10 25\code\4.Next\portfolio-next-react\.worktrees\feat-wcag-22-aa-task-11-verify`  
 **Branch:** `feat/wcag-22-aa-task-11-verify`  
-**HEAD:** `1b4181217ec95c0dd75abff787f921de3874fdd4` (pre type-fix; updated after commit)  
+**HEAD:** `0110ce5b44d4b68a45786c2cd3133856e3f8ad58`  
 **Base:** `feat/wcag-22-aa` @ `9ec4ea2271c3f37166e93e0362f7b256913802d7`
 
 ## Port / base URL
@@ -68,7 +68,7 @@ Incomplete counts (typically 1) were present on several scans; not treated as bl
    - Capture `openButtonRef` before `onOpen` (opener unmounts while dialog open)  
    - Tests in `ProjectCard.a11y.test.mjs` (TDD red/green via `tdd-run.mjs`)
 
-2. `fix(a11y): type focus restore target as focusable`  
+2. `0110ce5b44d4b68a45786c2cd3133856e3f8ad58` — `fix(a11y): type focus restore target as focusable`  
    - Controller verify-gate failed `tsc` (`TS2339` on `restoreTarget.focus` in `ProjectCard.tsx`)  
    - JSDoc on `resolveFocusRestoreTarget` widened to `{ focus: () => void; isConnected?: boolean } | null`  
    - TDD: RED/GREEN via `tdd-run.mjs` on source-contract unit for `@returns` including `focus`  
