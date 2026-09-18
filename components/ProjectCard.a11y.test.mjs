@@ -17,6 +17,7 @@ import {
   hasCollapsedChipContrastBuffer,
   nextFocusTarget,
   openDetailsAriaLabel,
+  resolveFocusRestoreTarget,
 } from "./projectCardA11y.mjs";
 
 const componentsDir = dirname(fileURLToPath(import.meta.url));
@@ -142,6 +143,36 @@ export const x = "no chip className";`,
     assert.deepEqual(getFocusableElements(null), []);
     assert.deepEqual(getFocusableElements(undefined), []);
   });
+
+  it("restores focus to fallback when preferred opener is disconnected", () => {
+    const preferred = { isConnected: false, focus() {} };
+    const fallback = { isConnected: true, focus() {} };
+    assert.equal(
+      resolveFocusRestoreTarget(preferred, fallback),
+      fallback,
+    );
+    assert.equal(
+      resolveFocusRestoreTarget(
+        { isConnected: true, focus() {} },
+        fallback,
+      ).isConnected,
+      true,
+    );
+    assert.equal(resolveFocusRestoreTarget(null, fallback), fallback);
+    assert.equal(resolveFocusRestoreTarget(preferred, null), null);
+  });
+
+  it("records the open control before onOpen so restore survives unmount", () => {
+    const openHandler = projectCardSource.match(
+      /onClick=\{\(\)\s*=>\s*\{[\s\S]*?\}\}/,
+    )?.[0] ?? "";
+    assert.match(openHandler, /previouslyFocusedRef\.current\s*=\s*openButtonRef\.current/);
+    assert.match(openHandler, /onOpen\(item\)/);
+    assert.doesNotMatch(
+      projectCardSource,
+      /previouslyFocusedRef\.current\s*=\s*\(?\s*document\.activeElement/,
+    );
+  });
 });
 
 describe("ProjectCard source contracts", () => {
@@ -166,6 +197,7 @@ describe("ProjectCard source contracts", () => {
     assert.match(projectCardSource, /aria-modal=\{isSelected/);
     assert.match(projectCardSource, /aria-labelledby=\{titleId\}/);
     assert.match(projectCardSource, /handleProjectDialogKeyDown|getFocusableElements|nextFocusTarget/);
+    assert.match(projectCardSource, /resolveFocusRestoreTarget/);
     assert.match(
       projectCardSource,
       /aria-label=\{CLOSE_DIALOG_ARIA_LABEL\}|aria-label=["']Close["']/,

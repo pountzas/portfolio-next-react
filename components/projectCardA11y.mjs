@@ -206,3 +206,18 @@ export function handleProjectDialogKeyDown(event, options) {
 
   return false;
 }
+
+/**
+ * Pick a live element to restore focus to after a dialog closes.
+ * Prefers `preferred` when it is still connected; otherwise `fallback`
+ * (e.g. remounted open control after the opener unmounted while open).
+ * @param {{ isConnected?: boolean } | null | undefined} preferred
+ * @param {{ isConnected?: boolean } | null | undefined} fallback
+ * @returns {{ isConnected?: boolean } | null}
+ */
+export function resolveFocusRestoreTarget(preferred, fallback) {
+  if (preferred && preferred.isConnected !== false) {
+    return preferred;
+  }
+  return fallback ?? null;
+}

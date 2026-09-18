@@ -25,7 +25,8 @@ import {
   LIVE_DEMO_LINK_ARIA_LABEL,
   TOUCH_TARGET_CLASS_NAME,
   handleProjectDialogKeyDown,
-  openDetailsAriaLabel
+  openDetailsAriaLabel,
+  resolveFocusRestoreTarget
 } from "./projectCardA11y.mjs";
 
 const PROJECT_IMAGE_BLUR =
@@ -334,10 +335,6 @@ const ProjectCard = memo(function ProjectCard({
       return;
     }
 
-    previouslyFocusedRef.current =
-      (document.activeElement as HTMLElement | null) ??
-      openButtonRef.current;
-
     closeButtonRef.current?.focus();
 
     const onKeyDown = (event: KeyboardEvent) => {
@@ -352,8 +349,10 @@ const ProjectCard = memo(function ProjectCard({
 
     return () => {
       document.removeEventListener("keydown", onKeyDown);
-      const restoreTarget =
-        previouslyFocusedRef.current ?? openButtonRef.current;
+      const restoreTarget = resolveFocusRestoreTarget(
+        previouslyFocusedRef.current,
+        openButtonRef.current
+      );
       if (restoreTarget && typeof restoreTarget.focus === "function") {
         restoreTarget.focus();
       }
@@ -403,7 +402,10 @@ const ProjectCard = memo(function ProjectCard({
             type="button"
             className="absolute inset-0 z-0 rounded-xl"
             aria-label={openDetailsAriaLabel(item.name)}
-            onClick={() => onOpen(item)}
+            onClick={() => {
+              previouslyFocusedRef.current = openButtonRef.current;
+              onOpen(item);
+            }}
           />
         )}
 
