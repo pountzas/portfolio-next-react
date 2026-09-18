@@ -7,8 +7,8 @@ import {
   flipFromBottom,
   createStaggeredFlip
 } from "./pageAnimations";
-import Socials from "../Socials";
 import Link from "next/link";
+import SocialLinks from "../SocialLinks";
 
 const HomeAnimations = () => {
   return (
@@ -42,25 +42,9 @@ const HomeAnimations = () => {
           My Social Network
         </motion.h3>
         <motion.div
-          className="flex items-center justify-center py-2 space-x-3 md:py-5"
-          variants={staggerContainer}>
-          {Socials.map((social, index) => (
-            <motion.div
-              className="pb-3 text-textTertiary hover:text-blue-50"
-              key={social.id}
-              variants={createStaggeredFlip(0.7, 0.1)(index)}
-              whileHover={{ scale: 1.1, rotateY: 10 }}
-              whileTap={{ scale: 0.95 }}>
-              <Link
-                target="_blank"
-                href={social.path}
-                rel="noopener noreferrer"
-                aria-label={`Visit my ${social.name} profile`}
-                className="text-3xl md:text-4xl">
-                {social.icon}
-              </Link>
-            </motion.div>
-          ))}
+          className="py-2 text-textTertiary hover:text-blue-50 md:py-5"
+          variants={createStaggeredFlip(0.7, 0.1)(0)}>
+          <SocialLinks className="space-x-3 pb-3" />
         </motion.div>
         <motion.div
           className="flex items-center justify-center pb-8"

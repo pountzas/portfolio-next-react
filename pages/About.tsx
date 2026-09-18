@@ -30,13 +30,19 @@ function About() {
           property="og:description"
           content="Passionate full-stack web developer from Greece specializing in React, Next.js, and modern web technologies."
         />
-        <meta property="og:url" content="https://pountzas-portfolio.vercel.app/about" />
+        <meta
+          property="og:url"
+          content="https://pountzas-portfolio.vercel.app/About"
+        />
         <meta name="twitter:title" content="About - Nikos Pountzas" />
         <meta
           name="twitter:description"
           content="Learn about my journey as a full-stack web developer."
         />
-        <link rel="canonical" href="https://pountzas-portfolio.vercel.app/about" />
+        <link
+          rel="canonical"
+          href="https://pountzas-portfolio.vercel.app/About"
+        />
       </Head>
       <motion.div
         className="max-w-4xl mx-auto px-4 py-8"
@@ -96,36 +102,36 @@ function About() {
               variants={createStaggeredFlip(0.5, 0.1)(0)}>
               Expertise
             </motion.h2>
-            <motion.div className="space-y-3" variants={staggerContainer}>
-              <motion.div
+            <motion.ul className="space-y-3" variants={staggerContainer}>
+              <motion.li
                 className="flex items-center"
                 variants={createStaggeredFlip(0.6, 0.1)(1)}>
                 <div className="w-2 h-2 bg-textPrimary rounded-full mr-3"></div>
                 <span className="text-textTertiary">
                   JavaScript & TypeScript development
                 </span>
-              </motion.div>
-              <motion.div
+              </motion.li>
+              <motion.li
                 className="flex items-center"
                 variants={createStaggeredFlip(0.7, 0.1)(2)}>
                 <div className="w-2 h-2 bg-textPrimary rounded-full mr-3"></div>
                 <span className="text-textTertiary">React & Next.js applications</span>
-              </motion.div>
-              <motion.div
+              </motion.li>
+              <motion.li
                 className="flex items-center"
                 variants={createStaggeredFlip(0.8, 0.1)(3)}>
                 <div className="w-2 h-2 bg-textPrimary rounded-full mr-3"></div>
                 <span className="text-textTertiary">Full-stack web development</span>
-              </motion.div>
-              <motion.div
+              </motion.li>
+              <motion.li
                 className="flex items-center"
                 variants={createStaggeredFlip(0.9, 0.1)(4)}>
                 <div className="w-2 h-2 bg-textPrimary rounded-full mr-3"></div>
                 <span className="text-textTertiary">
                   UI/UX design & responsive layouts
                 </span>
-              </motion.div>
-            </motion.div>
+              </motion.li>
+            </motion.ul>
           </motion.div>
         </div>
 

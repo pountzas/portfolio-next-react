@@ -1,30 +1,40 @@
-import { motion } from 'framer-motion';
-import { flipOut, flipFromTop } from './animations/pageAnimations';
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { flipFromTop } from "./animations/pageAnimations";
+import NavItem from "./NavItem";
+import { useNavGroup } from "./NavGroup";
+import {
+  BRAND_HREF,
+  BRAND_NAME,
+  PRIMARY_NAV_ARIA_LABEL,
+} from "./navA11y.mjs";
 
-import NavItem from './NavItem';
-import { useNavGroup } from './NavGroup';
-
-const Header: React.FC = () => {
+export default function Header() {
   const navItems = useNavGroup();
 
   return (
-    <motion.div
-      className='sticky top-0 z-50 py-3 border-b shadow-sm border-borderSecondary bg-primary'
-      style={{ perspective: '1000px', transformStyle: 'preserve-3d' }}
+    <motion.header
+      className="sticky top-0 z-50 border-b border-borderSecondary bg-primary py-3 shadow-sm"
+      style={{ perspective: "1000px", transformStyle: "preserve-3d" }}
       variants={flipFromTop}
       initial="initial"
       animate="animate"
       exit="exit"
     >
-      {/* left section */}
-      <div className='flex justify-between mx-auto md:max-w-4xl xl:max-w-6xl '>
-        <h1 className='px-3 font-semibold text-textPrimary md:px-0'>
-          N<span className='hidden sm:inline-block'>ikos</span> P
-          <span className='hidden sm:inline-block'>ountzas</span>
-        </h1>
+      <div className="mx-auto flex justify-between md:max-w-4xl xl:max-w-6xl">
+        <Link
+          href={BRAND_HREF}
+          aria-label={BRAND_NAME}
+          className="px-3 font-semibold text-textPrimary md:px-0"
+        >
+          N<span className="hidden sm:inline-block">ikos</span> P
+          <span className="hidden sm:inline-block">ountzas</span>
+        </Link>
 
-        {/* right section */}
-        <div className='flex px-3 space-x-8 text-textTertiary md:px-0'>
+        <nav
+          aria-label={PRIMARY_NAV_ARIA_LABEL}
+          className="flex space-x-8 px-3 text-textTertiary md:px-0"
+        >
           {navItems.map((item) => (
             <NavItem
               key={item.label}
@@ -32,14 +42,10 @@ const Header: React.FC = () => {
               path={item.path}
               mobileIcon={item.icon}
               isActive={item.isActive}
-              onClick={item.onClick}
             />
           ))}
-         
-        </div>
+        </nav>
       </div>
-    </motion.div>
+    </motion.header>
   );
 }
-
-export default Header;
