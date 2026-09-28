@@ -1,8 +1,13 @@
 import Head from "next/head";
 import HomeAnimations from "../components/animations/HomeAnimations";
 import PrefetchProjects from "../components/PrefetchProjects";
+import { resolveCvDriveUrl } from "../lib/cvDriveLink";
 
-export default function Home() {
+type HomeProps = {
+  cvHref: string | null;
+};
+
+export default function Home({ cvHref }: HomeProps) {
   return (
     <>
       <Head>
@@ -33,7 +38,18 @@ export default function Home() {
       </Head>
 
       <PrefetchProjects />
-      <HomeAnimations />
+      <HomeAnimations cvHref={cvHref} />
     </>
   );
+}
+
+export async function getStaticProps() {
+  const cvHref = await resolveCvDriveUrl();
+
+  return {
+    props: {
+      cvHref
+    },
+    revalidate: 60
+  };
 }
