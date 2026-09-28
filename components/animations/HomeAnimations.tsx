@@ -10,7 +10,11 @@ import {
 import Socials from "../Socials";
 import Link from "next/link";
 
-const HomeAnimations = () => {
+type HomeAnimationsProps = {
+  cvHref: string | null;
+};
+
+const HomeAnimations = ({ cvHref }: HomeAnimationsProps) => {
   return (
     <motion.div
       className="max-w-xs grid-cols-1 py-4 mx-auto mt-24 space-y-5 border rounded-lg border-borderSecondary md:pt-8 bg-quaternary sm:max-w-md md:max-w-2xl xl:max-w-6xl"
@@ -62,27 +66,25 @@ const HomeAnimations = () => {
             </motion.div>
           ))}
         </motion.div>
-        <motion.div
-          className="flex items-center justify-center pb-8"
-          variants={flipFromBottom}>
-          <Link
-            target="_blank"
-            href="https://drive.google.com/file/d/1zG9Vfln_Bg2lM8tyMPFSpl5__pnPIYXs/view?usp=sharing"
-            rel="noopener noreferrer">
-            <motion.div
-              className="p-2 font-semibold text-center border-2 rounded-lg cursor-pointer text-textTertiary border-borderSecondary bg-secondary hover:text-blue-50"
-              variants={createStaggeredFlip(1.0, 0.1)(0)}
-              whileHover={{
-                scale: 1.05,
-                rotateY: 5,
-                boxShadow: "0 10px 25px rgba(0,0,0,0.2)"
-              }}
-              whileTap={{ scale: 0.95 }}>
-              My CV
-            </motion.div>
-          </Link>
-
-        </motion.div>
+        {cvHref ? (
+          <motion.div
+            className="flex items-center justify-center pb-8"
+            variants={flipFromBottom}>
+            <Link target="_blank" href={cvHref} rel="noopener noreferrer">
+              <motion.div
+                className="p-2 font-semibold text-center border-2 rounded-lg cursor-pointer text-textTertiary border-borderSecondary bg-secondary hover:text-blue-50"
+                variants={createStaggeredFlip(1.0, 0.1)(0)}
+                whileHover={{
+                  scale: 1.05,
+                  rotateY: 5,
+                  boxShadow: "0 10px 25px rgba(0,0,0,0.2)"
+                }}
+                whileTap={{ scale: 0.95 }}>
+                My CV
+              </motion.div>
+            </Link>
+          </motion.div>
+        ) : null}
       </motion.div>
     </motion.div>
   );
