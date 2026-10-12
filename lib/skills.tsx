@@ -74,7 +74,7 @@ const languages: BaseSkillItem[] = [
   {
     id: "rust",
     name: "Rust",
-    icon: <SiRust size={36} color="#DEA584" />,
+    icon: <SiRust size={36} color="#DEA584" aria-hidden />,
     description:
       "Rust is a systems programming language focused on safety, concurrency, and performance. It powers native apps, CLIs, and WebAssembly without a garbage collector.",
     proficiency: 70,
@@ -131,7 +131,7 @@ const web: BaseSkillItem[] = [
   {
     id: "bootstrap",
     name: "Bootstrap",
-    icon: <DiBootstrap size={36} fill="#7710F1" />,
+    icon: <DiBootstrap size={36} fill="#7710F1" aria-hidden />,
     description:
       "Bootstrap is a free and open-source CSS framework directed at responsive, mobile-first front-end web development. Includes HTML, CSS and JavaScript.",
     proficiency: 80,
@@ -161,7 +161,7 @@ const nativeApps: BaseSkillItem[] = [
   {
     id: "react-native",
     name: "React Native",
-    icon: <TbBrandReactNative color="#61DAFB" size={32} />,
+    icon: <TbBrandReactNative color="#61DAFB" size={32} aria-hidden />,
     description:
       "React Native is an open-source UI software framework created by Meta Platforms, Inc. It is used to develop applications for Android, iOS, Web and UWP.",
     proficiency: 70,
@@ -170,7 +170,7 @@ const nativeApps: BaseSkillItem[] = [
   {
     id: "tauri",
     name: "Tauri",
-    icon: <SiTauri size={36} color="#FFC131" />,
+    icon: <SiTauri size={36} color="#FFC131" aria-hidden />,
     description:
       "Tauri is a toolkit for building small, fast desktop apps with a web frontend and a Rust backend. It ships native Windows, macOS, and Linux binaries.",
     proficiency: 65,
@@ -179,7 +179,7 @@ const nativeApps: BaseSkillItem[] = [
   {
     id: "electron",
     name: "Electron",
-    icon: <SiElectron size={36} color="#9FEAF9" />,
+    icon: <SiElectron size={36} color="#9FEAF9" aria-hidden />,
     description:
       "Electron is a framework for building cross-platform desktop apps with HTML, CSS, and JavaScript. It combines Chromium and Node.js into a single runtime.",
     proficiency: 70,
@@ -209,7 +209,7 @@ const backendAndData: BaseSkillItem[] = [
   {
     id: "graphql",
     name: "GraphQL",
-    icon: <SiGraphql size={36} fill="#E10098" />,
+    icon: <SiGraphql size={36} fill="#E10098" aria-hidden />,
     description:
       "GraphQL is a query language for APIs and a runtime for fulfilling those queries with your existing data. Developed by Facebook (Meta).",
     proficiency: 75,
@@ -218,7 +218,7 @@ const backendAndData: BaseSkillItem[] = [
   {
     id: "postgresql",
     name: "PostgreSQL",
-    icon: <DiPostgresql size={44} fill="#2F6792" />,
+    icon: <DiPostgresql size={44} fill="#2F6792" aria-hidden />,
     description:
       "PostgreSQL is a free and open-source relational database management system emphasizing extensibility and SQL compliance.",
     proficiency: 70,
@@ -275,7 +275,7 @@ const toolingAndPlatforms: BaseSkillItem[] = [
   {
     id: "docker",
     name: "Docker",
-    icon: <GrDocker size={40} fill="#2497ED" />,
+    icon: <GrDocker size={40} fill="#2497ED" aria-hidden />,
     description:
       "Docker is a set of platform as a service products that deliver software in packages called containers. Enables consistent deployment across environments.",
     proficiency: 75,
@@ -293,7 +293,7 @@ const toolingAndPlatforms: BaseSkillItem[] = [
   {
     id: "github",
     name: "GitHub",
-    icon: <AiFillGithub size={36} fill="#9C98B0" />,
+    icon: <AiFillGithub size={36} fill="#9C98B0" aria-hidden />,
     description:
       "GitHub is a developer platform that allows developers to create, store, manage and share their code. Acquired by Microsoft in 2018.",
     proficiency: 90,
@@ -320,7 +320,7 @@ const toolingAndPlatforms: BaseSkillItem[] = [
   {
     id: "vercel",
     name: "Vercel",
-    icon: <TbBrandVercel size={36} color="#9C98B0" />,
+    icon: <TbBrandVercel size={36} color="#9C98B0" aria-hidden />,
     description:
       "Vercel is a platform for developers to deploy, scale, and collaborate on web applications. Specializes in static sites and frontend frameworks.",
     proficiency: 85,
@@ -329,7 +329,7 @@ const toolingAndPlatforms: BaseSkillItem[] = [
   {
     id: "netlify",
     name: "Netlify",
-    icon: <SiNetlify size={32} stroke="#25C7B7" />,
+    icon: <SiNetlify size={32} stroke="#25C7B7" aria-hidden />,
     description:
       "Netlify is a web development company that offers hosting and serverless backend services for web applications and static websites.",
     proficiency: 80,
@@ -338,7 +338,7 @@ const toolingAndPlatforms: BaseSkillItem[] = [
   {
     id: "heroku",
     name: "Heroku",
-    icon: <SiHeroku size={32} fill="#6762A6" />,
+    icon: <SiHeroku size={32} fill="#6762A6" aria-hidden />,
     description:
       "Heroku is a cloud platform as a service supporting several programming languages. One of the first cloud platforms, acquired by Salesforce.",
     proficiency: 75,
@@ -395,7 +395,7 @@ const design: BaseSkillItem[] = [
   {
     id: "cinema4d",
     name: "Cinema 4D",
-    icon: <SiCinema4D size={32} fill="#9C98B0" />,
+    icon: <SiCinema4D size={32} fill="#9C98B0" aria-hidden />,
     description:
       "Cinema 4D is a professional 3D modeling, animation, simulation and rendering software solution developed by Maxon Computer GmbH.",
     proficiency: 60,
