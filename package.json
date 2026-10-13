@@ -46,8 +46,7 @@
     "postcss-selector-parser": "7.1.6",
     "source-map-js": "1.2.2",
     "js-yaml": "4.3.2",
-    "@humanfs/node": "0.16.8",
-    "brace-expansion": "2.1.7"
+    "@humanfs/node": "0.16.8"
   },
   "allowScripts": {
     "unrs-resolver@1.12.2": true
