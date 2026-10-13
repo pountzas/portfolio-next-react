@@ -21,7 +21,7 @@
     "react-dom": "^19.2.4",
     "react-icons": "^4.12.0",
     "resend": "^6.24.0",
-    "tailwind-scrollbar": "^2.0.1",
+    "tailwind-scrollbar": "^4.0.0",
     "tailwind-scrollbar-hide": "^1.3.1"
   },
   "devDependencies": {
