@@ -2,6 +2,7 @@ import { JWT } from "google-auth-library";
 
 const DRIVE_READONLY_SCOPE = "https://www.googleapis.com/auth/drive.readonly";
 const DRIVE_FILES_LIST_URL = "https://www.googleapis.com/drive/v3/files";
+const DRIVE_REQUEST_TIMEOUT_MS = 5000;
 
 /** Exact Drive file name used for the home-page My CV link. */
 export const CV_DRIVE_FILE_NAME = "CV Pountzas Nikolaos";
@@ -11,7 +12,9 @@ export function buildCvViewUrl(fileId: string): string {
 }
 
 export function buildDriveFileListQuery(folderId: string, fileName: string): string {
-  return `name = '${fileName}' and '${folderId}' in parents and trashed = false`;
+  const escape = (value: string) => value.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+  const name = escape(fileName);
+  return `(name = '${name}' or name = '${name}.pdf') and '${escape(folderId)}' in parents and trashed = false`;
 }
 
 export type ResolveCvDriveUrlDeps = {
@@ -58,7 +61,16 @@ async function getServiceAccountAccessToken(
       key: configured.privateKey,
       scopes: [DRIVE_READONLY_SCOPE]
     });
-    const tokenResponse = await client.getAccessToken();
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const tokenResponse = await Promise.race([
+      client.getAccessToken(),
+      new Promise<never>((_, reject) => {
+        timer = setTimeout(
+          () => reject(new Error("Google access token request timed out")),
+          DRIVE_REQUEST_TIMEOUT_MS
+        );
+      })
+    ]).finally(() => clearTimeout(timer));
     return tokenResponse.token ?? null;
   } catch (error) {
     console.error("Failed to obtain Google Drive access token", error);
@@ -88,13 +100,17 @@ export async function resolveCvDriveUrl(
   url.searchParams.set("q", query);
   url.searchParams.set("spaces", "drive");
   url.searchParams.set("fields", "files(id)");
+  url.searchParams.set("orderBy", "modifiedTime desc");
   url.searchParams.set("pageSize", "1");
+  url.searchParams.set("supportsAllDrives", "true");
+  url.searchParams.set("includeItemsFromAllDrives", "true");
 
   try {
     const response = await fetchFn(url.toString(), {
       headers: {
         Authorization: `Bearer ${accessToken}`
-      }
+      },
+      signal: AbortSignal.timeout(DRIVE_REQUEST_TIMEOUT_MS)
     });
 
     if (!response.ok) {

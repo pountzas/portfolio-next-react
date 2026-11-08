@@ -15,7 +15,8 @@ The home page **My CV** button resolves its URL from Google Drive at build/ISR t
 1. In Google Cloud, create a service account and download a JSON key.
 2. Enable the **Google Drive API** for that project.
 3. Share the Drive folder that contains your CV with the service account email (Viewer).
-4. Copy [`.env.example`](.env.example) to `.env.local` (or set the same vars in Vercel) and fill in:
+4. Set the folder's **General access** to **Anyone with the link → Viewer**, so every file uploaded into it (including a replacement CV) is publicly viewable. Otherwise visitors clicking **My CV** get a "Request access" page.
+5. Copy [`.env.example`](.env.example) to `.env.local` (or set the same vars in Vercel) and fill in:
    - `GOOGLE_DRIVE_FOLDER_ID` — folder ID from the Drive URL
    - `GOOGLE_SERVICE_ACCOUNT_EMAIL` — `client_email` from the JSON key
    - `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY` — `private_key` from the JSON key (use `\n` for newlines in a single-line env value)
