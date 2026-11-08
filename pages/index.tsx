@@ -44,12 +44,13 @@ export default function Home({ cvHref }: HomeProps) {
 }
 
 export async function getStaticProps() {
-  const cvHref = await resolveCvDriveUrl();
+  const cvHref =
+    (await resolveCvDriveUrl()) ?? (process.env.CV_FALLBACK_URL?.trim() || null);
 
   return {
     props: {
       cvHref
     },
-    revalidate: 60
+    revalidate: 3600
   };
 }

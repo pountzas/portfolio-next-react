@@ -21,7 +21,7 @@ The home page **My CV** button resolves its URL from Google Drive at build/ISR t
    - `GOOGLE_SERVICE_ACCOUNT_EMAIL` — `client_email` from the JSON key
    - `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY` — `private_key` from the JSON key (use `\n` for newlines in a single-line env value)
 
-If lookup fails (missing env, API error, or file not found), the **My CV** button is hidden.
+If lookup fails (missing env, API error, or file not found), the home page uses `CV_FALLBACK_URL` when set. The **My CV** button is hidden only when both Drive lookup and the fallback URL are unavailable.
 
 ## Build with
 
