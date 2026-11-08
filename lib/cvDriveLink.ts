@@ -14,7 +14,7 @@ export function buildCvViewUrl(fileId: string): string {
 export function buildDriveFileListQuery(folderId: string, fileName: string): string {
   const escape = (value: string) => value.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
   const name = escape(fileName);
-  return `(name = '${name}' or name = '${name}.pdf') and '${escape(folderId)}' in parents and trashed = false`;
+  return `(name = '${name}' or name = '${name}.pdf') and mimeType = 'application/pdf' and '${escape(folderId)}' in parents and trashed = false`;
 }
 
 export type ResolveCvDriveUrlDeps = {

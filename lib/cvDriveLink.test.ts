@@ -20,14 +20,14 @@ describe("buildDriveFileListQuery", () => {
   it("builds a Drive q that matches name inside the parent folder", () => {
     assert.equal(
       buildDriveFileListQuery("folder123", CV_DRIVE_FILE_NAME),
-      "(name = 'CV Pountzas Nikolaos' or name = 'CV Pountzas Nikolaos.pdf') and 'folder123' in parents and trashed = false"
+      "(name = 'CV Pountzas Nikolaos' or name = 'CV Pountzas Nikolaos.pdf') and mimeType = 'application/pdf' and 'folder123' in parents and trashed = false"
     );
   });
 
   it("escapes quotes and backslashes in Drive query values", () => {
     assert.equal(
       buildDriveFileListQuery("fold'er\\1", "CV O'Brien"),
-      "(name = 'CV O\\'Brien' or name = 'CV O\\'Brien.pdf') and 'fold\\'er\\\\1' in parents and trashed = false"
+      "(name = 'CV O\\'Brien' or name = 'CV O\\'Brien.pdf') and mimeType = 'application/pdf' and 'fold\\'er\\\\1' in parents and trashed = false"
     );
   });
 });
@@ -63,6 +63,7 @@ describe("resolveCvDriveUrl", () => {
       requestedUrl,
       /q=%28name\+%3D\+%27CV\+Pountzas\+Nikolaos%27/
     );
+    assert.match(requestedUrl, /mimeType\+%3D\+%27application%2Fpdf%27/);
     assert.match(requestedUrl, /orderBy=modifiedTime\+desc/);
     assert.match(requestedUrl, /supportsAllDrives=true/);
     assert.match(requestedUrl, /includeItemsFromAllDrives=true/);
