@@ -1,19 +1,37 @@
 "use client";
 import { ReactNode } from "react";
 import { useRouter } from "next/router";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Head from "next/head";
 import Header from "./Header";
 import Footer from "./Footer";
+import {
+  MAIN_CONTENT_ID,
+  SKIP_LINK_HREF,
+  footerTransitionDuration,
+  pageTransitionDuration,
+  showFooter,
+} from "./layoutA11y.mjs";
 
 interface LayoutProps {
   children: ReactNode;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+export {
+  MAIN_CONTENT_ID,
+  SKIP_LINK_HREF,
+  footerTransitionDuration,
+  pageTransitionDuration,
+  showFooter,
+};
+
+export default function Layout({ children }: LayoutProps) {
   const router = useRouter();
+  const shouldReduceMotion = useReducedMotion();
   // Hide footer on home page, show on all other pages
-  const showFooter = router.pathname !== "/";
+  const shouldShowFooter = showFooter(router.pathname);
+  const pageDuration = pageTransitionDuration(shouldReduceMotion);
+  const footerDuration = footerTransitionDuration(shouldReduceMotion);
 
   return (
     <>
@@ -28,32 +46,39 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <div
-        className="min-h-screen bg-tertiary h-screen overflow-y-clip scrollbar-hide"
+        className="min-h-screen bg-tertiary"
         style={{ perspective: "1000px", transformStyle: "preserve-3d" }}>
+        <a
+          href={SKIP_LINK_HREF}
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[200] focus:rounded focus:bg-primary focus:px-4 focus:py-2 focus:text-textPrimary focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-white">
+          Skip to main content
+        </a>
         <Header />
         <AnimatePresence mode="wait" initial={false}>
           <motion.main
+            id={MAIN_CONTENT_ID}
+            tabIndex={-1}
             key={router.pathname}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{
-              duration: 0.3,
-              ease: "easeInOut"
+              duration: pageDuration,
+              ease: "easeInOut",
             }}
             className="flex-1">
             {children}
           </motion.main>
         </AnimatePresence>
         <AnimatePresence>
-          {showFooter && (
+          {shouldShowFooter && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{
-                duration: 0.4,
-                ease: "easeInOut"
+                duration: footerDuration,
+                ease: "easeInOut",
               }}>
               <Footer />
             </motion.div>
@@ -62,6 +87,4 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </div>
     </>
   );
-};
-
-export default Layout;
+}
